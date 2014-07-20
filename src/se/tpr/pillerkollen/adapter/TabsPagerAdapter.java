@@ -19,10 +19,8 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         case 0:
             return new ScheduleFragment();
         case 1:
-            // Games fragment activity
             return new MedicinesFragment();
         case 2:
-            // Movies fragment activity
             return new SettingsFragment();
         }
  
