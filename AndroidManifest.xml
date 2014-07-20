@@ -27,7 +27,7 @@
             android:label="@string/title_activity_schedule" >
         </activity>
         <activity
-            android:name="se.tpr.pillerkollen.MedicinesFragment"
+            android:name="se.tpr.pillerkollen.medicines.MedicinesFragment"
             android:label="@string/title_activity_medicines" >
         </activity>
         <activity
