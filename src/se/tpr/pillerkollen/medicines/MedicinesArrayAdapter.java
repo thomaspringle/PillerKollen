@@ -1,6 +1,5 @@
 package se.tpr.pillerkollen.medicines;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
@@ -16,16 +15,17 @@ import android.widget.TextView;
 
 public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements View.OnTouchListener, View.OnFocusChangeListener { 
 
-	private Activity context;
+	private MedicinesFragment medicinesFragment;
+	private Activity activity;
 	private List<Medicine> medicines;
-	
-	public MedicinesArrayAdapter(Activity context, List<Medicine> medicines) {
-		super(context, R.layout.medicines_row, medicines);
-		this.context = context;
-		this.medicines = medicines;
 
-}
-	
+	public MedicinesArrayAdapter(MedicinesFragment context, List<Medicine> medicines) {
+		super(context.getActivity(), R.layout.medicines_row, medicines);
+		this.medicinesFragment = context;
+		this.medicines = medicines;
+		this.activity = context.getActivity();
+	}
+
 	static class ViewHolder {
 		protected long id;
 		protected TextView name;
@@ -33,17 +33,17 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		protected TextView description;
 		protected TextView dosage;
 		protected TextView unit;
-		
+
 	}
 	private void hideSoftKeyBoard() {
 
-		InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 		if(imm.isAcceptingText()) {                         
-			imm.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 		} else {
 		}
 	}
-	
+
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent) {
 		if (view instanceof EditText) {
@@ -60,34 +60,34 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		if(hasFocus){
 			hideSoftKeyBoard();
 		} else {
-			
+
 		}
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
+
 		View medicinesRowView = null;
-		
+
 		if (convertView == null) {
-			LayoutInflater inflator = context.getLayoutInflater();
+			LayoutInflater inflator = activity.getLayoutInflater();
 			medicinesRowView = inflator.inflate(R.layout.medicines_row, null);
 			final ViewHolder viewHolder = new ViewHolder();
-			
-		    viewHolder.name = (TextView) medicinesRowView.findViewById(R.id.medicinesRowName);
-		    viewHolder.type = (TextView) medicinesRowView.findViewById(R.id.medicinesRowType);
-		    viewHolder.description = (TextView) medicinesRowView.findViewById(R.id.medicinesRowDescription);
-		    viewHolder.dosage = (TextView) medicinesRowView.findViewById(R.id.medicinesRowDosage);
-		    viewHolder.dosage = (TextView) medicinesRowView.findViewById(R.id.medicinesRowUnit);
 
-		    
-		    medicinesRowView.setTag(viewHolder);
+			viewHolder.name = (TextView) medicinesRowView.findViewById(R.id.medicinesRowName);
+			viewHolder.type = (TextView) medicinesRowView.findViewById(R.id.medicinesRowType);
+			viewHolder.description = (TextView) medicinesRowView.findViewById(R.id.medicinesRowDescription);
+			viewHolder.dosage = (TextView) medicinesRowView.findViewById(R.id.medicinesRowDosage);
+			viewHolder.dosage = (TextView) medicinesRowView.findViewById(R.id.medicinesRowUnit);
+
+
+			medicinesRowView.setTag(viewHolder);
 		} else {
 			medicinesRowView = convertView;
 			((ViewHolder) medicinesRowView.getTag()).name.setTag(medicines.get(position));
@@ -95,51 +95,49 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 
 		Medicine medicine = medicines.get(position);
 		ViewHolder holder = (ViewHolder) medicinesRowView.getTag();
-		
+
 		holder.id = medicine.getId();
 		holder.name.setText(medicine.getName());
 		holder.type.setText(medicine.getType());
 		holder.description.setText(medicine.getDescription());
 		holder.dosage.setText(medicine.getDescription());
 		holder.unit.setText(medicine.getUnit());
-		
+
 		/*List<TimesheetTableDayBean> days = medicine.getDays();
 		List<Boolean> activeDays = weekSelection.activeDays();
 		List<String> datesInYYYYMMdd = TimeUtil.datesInYYYYMMdd(weekSelection);
 		timesheetRowView.setOnTouchListener(this);
-		
+
 		for (int i=0; i<7; i++) {
-			
+
 			EditText editText = holder.dayFields.get(i);
 			TimesheetTableDayBean dayBean = days.get(i);
 			String reportedHours = dayBean.getHours().toString();
 			editText.setText(reportedHours);
-			*/
-			//if (activeDays.get(i) && !signed) {
-//			holder.name.setEnabled(true);
+		 */
+		//if (activeDays.get(i) && !signed) {
+		//			holder.name.setEnabled(true);
 		/*	} else {
 				editText.setFocusable(false);
 				editText.setEnabled(false);
 			}*/
 		holder.name.setOnTouchListener(this);
-		holder.name.setOnFocusChangeListener(new EditTextFocusListener(holder.id, medicine.getName(), context, MedicinesSQLiteHelper.COLUMN_NAME));
-//		}
+		holder.name.setOnFocusChangeListener(new EditTextFocusListener(holder.id, medicine.getName(), MedicinesSQLiteHelper.COLUMN_NAME));
+		//		}
 		medicinesRowView.setOnFocusChangeListener(this);
 		return medicinesRowView;
 	}
-	
+
 	class EditTextFocusListener implements View.OnFocusChangeListener {
 
 
 		private String originalValue;
 		private long id;
-		private Activity activity;
 		private String columnName;
 
-		public EditTextFocusListener(long id, String originalValue, Activity activity, String columnName) {
+		public EditTextFocusListener(long id, String originalValue, String columnName) {
 			this.id = id;
 			this.originalValue = originalValue;
-			this.activity = activity;
 			this.columnName = columnName;
 		}
 
@@ -147,7 +145,7 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (!hasFocus) {
 				try {
-					
+
 					String value = ((EditText)v).getText().toString();
 					/*if (Float.parseFloat(hours) > 24) {
 						hours = "24.0";
@@ -155,7 +153,7 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 					if (value.equals(originalValue)) {
 						return;
 					}
-					
+
 					// The field might have been automatically cleared if it was '0' when focused
 					/*boolean reportedHoursIsEmpty = "".equals(hours) && "0".equals(reportedHours); 
 					if (reportedHoursIsEmpty) {
@@ -167,13 +165,18 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 					BigDecimal roundedHours = new BigDecimal(hours).setScale(1, BigDecimal.ROUND_HALF_UP); 
 					context.reportTimeForDay(date, roundedHours, lineId);
 					((EditText)v).setText(roundedHours.toString()); //String.format("%.1f", hours)); */
-					
-					context.reportTimeForDay(date, roundedHours, lineId);
-					
+					/*Medicine medicine = null;
+					for (Medicine med : medicines) {
+						if (med.hasId(id)) {
+							medicine = med;
+						}
+					}*/
+					medicinesFragment.updateMedicine(id, value, columnName);
+
 				} catch (Exception e) {
 					((EditText)v).setText(originalValue);
 				}
-				
+
 			} /*else {
 				// Clear the '0' so you don't have to erase it manually
 				String hours = ((EditText)v).getText().toString();

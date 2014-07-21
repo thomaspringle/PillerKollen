@@ -29,7 +29,8 @@ public class MedicinesFragment extends ListFragment {
 
 		// use the SimpleCursorAdapter to show the
 		// elements in a ListView
-		ArrayAdapter<Medicine> adapter = new ArrayAdapter<Medicine>(getActivity(), R.layout.medicines_row, values);
+		// <Medicine>(getActivity(), R.layout.medicines_row, values);
+		MedicinesArrayAdapter adapter = new MedicinesArrayAdapter(this, values);
 		setListAdapter(adapter);
 
 
@@ -86,6 +87,12 @@ public class MedicinesFragment extends ListFragment {
 	public void onPause() {
 		datasource.close();
 		super.onPause();
+	}
+
+	public void updateMedicine(long id, String value, String columnName) {
+
+		datasource.updateMedicine(id, value, columnName);
+		
 	}
 
 }

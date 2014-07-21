@@ -2,8 +2,7 @@ package se.tpr.pillerkollen.medicines;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.w3c.dom.Comment;
+import java.util.NoSuchElementException;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -79,6 +78,26 @@ public class MedicinesDataSource {
 		return medicines;
 	}
 
+	public Medicine getMedicine(long id) throws NoSuchElementException {
+		List<Medicine> medicines = new ArrayList<Medicine>();
+
+		Cursor cursor = database.query(MedicinesSQLiteHelper.TABLE_MEDICINES,
+				allColumns, MedicinesSQLiteHelper.COLUMN_ID + " = " + id, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Medicine medicine = cursorToMedicine(cursor);
+			medicines.add(medicine);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		if (medicines.isEmpty()) {
+			throw new NoSuchElementException("Could not find medicine with id: " + id);
+		}
+		return medicines.get(0);
+		
+	}
 	public Medicine updateMedicine(Medicine medicine) {
 		ContentValues values = new ContentValues();
 	    values.put(MedicinesSQLiteHelper.COLUMN_NAME, medicine.getName());
@@ -92,9 +111,9 @@ public class MedicinesDataSource {
 		return medicine;
 	}
 	private Medicine cursorToMedicine(Cursor cursor) {
-		//		Medicine medicine = new Medicine();
+		
 		long id = cursor.getLong(0);
-		//		medicine.setId(id);
+
 		String name = cursor.getString(1);
 		String type = cursor.getString(2);
 		String description = cursor.getString(3);
@@ -102,7 +121,16 @@ public class MedicinesDataSource {
 		String unit = cursor.getString(5);
 
 		Medicine medicine = new Medicine(id, name, type, description, dosage, unit);
-		//		medicine.setComment(name);
 		return medicine;
+	}
+
+	public Medicine updateMedicine(long id, String value, String columnName) {
+		
+		ContentValues values = new ContentValues();
+	    values.put(columnName, value);
+	    
+		database.update(MedicinesSQLiteHelper.TABLE_MEDICINES, values, "id=" + id, null);
+		
+		return getMedicine(id);
 	}
 }
