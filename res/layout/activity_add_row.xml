@@ -18,7 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="text" 
+        android:hint="@string/medicines_hint_name" />
 
     <ImageView
         android:id="@+id/add_row_imageView1"
@@ -30,78 +31,129 @@
         android:src="@drawable/medicine_table_bg_light" />
 
     <TextView
-        android:id="@+id/add_row_project_text"
+        android:id="@+id/add_row_medicine_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_row_imageView1"
         android:textColor="#FF444444"
         android:text="@string/medicines_title_type"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Spinner
-        android:id="@+id/add_row_project_spinner"
-        android:layout_width="match_parent"
+        
+    <EditText
+        android:id="@+id/add_row_medicine_type_input"
+        android:layout_below="@id/add_row_medicine_type"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/add_row_project_text" />
+        android:ems="10"
+        android:inputType="text" 
+        android:hint="@string/medicines_hint_type" />
+        
+<!--     <Spinner -->
+<!--         android:id="@+id/add_row_medicine_type_spinner" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_below="@id/add_row_project_text" /> -->
 
 	<ImageView
         android:id="@+id/add_row_imageView2"
         android:contentDescription="@null"
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:layout_below="@id/add_row_project_spinner"
+        android:layout_below="@id/add_row_medicine_type_input"
         android:scaleType="fitXY"
-        android:src="@color/medicine_table_color_light" />
+        android:src="@drawable/medicine_table_bg_light" />
         
     <TextView
-        android:id="@+id/add_row_task_text"
+        android:id="@+id/add_row_medicine_dosage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_row_imageView2"
         android:textColor="#FF444444"
-        android:text="@string/task_caption"
+        android:text="@string/medicines_title_dosage"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Spinner
-        android:id="@+id/add_row_task_spinner"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/add_row_medicine_dosage_input"
+        android:layout_below="@id/add_row_medicine_dosage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/add_row_task_text" />
-
+        android:ems="10"
+        android:inputType="text" 
+        android:hint="@string/medicines_hint_dosage" />
+        
+<!--     <Spinner -->
+<!--         android:id="@+id/add_row_task_spinner" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_below="@id/add_row_medicine_dosage_input" /> -->
 	<ImageView
         android:id="@+id/add_row_imageView3"
         android:contentDescription="@null"
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:layout_below="@id/add_row_task_spinner"
+        android:layout_below="@id/add_row_medicine_dosage_input"
         android:scaleType="fitXY"
-        android:src="@color/medicine_table_color_light" />
+        android:src="@drawable/medicine_table_bg_light" />
         
-    <EditText
-        android:id="@+id/add_row_comment"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/add_row_medicine_unit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10" 
         android:layout_below="@id/add_row_imageView3"
-        android:hint="@string/add_row_comment_hint">
-<!--         <requestFocus /> -->
-    </EditText>
-	
+        android:textColor="#FF444444"
+        android:text="@string/medicines_title_unit"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/add_row_medicine_unit_input"
+        android:layout_below="@id/add_row_medicine_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" 
+        android:hint="@string/medicines_hint_unit" />
+    
 	<ImageView
         android:id="@+id/add_row_imageView4"
         android:contentDescription="@null"
         android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_below="@id/add_row_comment"
+        android:layout_height="6dp"
+        android:layout_below="@id/add_row_medicine_unit_input"
         android:scaleType="fitXY"
-        android:src="@color/medicine_table_color_light" />
+        android:src="@drawable/medicine_table_bg_light" />
+    <TextView
+        android:id="@+id/add_row_medicine_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_row_imageView4"
+        android:textColor="#FF444444"
+        android:text="@string/medicines_title_description"
+        android:textAppearance="?android:attr/textAppearanceMedium" />        
+    <EditText
+        android:id="@+id/add_row_medicine_description_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:layout_below="@id/add_row_medicine_description"
+        android:hint="@string/medicines_hint_description">
+<!--         <requestFocus /> -->
+    </EditText>
+	
+	<ImageView
+        android:id="@+id/add_row_imageView5"
+        android:contentDescription="@null"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:layout_below="@id/add_row_medicine_description_input"
+        android:scaleType="fitXY"
+        android:src="@drawable/medicine_table_bg_light" />
 	
     <LinearLayout
         android:id="@+id/add_row_button_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/add_row_imageView4"
+        android:layout_below="@id/add_row_imageView5"
         android:showDividers="middle" 
         style="?android:attr/buttonBarStyle">
 
@@ -124,7 +176,7 @@
     </LinearLayout>
     
 	<ImageView
-        android:id="@+id/add_row_imageView5"
+        android:id="@+id/add_row_imageView6"
         android:contentDescription="@null"
         android:layout_width="match_parent"
         android:layout_height="12dp"

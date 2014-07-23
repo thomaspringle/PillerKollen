@@ -21,7 +21,16 @@
     <string name="medicines_title_description">Description</string>
     <string name="medicines_title_dosage">Dosage</string>
     <string name="medicines_title_unit">Unit</string>
-
+    
+    <string name="medicines_hint_name">name</string>
+    <string name="medicines_hint_type">type</string>
+    <string name="medicines_hint_description">description</string>
+    <string name="medicines_hint_dosage">dosage</string>
+    <string name="medicines_hint_unit">unit</string>
+    
+    <string name="add_row_add_button">Add</string>
+	<string name="add_row_cancel_button">Cancel</string>
+	
     <string name="discard_row_message">Delete the selected row?</string>
 	<string name="discard_row_title">Delete row</string>
 	<string name="discard_row_progress">Deleting row&#8230;</string>
