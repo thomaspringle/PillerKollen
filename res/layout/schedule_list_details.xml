@@ -15,7 +15,7 @@
         android:drawableLeft="@drawable/ic_launcher"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
-        android:text="@string/hello_world"
+        android:text="@string/title_schedule"
         android:textSize="14sp"
         android:textStyle="bold" >
     </TextView>

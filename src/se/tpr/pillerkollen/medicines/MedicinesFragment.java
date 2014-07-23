@@ -48,7 +48,7 @@ public class MedicinesFragment extends ListFragment {
 
 //		listenToAddBtn(rootView);
 //		listentoDelBtn(rootView);
-		bindEditRowViewButtons();
+//		bindEditRowViewButtons();
 		
 		return rootView;
 	}
@@ -84,6 +84,13 @@ public class MedicinesFragment extends ListFragment {
 			}
 		});
 		
+		addRowButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				addRow();
+			}
+		});
 //		refreshRowButton.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -115,6 +122,7 @@ public class MedicinesFragment extends ListFragment {
 	}
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		datasource.open();
     	if (resultCode == MainActivity.RESULT_OK && requestCode == REQUEST_CODE) {
     		updateMedicines();
     	} else if (resultCode == MainActivity.RESULT_CANCELED && requestCode == REQUEST_CODE) {
@@ -198,8 +206,11 @@ public class MedicinesFragment extends ListFragment {
 
 	@Override
 	public void onResume() {
-		updateEditRowView();
 		datasource.open();
+		
+		updateEditRowView();
+		bindEditRowViewButtons();
+		
 		super.onResume();
 	}
 

@@ -29,6 +29,10 @@
         <activity
             android:name="se.tpr.pillerkollen.medicines.MedicinesFragment"
             android:label="@string/title_activity_medicines" >
+        </activity>  
+        <activity
+            android:name="se.tpr.pillerkollen.medicines.AddRowActivity"
+            android:label="@string/add_row" >        
         </activity>
         <activity
             android:name="se.tpr.pillerkollen.SettingsFragment"

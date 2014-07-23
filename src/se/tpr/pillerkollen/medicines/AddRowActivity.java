@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
+import se.tpr.pillerkollen.medicines.MedicinesFragment.DiscardRowTask;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -26,10 +28,16 @@ import android.widget.TextView;
 public class AddRowActivity extends Activity {
 
 	private Context context;
+	private MedicinesDataSource datasource;
 //	private CustomerBean selectedCustomer = null;
 //	private ProjectBean selectedProject = null;
 //	private TaskBean selectedTask = null;
-	private String comment = "";
+	private String name = "";
+	private String type = "";
+	private String dosage = "";
+	private String unit = "";
+	private String description = "";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,9 +45,15 @@ public class AddRowActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(true);
 		getActionBar().setTitle("Add row");
 		
+		
 		context = this;
+		
+		datasource = new MedicinesDataSource(context);
+		datasource.open();
+		
+		
 		setButtonListeners();
-		disableAddButton();
+//		disableAddButton();
 //		new CustomersTask().execute();
 	}
 
@@ -69,11 +83,56 @@ public class AddRowActivity extends Activity {
 	}
 
 	protected void addRow() {
-		EditText editText = (EditText) findViewById(R.id.add_row_comment);
-		comment = editText.getText().toString();
-		comment = comment == null ? "" : comment;
-		new AddRowTask().execute();
+
+		name = nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input));
+		type = nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input));
+		description = nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input));
+		dosage = nullCheck((EditText) findViewById(R.id.add_row_medicine_dosage_input));
+		unit = nullCheck((EditText) findViewById(R.id.add_row_medicine_unit_input));
 		
+		String missingField = checkForMissingFields();
+		
+		if (missingField.isEmpty()) {
+			new AddRowTask().execute();
+		} else {
+			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			// Add the button
+			builder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   dialog.dismiss();
+			           }
+			       });
+			builder.setMessage(R.string.add_row_missing_value + " " + missingField).setTitle(R.string.add_row_missing_title);
+
+			builder.create().show();
+		}
+		
+	}
+
+	private String checkForMissingFields() {
+		String missingField = "";
+		
+		if (name.isEmpty() ) {
+			missingField = getString(R.string.medicines_title_name);
+		
+		} else if (type.isEmpty()) {
+			missingField = getString(R.string.medicines_title_type);
+		
+		} else if (dosage.isEmpty()) {
+			missingField = getString(R.string.medicines_title_dosage);
+		
+		} else if (unit.isEmpty()) {
+			missingField = getString(R.string.medicines_title_unit);
+		
+		} else if (description.isEmpty()) {
+//			missingField = getString(R.string.medicines_title_description);
+		}
+		return missingField;
+	}
+
+	private String nullCheck(EditText editText) {
+		String value = editText.getText().toString();
+		return value == null ? "" : value;
 	}
 
 	private void disableAddButton() {
@@ -95,179 +154,326 @@ public class AddRowActivity extends Activity {
 	      .setPositiveButton(res.getString(R.string.ok_button), null)
 	      .show();	
 	}
-	private void clearProjects() {
-		this.selectedProject = null;
-		List<ProjectBean> emptyList = new ArrayList<ProjectBean>();
-		emptyList.add(ProjectBean.emptyProjectBean());
-		populateProjects(emptyList);
-		
-	}
-	private void clearTasks() {
-		disableAddButton();
-		this.selectedTask = null;
-		List<TaskBean> emptyList = new ArrayList<TaskBean>();
-		emptyList.add(TaskBean.emptyTaskBean());
-		populateTasks(emptyList);
-	}
+//	private void clearProjects() {
+//		this.selectedProject = null;
+//		List<ProjectBean> emptyList = new ArrayList<ProjectBean>();
+//		emptyList.add(ProjectBean.emptyProjectBean());
+//		populateProjects(emptyList);
+//		
+//	}
+//	private void clearTasks() {
+//		disableAddButton();
+//		this.selectedTask = null;
+//		List<TaskBean> emptyList = new ArrayList<TaskBean>();
+//		emptyList.add(TaskBean.emptyTaskBean());
+//		populateTasks(emptyList);
+//	}
 	
-	private void populateCustomers(List<CustomerBean> customerBeans) {
-		
-		Spinner customersDropDown = (Spinner)findViewById(R.id.add_row_customer_spinner);
-		ArrayAdapter<CustomerBean> adapter = new ArrayAdapter<CustomerBean>(this, android.R.layout.simple_list_item_1, customerBeans){
-			
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				View view = super.getView(position, convertView, parent);
-				return getCustomView(position, view);
-			}
-			
-			@Override
-			public View getDropDownView(int position, View convertView, ViewGroup parent) {
-				
-				View view =  super.getDropDownView(position, convertView, parent);
-				return getCustomView(position, view);
-			}
+//	private void populateCustomers(List<CustomerBean> customerBeans) {
+//		
+//		Spinner customersDropDown = (Spinner)findViewById(R.id.add_row_customer_spinner);
+//		ArrayAdapter<CustomerBean> adapter = new ArrayAdapter<CustomerBean>(this, android.R.layout.simple_list_item_1, customerBeans){
+//			
+//			@Override
+//			public View getView(int position, View convertView, ViewGroup parent) {
+//				View view = super.getView(position, convertView, parent);
+//				return getCustomView(position, view);
+//			}
+//			
+//			@Override
+//			public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//				
+//				View view =  super.getDropDownView(position, convertView, parent);
+//				return getCustomView(position, view);
+//			}
+//
+//			private View getCustomView(int position, View view) {
+//				CustomerBean bean = this.getItem(position);
+//				TextView textView = (TextView) view.findViewById(android.R.id.text1);
+//				textView.setText(bean.getName());
+//				return view;
+//			}
+//		};
+//		 
+//		customersDropDown.setAdapter(adapter);
+//		customersDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
+//			// Ignore first onItemSelected that is triggered when the spinner is populated
+//			int count = 0;
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+//				clearProjects();
+//				clearTasks();
+//				count++;
+//				if (count == 1) {
+//					return;
+//				}
+//				CustomerBean customer = (CustomerBean)parent.getItemAtPosition(pos);
+//				if (customer.isEmptyCustomer()) {
+//					return;
+//				}
+//
+//				selectedCustomer = customer;
+//				new ProjectsTask(customer).execute();
+//				clearTasks();
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				
+//			}
+//		});
+//	}
 
-			private View getCustomView(int position, View view) {
-				CustomerBean bean = this.getItem(position);
-				TextView textView = (TextView) view.findViewById(android.R.id.text1);
-				textView.setText(bean.getName());
-				return view;
-			}
-		};
-		 
-		customersDropDown.setAdapter(adapter);
-		customersDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
-			// Ignore first onItemSelected that is triggered when the spinner is populated
-			int count = 0;
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				clearProjects();
-				clearTasks();
-				count++;
-				if (count == 1) {
-					return;
-				}
-				CustomerBean customer = (CustomerBean)parent.getItemAtPosition(pos);
-				if (customer.isEmptyCustomer()) {
-					return;
-				}
+//	private void populateProjects(List<ProjectBean> projectBeans) {
+//		
+//		Spinner projectsDropDown = (Spinner)findViewById(R.id.add_row_project_spinner);
+//		ArrayAdapter<ProjectBean> adapter = new ArrayAdapter<ProjectBean>(this, android.R.layout.simple_list_item_1, projectBeans){
+//			
+//			@Override
+//			public View getView(int position, View convertView, ViewGroup parent) {
+//				View view = super.getView(position, convertView, parent);
+//				return getCustomView(position, view);
+//			}
+//			
+//			@Override
+//			public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//				
+//				View view =  super.getDropDownView(position, convertView, parent);
+//				return getCustomView(position, view);
+//			}
+//
+//			private View getCustomView(int position, View view) {
+//				ProjectBean bean = this.getItem(position);
+//				TextView textView = (TextView) view.findViewById(android.R.id.text1);
+//				textView.setText(bean.getName());
+//				return view;
+//			}
+//		};
+//		 
+//		projectsDropDown.setAdapter(adapter);
+//		projectsDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
+//			
+//			int count = 0;
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+//				clearTasks();
+//				count++;
+//				if (count == 1) {
+//					return;
+//				}
+//				ProjectBean project = (ProjectBean)parent.getItemAtPosition(pos);
+//				if (project.isEmptyProject()) {
+//					return;
+//				}
+//
+//				selectedProject = project;
+//				new TasksTask(project).execute();
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				
+//			}
+//		});
+//	}
+//
+//	public void populateTasks(List<TaskBean> taskBeans) {
+//		Spinner tasksDropDown = (Spinner)findViewById(R.id.add_row_task_spinner);
+//		ArrayAdapter<TaskBean> adapter = new ArrayAdapter<TaskBean>(this, android.R.layout.simple_list_item_1, taskBeans){
+//			
+//			@Override
+//			public View getView(int position, View convertView, ViewGroup parent) {
+//				View view = super.getView(position, convertView, parent);
+//				return getCustomView(position, view);
+//			}
+//			
+//			@Override
+//			public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//				
+//				View view =  super.getDropDownView(position, convertView, parent);
+//				return getCustomView(position, view);
+//			}
+//
+//			private View getCustomView(int position, View view) {
+//				TaskBean bean = this.getItem(position);
+//				TextView textView = (TextView) view.findViewById(android.R.id.text1);
+//				textView.setText(bean.getDescription());
+//				return view;
+//			}
+//		};
+//		 
+//		tasksDropDown.setAdapter(adapter);
+//		tasksDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
+//			int count = 0;
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+//				count++;
+//				if (count == 1) {
+//					return;
+//				}
+//				TaskBean task = (TaskBean)parent.getItemAtPosition(pos);
+//				if (task.isEmptyTask()) {
+//					return;
+//				}
+//				selectedTask = task;
+//				
+//				enableAddButton();
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				
+//			}
+//		});
+//	}
+//	public class CustomersTask extends AsyncTask<Void, Void, List<CustomerBean>> {
+//
+//		private Exception exception;
+//		private ProgressDialog progress;
+//
+//		@Override
+//		protected void onPreExecute() {
+//            progress = new ProgressDialog(context, 0);
+//            progress.setMessage(getResources().getString(R.string.progress_indicator));
+//            progress.show();
+//		}
+//
+//		@Override
+//		protected List<CustomerBean> doInBackground(Void... arg0) {
+//			try {
+//				List<CustomerBean> customerBeans = AltranHttpClient.customers();
+//				return customerBeans;
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				this.exception = e;
+//				return null;
+//			}
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(List<CustomerBean> customerBeans) {
+//			if (progress != null) {
+//				progress.dismiss();
+//			}
+//			
+//			if (this.exception != null) {
+//				showErrorDialog(exception);
+//			} else {
+//				if (customerBeans.isEmpty()) {
+//					customerBeans.add(CustomerBean.nothingFound());
+//				} else {
+//					customerBeans.add(0, CustomerBean.selectCustomer());
+//				}
+//				populateCustomers(customerBeans);
+//			}
+//			super.onPostExecute(customerBeans);
+//		}
+//	}
+//
+//	public class ProjectsTask extends AsyncTask<Void, Void, List<ProjectBean>> {
+//
+//		private Exception exception;
+//		private ProgressDialog progress;
+//
+//		private CustomerBean selectedCustomer;
+//		
+//		public ProjectsTask(CustomerBean selectedCustomer) {
+//			this.selectedCustomer = selectedCustomer;
+//		}
+//		
+//		@Override
+//		protected void onPreExecute() {
+//            progress = new ProgressDialog(context, 0);
+//            progress.setMessage(getResources().getString(R.string.progress_indicator));
+//            progress.show();
+//		}
+//
+//		@Override
+//		protected List<ProjectBean> doInBackground(Void... arg0) {
+//			try {
+//				List<ProjectBean> projectBeans = AltranHttpClient.projects(selectedCustomer);
+//				return projectBeans;
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				this.exception = e;
+//				return null;
+//			}
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(List<ProjectBean> projectBeans) {
+//			if (progress != null) {
+//				progress.dismiss();
+//			}
+//			
+//			if (this.exception != null) {
+//				showErrorDialog(exception);
+//			} else {
+//				if (projectBeans.isEmpty()) {
+//					projectBeans.add(ProjectBean.nothingFound());
+//				} else {
+//					projectBeans.add(0, ProjectBean.selectProject());
+//				}
+//				populateProjects(projectBeans);
+//			}
+//			super.onPostExecute(projectBeans);
+//		}
+//	}
+//	
+//	public class TasksTask extends AsyncTask<Void, Void, List<TaskBean>> {
+//
+//		private Exception exception;
+//		private ProgressDialog progress;
+//
+//		private ProjectBean selectedProject;
+//		
+//		public TasksTask(ProjectBean selectedProject) {
+//			this.selectedProject = selectedProject;
+//		}
+//		
+//		@Override
+//		protected void onPreExecute() {
+//            progress = new ProgressDialog(context, 0);
+//            progress.setMessage(getResources().getString(R.string.progress_indicator));
+//            progress.show();
+//		}
+//
+//		@Override
+//		protected List<TaskBean> doInBackground(Void... arg0) {
+//			try {
+//				List<TaskBean> taskBeans = AltranHttpClient.tasks(selectedProject);
+//				return taskBeans;
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				this.exception = e;
+//				return null;
+//			}
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(List<TaskBean> taskBeans) {
+//			if (progress != null) {
+//				progress.dismiss();
+//			}
+//			
+//			if (this.exception != null) {
+//				showErrorDialog(exception);
+//			} else {
+//				if (taskBeans.isEmpty()) {
+//					taskBeans.add(TaskBean.nothingFound());
+//				} else {
+//					taskBeans.add(0, TaskBean.selectTask());
+//				}
+//				populateTasks(taskBeans);
+//			}
+//			super.onPostExecute(taskBeans);
+//		}
+//	}
 
-				selectedCustomer = customer;
-				new ProjectsTask(customer).execute();
-				clearTasks();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
-	}
-
-	private void populateProjects(List<ProjectBean> projectBeans) {
-		
-		Spinner projectsDropDown = (Spinner)findViewById(R.id.add_row_project_spinner);
-		ArrayAdapter<ProjectBean> adapter = new ArrayAdapter<ProjectBean>(this, android.R.layout.simple_list_item_1, projectBeans){
-			
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				View view = super.getView(position, convertView, parent);
-				return getCustomView(position, view);
-			}
-			
-			@Override
-			public View getDropDownView(int position, View convertView, ViewGroup parent) {
-				
-				View view =  super.getDropDownView(position, convertView, parent);
-				return getCustomView(position, view);
-			}
-
-			private View getCustomView(int position, View view) {
-				ProjectBean bean = this.getItem(position);
-				TextView textView = (TextView) view.findViewById(android.R.id.text1);
-				textView.setText(bean.getName());
-				return view;
-			}
-		};
-		 
-		projectsDropDown.setAdapter(adapter);
-		projectsDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
-			
-			int count = 0;
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				clearTasks();
-				count++;
-				if (count == 1) {
-					return;
-				}
-				ProjectBean project = (ProjectBean)parent.getItemAtPosition(pos);
-				if (project.isEmptyProject()) {
-					return;
-				}
-
-				selectedProject = project;
-				new TasksTask(project).execute();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
-	}
-
-	public void populateTasks(List<TaskBean> taskBeans) {
-		Spinner tasksDropDown = (Spinner)findViewById(R.id.add_row_task_spinner);
-		ArrayAdapter<TaskBean> adapter = new ArrayAdapter<TaskBean>(this, android.R.layout.simple_list_item_1, taskBeans){
-			
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				View view = super.getView(position, convertView, parent);
-				return getCustomView(position, view);
-			}
-			
-			@Override
-			public View getDropDownView(int position, View convertView, ViewGroup parent) {
-				
-				View view =  super.getDropDownView(position, convertView, parent);
-				return getCustomView(position, view);
-			}
-
-			private View getCustomView(int position, View view) {
-				TaskBean bean = this.getItem(position);
-				TextView textView = (TextView) view.findViewById(android.R.id.text1);
-				textView.setText(bean.getDescription());
-				return view;
-			}
-		};
-		 
-		tasksDropDown.setAdapter(adapter);
-		tasksDropDown.setOnItemSelectedListener(new OnItemSelectedListener() {
-			int count = 0;
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				count++;
-				if (count == 1) {
-					return;
-				}
-				TaskBean task = (TaskBean)parent.getItemAtPosition(pos);
-				if (task.isEmptyTask()) {
-					return;
-				}
-				selectedTask = task;
-				
-				enableAddButton();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
-	}
-	public class CustomersTask extends AsyncTask<Void, Void, List<CustomerBean>> {
+	public class AddRowTask extends AsyncTask<Void, Void, Long> {
 
 		private Exception exception;
 		private ProgressDialog progress;
@@ -280,10 +486,12 @@ public class AddRowActivity extends Activity {
 		}
 
 		@Override
-		protected List<CustomerBean> doInBackground(Void... arg0) {
+		protected Long doInBackground(Void... arg0) {
 			try {
-				List<CustomerBean> customerBeans = AltranHttpClient.customers();
-				return customerBeans;
+				Medicine createdMedicine = datasource.createMedicine(name, type, description, dosage, unit);
+				
+//				String lineNo = AltranHttpClient.addRow(selectedCustomer, selectedProject, selectedTask, comment);
+				return createdMedicine.getId();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -293,154 +501,7 @@ public class AddRowActivity extends Activity {
 		}
 		
 		@Override
-		protected void onPostExecute(List<CustomerBean> customerBeans) {
-			if (progress != null) {
-				progress.dismiss();
-			}
-			
-			if (this.exception != null) {
-				showErrorDialog(exception);
-			} else {
-				if (customerBeans.isEmpty()) {
-					customerBeans.add(CustomerBean.nothingFound());
-				} else {
-					customerBeans.add(0, CustomerBean.selectCustomer());
-				}
-				populateCustomers(customerBeans);
-			}
-			super.onPostExecute(customerBeans);
-		}
-	}
-
-	public class ProjectsTask extends AsyncTask<Void, Void, List<ProjectBean>> {
-
-		private Exception exception;
-		private ProgressDialog progress;
-
-		private CustomerBean selectedCustomer;
-		
-		public ProjectsTask(CustomerBean selectedCustomer) {
-			this.selectedCustomer = selectedCustomer;
-		}
-		
-		@Override
-		protected void onPreExecute() {
-            progress = new ProgressDialog(context, 0);
-            progress.setMessage(getResources().getString(R.string.progress_indicator));
-            progress.show();
-		}
-
-		@Override
-		protected List<ProjectBean> doInBackground(Void... arg0) {
-			try {
-				List<ProjectBean> projectBeans = AltranHttpClient.projects(selectedCustomer);
-				return projectBeans;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.exception = e;
-				return null;
-			}
-		}
-		
-		@Override
-		protected void onPostExecute(List<ProjectBean> projectBeans) {
-			if (progress != null) {
-				progress.dismiss();
-			}
-			
-			if (this.exception != null) {
-				showErrorDialog(exception);
-			} else {
-				if (projectBeans.isEmpty()) {
-					projectBeans.add(ProjectBean.nothingFound());
-				} else {
-					projectBeans.add(0, ProjectBean.selectProject());
-				}
-				populateProjects(projectBeans);
-			}
-			super.onPostExecute(projectBeans);
-		}
-	}
-	
-	public class TasksTask extends AsyncTask<Void, Void, List<TaskBean>> {
-
-		private Exception exception;
-		private ProgressDialog progress;
-
-		private ProjectBean selectedProject;
-		
-		public TasksTask(ProjectBean selectedProject) {
-			this.selectedProject = selectedProject;
-		}
-		
-		@Override
-		protected void onPreExecute() {
-            progress = new ProgressDialog(context, 0);
-            progress.setMessage(getResources().getString(R.string.progress_indicator));
-            progress.show();
-		}
-
-		@Override
-		protected List<TaskBean> doInBackground(Void... arg0) {
-			try {
-				List<TaskBean> taskBeans = AltranHttpClient.tasks(selectedProject);
-				return taskBeans;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.exception = e;
-				return null;
-			}
-		}
-		
-		@Override
-		protected void onPostExecute(List<TaskBean> taskBeans) {
-			if (progress != null) {
-				progress.dismiss();
-			}
-			
-			if (this.exception != null) {
-				showErrorDialog(exception);
-			} else {
-				if (taskBeans.isEmpty()) {
-					taskBeans.add(TaskBean.nothingFound());
-				} else {
-					taskBeans.add(0, TaskBean.selectTask());
-				}
-				populateTasks(taskBeans);
-			}
-			super.onPostExecute(taskBeans);
-		}
-	}
-
-	public class AddRowTask extends AsyncTask<Void, Void, String> {
-
-		private Exception exception;
-		private ProgressDialog progress;
-
-		@Override
-		protected void onPreExecute() {
-            progress = new ProgressDialog(context, 0);
-            progress.setMessage(getResources().getString(R.string.progress_indicator));
-            progress.show();
-		}
-
-		@Override
-		protected String doInBackground(Void... arg0) {
-			try {
-				String lineNo = AltranHttpClient.addRow(selectedCustomer, selectedProject, selectedTask, comment);
-				return lineNo;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.exception = e;
-				return null;
-			}
-		}
-		
-		@Override
-		protected void onPostExecute(String lineNo) {
+		protected void onPostExecute(Long lineId) {
 			if (progress != null) {
 				progress.dismiss();
 			}
@@ -450,9 +511,15 @@ public class AddRowActivity extends Activity {
 			} else {
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
+				intent.putExtra("name_field", name);
+				intent.putExtra("type_field", type);
+				intent.putExtra("description_field", description);
+				intent.putExtra("dosage_field", dosage);
+				intent.putExtra("unit_field", unit);
+				
 				finish();
 			}
-			super.onPostExecute(lineNo);
+			super.onPostExecute(lineId);
 		}
 	}
 }
