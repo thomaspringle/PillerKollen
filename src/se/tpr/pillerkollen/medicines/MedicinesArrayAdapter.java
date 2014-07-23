@@ -4,6 +4,7 @@ import java.util.List;
 
 import se.tpr.pillerkollen.R;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,11 +38,12 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 	}
 	private void hideSoftKeyBoard() {
 
-		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		Log.i(this.getClass().getName(), "Hiding software keyboard");
+		/*InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 		if(imm.isAcceptingText()) {                         
 			imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 		} else {
-		}
+		}*/
 	}
 
 	@Override
@@ -84,7 +86,7 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 			viewHolder.type = (TextView) medicinesRowView.findViewById(R.id.medicinesRowType);
 			viewHolder.description = (TextView) medicinesRowView.findViewById(R.id.medicinesRowDescription);
 			viewHolder.dosage = (TextView) medicinesRowView.findViewById(R.id.medicinesRowDosage);
-			viewHolder.dosage = (TextView) medicinesRowView.findViewById(R.id.medicinesRowUnit);
+			viewHolder.unit = (TextView) medicinesRowView.findViewById(R.id.medicinesRowUnit);
 
 
 			medicinesRowView.setTag(viewHolder);
@@ -100,9 +102,10 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		holder.name.setText(medicine.getName());
 		holder.type.setText(medicine.getType());
 		holder.description.setText(medicine.getDescription());
-		holder.dosage.setText(medicine.getDescription());
+		holder.dosage.setText(medicine.getDosage());
 		holder.unit.setText(medicine.getUnit());
-
+//		medicinesRowView.setOnTouchListener(this);
+		
 		/*List<TimesheetTableDayBean> days = medicine.getDays();
 		List<Boolean> activeDays = weekSelection.activeDays();
 		List<String> datesInYYYYMMdd = TimeUtil.datesInYYYYMMdd(weekSelection);
@@ -121,10 +124,10 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 				editText.setFocusable(false);
 				editText.setEnabled(false);
 			}*/
-		holder.name.setOnTouchListener(this);
-		holder.name.setOnFocusChangeListener(new EditTextFocusListener(holder.id, medicine.getName(), MedicinesSQLiteHelper.COLUMN_NAME));
+//		holder.name.setOnTouchListener(this);
+//		holder.name.setOnFocusChangeListener(new EditTextFocusListener(holder.id, medicine.getName(), MedicinesSQLiteHelper.COLUMN_NAME));
 		//		}
-		medicinesRowView.setOnFocusChangeListener(this);
+//		medicinesRowView.setOnFocusChangeListener(this);
 		return medicinesRowView;
 	}
 

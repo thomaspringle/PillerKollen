@@ -5,6 +5,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="tab_schedule">Schedule</string>
+    
+    <string name="error_title">An error has occurred!</string>
+	<string name="cancel_button">Cancel</string>
+	<string name="ok_button">OK</string>
+	
     <string name="title_activity_schedule">ScheduleActivity</string>
     <string name="title_activity_medicines">MedicinesActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
@@ -17,4 +22,7 @@
     <string name="medicines_title_dosage">Dosage</string>
     <string name="medicines_title_unit">Unit</string>
 
+    <string name="discard_row_message">Delete the selected row?</string>
+	<string name="discard_row_title">Delete row</string>
+	<string name="discard_row_progress">Deleting row&#8230;</string>
 </resources>

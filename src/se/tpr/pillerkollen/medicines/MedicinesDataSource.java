@@ -106,7 +106,7 @@ public class MedicinesDataSource {
 	    values.put(MedicinesSQLiteHelper.COLUMN_DOSAGE, medicine.getDosage());
 	    values.put(MedicinesSQLiteHelper.COLUMN_UNIT, medicine.getUnit());
 		
-		database.update(MedicinesSQLiteHelper.TABLE_MEDICINES, values, "id=" + medicine.getId(), null);
+		database.update(MedicinesSQLiteHelper.TABLE_MEDICINES, values, MedicinesSQLiteHelper.COLUMN_ID + "=" + medicine.getId(), null);
 		
 		return medicine;
 	}
@@ -129,7 +129,7 @@ public class MedicinesDataSource {
 		ContentValues values = new ContentValues();
 	    values.put(columnName, value);
 	    
-		database.update(MedicinesSQLiteHelper.TABLE_MEDICINES, values, "id=" + id, null);
+		database.update(MedicinesSQLiteHelper.TABLE_MEDICINES, values, MedicinesSQLiteHelper.COLUMN_ID + "=" + id, null);
 		
 		return getMedicine(id);
 	}
