@@ -1,10 +1,6 @@
 package se.tpr.pillerkollen.medicines;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import se.tpr.pillerkollen.R;
-import se.tpr.pillerkollen.schedule.SchedulesDataSource;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,41 +13,48 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class AddRowActivity extends Activity {
+public class EditRowActivity extends Activity {
 
 	private Context context;
-	private MedicinesDataSource medicinesDatasource;
-	private SchedulesDataSource schedulesDatasource;
+	private MedicinesDataSource datasource;
 
-	
 	private String name = "";
 	private String type = "";
 	private String dosage = "";
 	private String unit = "";
 	private String description = "";
-	private List<String> scheduledTimes;
+	
+	private Medicine medicine;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_row);
+		setContentView(R.layout.activity_edit_row);
 		getActionBar().setDisplayShowTitleEnabled(true);
-		getActionBar().setTitle(getString(R.string.add_row));
+		getActionBar().setTitle(getString(R.string.edit_row));
 		
-		
+		long medicineId = getIntent().getLongExtra(MedicinesFragment.MEDICINE_ID_FIELD, -1);
 		context = this;
 		
-		medicinesDatasource = new MedicinesDataSource(context);
-		medicinesDatasource.open();
+		datasource = new MedicinesDataSource(context);
+		datasource.open();
 		
-		schedulesDatasource = new SchedulesDataSource(context);
-		schedulesDatasource.open();
-				
+		medicine = datasource.getMedicine(medicineId);
+		
 		setButtonListeners();
+		populateFields();
 
+	}
+
+	private void populateFields() {
+		((EditText) findViewById(R.id.edit_row_medicine_name_input)).setText(medicine.getName());
+		((EditText) findViewById(R.id.edit_row_medicine_type_input)).setText(medicine.getType());
+		((EditText) findViewById(R.id.edit_row_medicine_description_input)).setText(medicine.getDescription());
+		((EditText) findViewById(R.id.edit_row_medicine_dosage_input)).setText(medicine.getDosage());
+		((EditText) findViewById(R.id.edit_row_medicine_unit_input)).setText(medicine.getUnit());
+		
 	}
 
 	@Override
@@ -60,15 +63,15 @@ public class AddRowActivity extends Activity {
 	}
 	  
 	private void setButtonListeners() {
-		Button addButton = (Button) findViewById(R.id.add_row_add_button);
-		addButton.setOnClickListener(new OnClickListener() {
+		Button saveButton = (Button) findViewById(R.id.edit_row_save_button);
+		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addRow();
+				saveRow();
 //				finish();
 			}
 		});
-		Button cancelButton = (Button) findViewById(R.id.add_row_cancel_button);
+		Button cancelButton = (Button) findViewById(R.id.edit_row_cancel_button);
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -79,21 +82,18 @@ public class AddRowActivity extends Activity {
 		});
 	}
 
-	protected void addRow() {
+	protected void saveRow() {
 
-		name = nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input));
-		type = nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input));
-		description = nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input));
-		dosage = nullCheck((EditText) findViewById(R.id.add_row_medicine_dosage_input));
-		unit = nullCheck((EditText) findViewById(R.id.add_row_medicine_unit_input));
+		name = nullCheck((EditText) findViewById(R.id.edit_row_medicine_name_input));
+		type = nullCheck((EditText) findViewById(R.id.edit_row_medicine_type_input));
+		description = nullCheck((EditText) findViewById(R.id.edit_row_medicine_description_input));
+		dosage = nullCheck((EditText) findViewById(R.id.edit_row_medicine_dosage_input));
+		unit = nullCheck((EditText) findViewById(R.id.edit_row_medicine_unit_input));
 		
-		List<String> schedules = findScheduledTimes();
-		
-		this.scheduledTimes = schedules;
 		String missingField = checkForMissingFields();
 		
 		if (missingField.isEmpty()) {
-			new AddRowTask().execute();
+			new SaveRowTask().execute();
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			// Add the button
@@ -102,34 +102,11 @@ public class AddRowActivity extends Activity {
 			        	   dialog.dismiss();
 			           }
 			       });
-			builder.setMessage(getString(R.string.add_row_missing_value) + " " + missingField).setTitle(R.string.add_row_missing_title);
+			builder.setMessage(R.string.add_row_missing_value + " " + missingField).setTitle(R.string.add_row_missing_title);
 
 			builder.create().show();
 		}
 		
-	}
-
-	private List<String> findScheduledTimes() {
-		List<String> schedules = new ArrayList<String>();
-		
-		CheckBox cb0800 = (CheckBox) findViewById(R.id.add_row_checkbox_1);
-		CheckBox cb1200 = (CheckBox) findViewById(R.id.add_row_checkbox_2);
-		CheckBox cb2000 = (CheckBox) findViewById(R.id.add_row_checkbox_3);
-		CheckBox cb2400 = (CheckBox) findViewById(R.id.add_row_checkbox_4);
-		
-		if (cb0800.isChecked()) {
-			schedules.add(cb0800.getText().toString());
-		}
-		if (cb1200.isChecked()) {
-			schedules.add(cb1200.getText().toString());
-		}
-		if (cb2000.isChecked()) {
-			schedules.add(cb2000.getText().toString());
-		}
-		if (cb2400.isChecked()) {
-			schedules.add(cb2400.getText().toString());
-		}
-		return schedules;
 	}
 
 	private String checkForMissingFields() {
@@ -157,7 +134,7 @@ public class AddRowActivity extends Activity {
 		String value = editText.getText().toString();
 		return value == null ? "" : value;
 	}
-
+	
 	public void showErrorDialog(Exception exception) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
@@ -169,21 +146,20 @@ public class AddRowActivity extends Activity {
 	      .show();	
 	}
 
+
 	@Override
 	public void onResume() {
-		medicinesDatasource.open();	
-		schedulesDatasource.open();
+		datasource.open();	
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		medicinesDatasource.close();
-		schedulesDatasource.close();
+		datasource.close();
 		super.onPause();
 	}
-	
-	public class AddRowTask extends AsyncTask<Void, Void, Long> {
+
+	public class SaveRowTask extends AsyncTask<Void, Void, Long> {
 
 		private Exception exception;
 		private ProgressDialog progress;
@@ -198,13 +174,10 @@ public class AddRowActivity extends Activity {
 		@Override
 		protected Long doInBackground(Void... arg0) {
 			try {
-				Medicine createdMedicine = medicinesDatasource.createMedicine(name, type, description, dosage, unit);
-				
-				for (String time : scheduledTimes) {
-					
-				}
-//				String lineNo = AltranHttpClient.addRow(selectedCustomer, selectedProject, selectedTask, comment);
-				return createdMedicine.getId();
+
+				Medicine updatedMedicine = new Medicine(medicine.getId(), name, type, description, dosage, unit);
+				datasource.updateMedicine(updatedMedicine);
+				return medicine.getId();
 
 			} catch (Exception e) {
 				e.printStackTrace();

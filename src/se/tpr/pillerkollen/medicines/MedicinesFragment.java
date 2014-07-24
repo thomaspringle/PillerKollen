@@ -18,8 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +25,10 @@ import android.widget.Toast;
 
 public class MedicinesFragment extends ListFragment {
 
-	private static final int REQUEST_CODE = 10;
+	private static final int REQUEST_CODE_ADD_ROW = 10;
+	private static final int REQUEST_CODE_EDIT_ROW = 20;
+
+	public static final String MEDICINE_ID_FIELD = "medicine_id_field";
 	
 	private MedicinesDataSource datasource;
 	
@@ -91,6 +92,16 @@ public class MedicinesFragment extends ListFragment {
 				addRow();
 			}
 		});
+		
+		editRowButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Medicine medicine = (Medicine) getListAdapter().getItem(selectedRowNo);
+				editRow(medicine);
+			}
+		});
+		
 //		refreshRowButton.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -123,35 +134,30 @@ public class MedicinesFragment extends ListFragment {
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		datasource.open();
-    	if (resultCode == MainActivity.RESULT_OK && requestCode == REQUEST_CODE) {
+    	if (resultCode == MainActivity.RESULT_OK && requestCode == REQUEST_CODE_ADD_ROW) {
     		updateMedicines();
-    	} else if (resultCode == MainActivity.RESULT_CANCELED && requestCode == REQUEST_CODE) {
+    	} else if (resultCode == MainActivity.RESULT_CANCELED && requestCode == REQUEST_CODE_ADD_ROW) {
+    	
+    	} else if (resultCode == MainActivity.RESULT_OK && requestCode == REQUEST_CODE_EDIT_ROW) {
+    		updateMedicines();
+    	} else if (resultCode == MainActivity.RESULT_CANCELED && requestCode == REQUEST_CODE_EDIT_ROW) {
+    		
     	}
     }
 	
 	private void addRow() {
 		Intent intent = new Intent(getActivity(), AddRowActivity.class);
-		startActivityForResult(intent, REQUEST_CODE);
+		startActivityForResult(intent, REQUEST_CODE_ADD_ROW);
+	}
+	private void editRow(Medicine medicine) {
+		Intent intent = new Intent(getActivity(), EditRowActivity.class);
+		intent.putExtra(MEDICINE_ID_FIELD, medicine.getId());
+		startActivityForResult(intent, REQUEST_CODE_EDIT_ROW);
 	}
 	private void hideSoftKeyBoard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
-//	private void listentoDelBtn(View rootView) {
-//		Button delBtn = (Button) rootView.findViewById(R.id.medicinesBtnDel);
-//		delBtn.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				ArrayAdapter<Medicine> adapter = (ArrayAdapter<Medicine>) getListAdapter();
-//				if (getListAdapter().getCount() > 0) {
-//					Medicine medicine = (Medicine) getListAdapter().getItem(0);
-//					datasource.deleteMedicine(medicine);
-//					adapter.remove(medicine);
-//				}
-//			}
-//		});
-//	}
 
 	@Override
 	public void onListItemClick(ListView l, View view, int position, long id) {
@@ -184,25 +190,6 @@ public class MedicinesFragment extends ListFragment {
 			editRowButton.setEnabled(true);
 		}
 	}
-	
-//	private void listenToAddBtn(View rootView) {
-//		Button addBtn = (Button) rootView.findViewById(R.id.medicinesBtnAdd);
-//		addBtn.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				ArrayAdapter<Medicine> adapter = (ArrayAdapter<Medicine>) getListAdapter();
-//				// save the new comment to the database
-//				String name = "MMF Sandoz";
-//				String type = "Tablett";
-//				String description = "Immundämpande";
-//				String dosage = "250";
-//				String unit = "mg";
-//				Medicine medicine = datasource.createMedicine(name, type, description, dosage, unit);
-//				adapter.add(medicine);
-//			}
-//		});
-//	}
 
 	@Override
 	public void onResume() {
@@ -237,8 +224,6 @@ public class MedicinesFragment extends ListFragment {
 	      .show();
 	}
 	private void discardSelectedRowInDomain(Long lineId) {
-		
-//		this.timeSheetTableRows.remove(selectedRowNo);
 		adapter.notifyDataSetChanged();
 	}
 	
@@ -259,9 +244,7 @@ public class MedicinesFragment extends ListFragment {
 		protected Long doInBackground(Void... params) {
 			try {
 				Medicine medicine = (Medicine) getListAdapter().getItem(selectedRowNo);
-//				TimesheetTableRowBean selectedRowBean = timeSheetTableRows.get(selectedRowNo);
-//				int lineId = selectedRowBean.getLineId();
-//				AltranHttpClient.removeRow(lineId);
+
 				datasource.deleteMedicine(medicine);
 				
 				return medicine.getId();

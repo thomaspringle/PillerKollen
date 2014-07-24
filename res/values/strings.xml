@@ -20,6 +20,8 @@
     <string name="medicines_title_description">Description</string>
     <string name="medicines_title_dosage">Dosage</string>
     <string name="medicines_title_unit">Unit</string>
+    <string name="medicines_title_schedule">Schedule</string>
+    
     
     <string name="medicines_hint_name">name</string>
     <string name="medicines_hint_type">type</string>
@@ -27,10 +29,20 @@
     <string name="medicines_hint_dosage">dosage</string>
     <string name="medicines_hint_unit">unit</string>
     
-    <string name="add_row">Add Row&#8230;</string>
+    <string name="add_row">Add Medicine&#8230;</string>
     <string name="add_row_add_button">Add</string>
 	<string name="add_row_cancel_button">Cancel</string>
 	
+	<string name="add_row_time_1">08:00</string>
+	<string name="add_row_time_2">12:00</string>
+	<string name="add_row_time_3">20:00</string>
+	<string name="add_row_time_4">24:00</string>
+
+	<string name="edit_row">Edit Medicine&#8230;</string>
+    <string name="edit_row_save_button">Save</string>
+	<string name="edit_row_cancel_button">Cancel</string>
+	
+		
 	<string name="add_row_missing_value">Please specify</string>
 	<string name="add_row_missing_title">Error</string>
 	<string name="progress_indicator">Loading&#8230;</string>
