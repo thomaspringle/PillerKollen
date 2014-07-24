@@ -16,10 +16,10 @@
     <string name="title_schedule">Schedule</string>
     <string name="title_settings">Settings</string>
     <string name="medicines_title_name">Name</string>
-    <string name="medicines_title_type">Type</string>
+    <string name="medicines_title_type">Type (capsule, pill, inh.)</string>
     <string name="medicines_title_description">Description</string>
-    <string name="medicines_title_dosage">Dosage</string>
-    <string name="medicines_title_unit">Unit</string>
+    <string name="medicines_title_dosage">Dosage (75, 250)</string>
+    <string name="medicines_title_unit">Unit (mg, ml)</string>
     <string name="medicines_title_schedule">Schedule</string>
     
     
@@ -28,6 +28,7 @@
     <string name="medicines_hint_description">description</string>
     <string name="medicines_hint_dosage">dosage</string>
     <string name="medicines_hint_unit">unit</string>
+    <string name="medicines_hint_quantity">quantity</string>
     
     <string name="add_row">Add Medicine&#8230;</string>
     <string name="add_row_add_button">Add</string>
