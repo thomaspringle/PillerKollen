@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="schedule_recurrance_array">
+        <item>Every Day</item>
+        <item>Every Week</item>
+        <item>Evert Month</item>
+        <item>Every Year</item>
+    </string-array>
+    <!-- Recurrence picker: How events are to be repeated.  [CHAR LIMIT = 20] -->
+    <string-array name="recurrence_freq">
+        <item >REPEAT DAILY</item>
+        <item >REPEAT WEEKLY</item>
+        <item >REPEAT MONTHLY</item>
+        <item >REPEAT YEARLY</item>
+    </string-array>
+    
+    <!-- The following sets of strings describe a monthly recurring event, which will repeat
+         on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
+         the last Sunday. These are set up like this to resolve any gender-matching issues
+         that were present in some languages.
+     -->
+    <!-- Repeat a monthly event on the same nth day of every Sunday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sun">
+        <item >on every first Sunday</item>
+        <item >on every second Sunday</item>
+        <item >on every third Sunday</item>
+        <item >on every fourth Sunday</item>
+        <item >on every last Sunday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Monday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_mon">
+        <item >on every first Monday</item>
+        <item >on every second Monday</item>
+        <item >on every third Monday</item>
+        <item >on every fourth Monday</item>
+        <item >on every last Monday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Tuesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_tues">
+        <item >on every first Tuesday</item>
+        <item >on every second Tuesday</item>
+        <item >on every third Tuesday</item>
+        <item >on every fourth Tuesday</item>
+        <item >on every last Tuesday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Wednesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_wed">
+        <item >on every first Wednesday</item>
+        <item >on every second Wednesday</item>
+        <item >on every third Wednesday</item>
+        <item >on every fourth Wednesday</item>
+        <item >on every last Wednesday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Thursday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_thurs">
+        <item >on every first Thursday</item>
+        <item >on every second Thursday</item>
+        <item >on every third Thursday</item>
+        <item >on every fourth Thursday</item>
+        <item >on every last Thursday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Friday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_fri">
+        <item >on every first Friday</item>
+        <item >on every second Friday</item>
+        <item >on every third Friday</item>
+        <item >on every fourth Friday</item>
+        <item >on every last Friday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Saturday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sat">
+        <item >on every first Saturday</item>
+        <item >on every second Saturday</item>
+        <item >on every third Saturday</item>
+        <item >on every fourth Saturday</item>
+        <item >on every last Saturday</item>
+    </string-array>    
+    
+    <string-array name="preferences_week_start_day_labels">
+        <item>Locale default</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+    </string-array>
+
+    <string-array name="preferences_week_start_day_values" translatable="false">
+        <item>"-1"</item>
+        <item>"7"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+    </string-array>    
+  <!-- Choices for the "Reminder minutes" spinner in the settings.
+         These must be kept in sync with the preferences_default_reminder_values array.
+         [CHAR LIMIT=12]
+    -->
+       <string-array name="preferences_default_reminder_labels">
+        <item>None</item>
+        <item>0 minutes</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>20 minutes</item>
+        <item>25 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>12 hours</item>
+        <item>24 hours</item>
+        <item>2 days</item>
+        <item>1 week</item>
+    </string-array>
+
+    <string-array name="preferences_default_reminder_values" translatable="false">
+        <item>"-1"</item>
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"5"</item>
+        <item>"10"</item>
+        <item>"15"</item>
+        <item>"20"</item>
+        <item>"25"</item>
+        <item>"30"</item>
+        <item>"45"</item>
+        <item>"60"</item>
+        <item>"120"</item>
+        <item>"180"</item>
+        <item>"720"</item>
+        <item>"1440"</item>
+        <item>"2880"</item>
+        <item>"10080"</item>
+    </string-array>    
+</resources>

@@ -24,6 +24,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FF444444" />
 
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
