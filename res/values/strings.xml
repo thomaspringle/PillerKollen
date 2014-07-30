@@ -33,6 +33,9 @@
     <string name="add_row">Add Medicine&#8230;</string>
     <string name="add_row_add_button">Add</string>
 	<string name="add_row_cancel_button">Cancel</string>
+	<string name="add_row_next_button">Next</string>	
+	<string name="add_row_previous_button">Previous</string>
+	
 	
 	<string name="add_row_time_1">08:00</string>
 	<string name="add_row_time_2">12:00</string>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/medicine_table_bg_light" />
+
+        <TextView
+            android:id="@+id/add_row_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medicines_title_schedule"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FF444444" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <CheckBox
+                    android:id="@+id/add_row_checkbox_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_row_time_1" />
+
+                <EditText
+                    android:id="@+id/add_row_medicine_quantity1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ems="10"
+                    android:hint="@string/medicines_hint_quantity" />
+
+                <TextView
+                    android:id="@+id/add_row_medicine_type1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/medicines_hint_type"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <CheckBox
+                    android:id="@+id/add_row_checkbox_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_row_time_2" />
+
+                <EditText
+                    android:id="@+id/add_row_medicine_quantity2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ems="10"
+                    android:hint="@string/medicines_hint_quantity" />
+
+                <TextView
+                    android:id="@+id/add_row_medicine_type2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/medicines_hint_type"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <CheckBox
+                    android:id="@+id/add_row_checkbox_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_row_time_3" />
+
+                <EditText
+                    android:id="@+id/add_row_medicine_quantity3"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ems="10"
+                    android:hint="@string/medicines_hint_quantity" />
+
+                <TextView
+                    android:id="@+id/add_row_medicine_type3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/medicines_hint_type"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <CheckBox
+                    android:id="@+id/add_row_checkbox_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_row_time_4" />
+
+                <EditText
+                    android:id="@+id/add_row_medicine_quantity4"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ems="10"
+                    android:hint="@string/medicines_hint_quantity" />
+
+                <TextView
+                    android:id="@+id/add_row_medicine_type4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/medicines_hint_type"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </TableRow>                        
+        </TableLayout>
+        <ImageView
+            android:id="@+id/add_row_imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/medicine_table_bg_light" />
+
+        <LinearLayout
+            android:id="@+id/add_row_button_bar"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:showDividers="middle" >
+
+            <Button
+                android:id="@+id/add_row_previous_button"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_row_previous_button" />
+            
+            <Button
+                android:id="@+id/add_row_page2_cancel_button"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_row_cancel_button" />
+            
+            <Button
+                android:id="@+id/add_row_add_button"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/add_row_add_button" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/add_row_imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@color/medicine_table_color_light" />
+    </LinearLayout>
+
+</ScrollView>
