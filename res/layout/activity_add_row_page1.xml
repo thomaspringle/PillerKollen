@@ -7,6 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical" >
 
         <TextView
@@ -24,8 +26,6 @@
             android:ems="10"
             android:hint="@string/medicines_hint_name"
             android:inputType="text" >
-
-            <requestFocus />
         </EditText>
 
         <ImageView
@@ -157,13 +157,36 @@
             android:orientation="horizontal"
             android:showDividers="middle" >
 
-            <Button
-                android:id="@+id/add_row_cancel_button"
-                style="?android:attr/buttonBarButtonStyle"
+            <LinearLayout
+                android:id="@+id/add_row_page1_cancel_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/add_row_cancel_button" />
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp" >
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="0dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/add_row_cancel_button"
+                    android:padding="0dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_action_remove" 
+                    />
+
+                <Button
+                    android:id="@+id/add_row_cancel_button"
+                    style="@style/ButtonAddMedicineButtonStyle"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_row_cancel_button" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/add_row_next_button"

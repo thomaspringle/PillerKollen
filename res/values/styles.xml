@@ -17,6 +17,11 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="ButtonAddMedicineButtonStyle" parent="@android:style/Widget.Holo.Button.Borderless">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#FF333333</item>
+    </style>
+    
     <!-- <style name="TextAppearance.Recurrence_Button" parent="TextAppearance.EditEvent_Label"> -->
     <!-- <item name="android:textColor">#FF000000</item> -->
     <!-- </style> -->

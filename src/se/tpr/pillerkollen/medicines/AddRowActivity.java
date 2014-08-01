@@ -14,15 +14,22 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ViewFlipper;
 
 public class AddRowActivity extends Activity {
 
 	private Context context;
+	private ViewFlipper viewFlipper;
+	
 	private MedicinesDataSource medicinesDatasource;
 	private SchedulesDataSource schedulesDatasource;
 
@@ -41,6 +48,7 @@ public class AddRowActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(true);
 		getActionBar().setTitle(getString(R.string.add_row));
 		
+		viewFlipper = (ViewFlipper) findViewById(R.id.add_row_medicines_view_flipper);
 		
 		context = this;
 		
@@ -51,32 +59,99 @@ public class AddRowActivity extends Activity {
 		schedulesDatasource.open();
 				
 		setButtonListeners();
-
+		setupUI(viewFlipper);
 	}
+	public void setupUI(View view) {
+	    //Set up touch listener for non-text box views to hide keyboard.
+	    if(!(view instanceof EditText)) {
 
+	        view.setOnTouchListener(new OnTouchListener() {
+	            public boolean onTouch(View v, MotionEvent event) {
+	            	v.performClick();
+	            	hideSoftKeyBoard(v);
+	                return false;
+	            }
+	        });
+	    }
+	    //If a layout container, iterate over children and seed recursion.
+	    if (view instanceof ViewGroup) {
+
+	        for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+	            View innerView = ((ViewGroup) view).getChildAt(i);
+	            setupUI(innerView);
+	        }
+	    }
+	}
+	private void hideSoftKeyBoard(View view) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+	
+	
 	@Override
 	public void finish() {
 		super.finish();
 	}
 	  
 	private void setButtonListeners() {
+		Button nextButton = (Button) findViewById(R.id.add_row_next_button);
+		nextButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hideSoftKeyBoard(v);
+				if (viewFlipper.getDisplayedChild() == 0) {
+                    viewFlipper.setInAnimation(context, R.anim.in_from_right);
+                    viewFlipper.setOutAnimation(context, R.anim.out_to_left);
+                    viewFlipper.showNext();
+				}
+			}
+		});
+		Button previousButton = (Button) findViewById(R.id.add_row_previous_button);
+		previousButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hideSoftKeyBoard(v);
+				if (viewFlipper.getDisplayedChild() == 1) {
+ 
+                    viewFlipper.setInAnimation(context, R.anim.in_from_left);
+                    viewFlipper.setOutAnimation(context, R.anim.out_to_right);
+                    viewFlipper.showPrevious();
+				}
+			}
+		});
+		
 		Button addButton = (Button) findViewById(R.id.add_row_add_button);
 		addButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addRow();
-//				finish();
+				hideSoftKeyBoard(v);
+				if (viewFlipper.getDisplayedChild() == 1) {
+					addRow();
+				}
 			}
 		});
-		Button cancelButton = (Button) findViewById(R.id.add_row_cancel_button);
-		cancelButton.setOnClickListener(new OnClickListener() {
+		
+		View cancelButtonPage1 = (View) findViewById(R.id.add_row_page1_cancel_button_container);
+		cancelButtonPage1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				hideSoftKeyBoard(v);
 				Intent intent = new Intent();
 				setResult(RESULT_CANCELED, intent);
 				finish();
 			}
 		});
+		View cancelButtonPage2 = (View) findViewById(R.id.add_row_page2_cancel_button_container);
+		cancelButtonPage2.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hideSoftKeyBoard(v);
+				Intent intent = new Intent();
+				setResult(RESULT_CANCELED, intent);
+				finish();
+			}
+		});
+
 	}
 
 	protected void addRow() {

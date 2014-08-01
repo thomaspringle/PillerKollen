@@ -15,12 +15,12 @@
     <string name="title_medicines">Medicines</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_settings">Settings</string>
-    <string name="medicines_title_name">Name</string>
-    <string name="medicines_title_type">Type (capsule, pill, inh.)</string>
-    <string name="medicines_title_description">Description</string>
-    <string name="medicines_title_dosage">Dosage (75, 250)</string>
-    <string name="medicines_title_unit">Unit (mg, ml)</string>
-    <string name="medicines_title_schedule">Schedule</string>
+    <string name="medicines_title_name">NAME</string>
+    <string name="medicines_title_type">TYPE (capsule, pill, inh.)</string>
+    <string name="medicines_title_description">DESCRIPTION</string>
+    <string name="medicines_title_dosage">DOSAGE (75, 250)</string>
+    <string name="medicines_title_unit">UNIT (mg, ml)</string>
+    <string name="medicines_title_schedule">SCHEDULE</string>
     
     
     <string name="medicines_hint_name">name</string>
@@ -30,17 +30,24 @@
     <string name="medicines_hint_unit">unit</string>
     <string name="medicines_hint_quantity">quantity</string>
     
+    <string name="medicines_start_date_label">FROM</string>
+    <string name="medicines_end_date_label">UNTIL</string>
+    
     <string name="add_row">Add Medicine&#8230;</string>
-    <string name="add_row_add_button">Add</string>
-	<string name="add_row_cancel_button">Cancel</string>
-	<string name="add_row_next_button">Next</string>	
-	<string name="add_row_previous_button">Previous</string>
+    <string name="add_row_add_button">ADD</string>
+	<string name="add_row_cancel_button">CANCEL</string>
+	<string name="add_row_next_button">NEXT</string>	
+	<string name="add_row_previous_button">PREVIOUS</string>
 	
+	<string name="add_row_time_1_label">MORNING</string>
+	<string name="add_row_time_2_label">NOON</string>
+	<string name="add_row_time_3_label">EVENING</string>
+	<string name="add_row_time_4_label">NIGHT</string>
 	
-	<string name="add_row_time_1">08:00</string>
-	<string name="add_row_time_2">12:00</string>
-	<string name="add_row_time_3">20:00</string>
-	<string name="add_row_time_4">24:00</string>
+	<string name="add_row_time_1_default_value">08:00</string>
+	<string name="add_row_time_2_default_value">12:00</string>
+	<string name="add_row_time_3_default_value">20:00</string>
+	<string name="add_row_time_4_default_value">24:00</string>
 
 	<string name="edit_row">Edit Medicine&#8230;</string>
     <string name="edit_row_save_button">Save</string>
