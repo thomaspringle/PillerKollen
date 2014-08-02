@@ -1,14 +1,14 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -17,23 +17,50 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="ButtonAddMedicineButtonStyle" parent="@android:style/Widget.Holo.Button.Borderless">
+    <style name="ButtonAddMedicineButtonStyle" parent="AppBaseTheme">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#FF333333</item>
+        <item name="android:layout_marginLeft">4dip</item>
+        <item name="android:minWidth">48dip</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
-    
+
+    <style name="VerticalDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/form_separator</item>
+    </style>
+    <style name="HorizontalDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:background">@color/form_separator</item>
+    </style>
     <!-- <style name="TextAppearance.Recurrence_Button" parent="TextAppearance.EditEvent_Label"> -->
     <!-- <item name="android:textColor">#FF000000</item> -->
     <!-- </style> -->
-    <style name="TextAppearance" parent="android:TextAppearance">
+    <style name="TextAppearance" parent="android:TextAppearance"></style>
+
+    <style name="TextAppearance.AddRowHeader">
+		<item name="android:textSize">15sp</item>
+		<item name="android:textColor">#FF444444</item>        
+    </style>
+    
+    <style name="AddRowHeader">
+        <item name="android:layout_marginTop">4dip</item>
+        <item name="android:layout_marginBottom">4dip</item>
+        <item name="android:layout_marginLeft">6dip</item>
+        <item name="android:layout_marginRight">6dip</item>
+        <item name="android:textAppearance">@style/TextAppearance.AddRowHeader</item>
     </style>
     
     <style name="TextAppearance.RecurrencePickerStyle">
         <item name="android:textSize">15sp</item>
     </style>
 
-    
-<!--     <style name="TextAppearance.Recurrence_SpinnerButton" parent="android:style/Widget.Holo.Light.Spinner" /> -->
+    <!-- <style name="TextAppearance.Recurrence_SpinnerButton" parent="android:style/Widget.Holo.Light.Spinner" /> -->
 
     <style name="RecurrenceDayOfWeekStyle">
         <item name="android:layout_width">wrap_content</item>
@@ -60,9 +87,11 @@
         <item name="android:textColor">#FF333333</item>
         <item name="android:layout_marginRight">12dp</item>
         <item name="android:layout_marginLeft">12dp</item>
-    </style>    
+    </style>
+
     <style name="TextAppearance.EditEvent_SpinnerButton" parent="TextAppearance.EditEvent_Spinner">
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
     </style>
+
 </resources>

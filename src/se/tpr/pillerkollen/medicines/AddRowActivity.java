@@ -94,7 +94,7 @@ public class AddRowActivity extends Activity {
 	}
 	  
 	private void setButtonListeners() {
-		Button nextButton = (Button) findViewById(R.id.add_row_next_button);
+		View nextButton = (View) findViewById(R.id.add_row_page1_next_button_container);
 		nextButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -106,7 +106,7 @@ public class AddRowActivity extends Activity {
 				}
 			}
 		});
-		Button previousButton = (Button) findViewById(R.id.add_row_previous_button);
+		View previousButton = (View) findViewById(R.id.add_row_page2_previous_button_container);
 		previousButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -120,7 +120,7 @@ public class AddRowActivity extends Activity {
 			}
 		});
 		
-		Button addButton = (Button) findViewById(R.id.add_row_add_button);
+		View addButton = (View) findViewById(R.id.add_row_page2_add_button_container);
 		addButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
