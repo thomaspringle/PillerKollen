@@ -32,6 +32,7 @@
     
     <string name="medicines_start_date_label">FROM</string>
     <string name="medicines_end_date_label">UNTIL</string>
+    <string name="medicines_date_default_value">change date</string>
     
     <string name="add_row">Add Medicine&#8230;</string>
     <string name="add_row_add_button">ADD</string>
@@ -54,7 +55,7 @@
 	<string name="edit_row_cancel_button">Cancel</string>
 	
 		
-	<string name="add_row_missing_value">Please specify</string>
+	<string name="add_row_missing_value">Please specify:</string>
 	<string name="add_row_missing_title">Error</string>
 	<string name="progress_indicator">Loading&#8230;</string>
 	

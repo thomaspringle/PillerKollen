@@ -2,7 +2,6 @@
 <resources>
     <color name="pressed_color">#44000000</color>
     <color name="default_color">#00ffffff</color>
-    <color name="medicine_table_color">#ff019355</color>
-    <color name="medicine_table_color_light">#ff8fd0b4</color>
+
     
 </resources>

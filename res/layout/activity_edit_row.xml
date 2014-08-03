@@ -39,7 +39,7 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/medicine_table_bg_light" />
+                android:src="@color/pillerkollen_light_green" />
 
             <TextView
                 android:id="@+id/edit_row_medicine_type"
@@ -68,7 +68,7 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/medicine_table_bg_light" />
+                android:src="@color/pillerkollen_light_green" />
 
             <TextView
                 android:id="@+id/edit_row_medicine_dosage"
@@ -97,7 +97,7 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/medicine_table_bg_light" />
+                android:src="@color/pillerkollen_light_green" />
 
             <TextView
                 android:id="@+id/edit_row_medicine_unit"
@@ -121,7 +121,7 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/medicine_table_bg_light" />
+                android:src="@color/pillerkollen_light_green" />
 
             <TextView
                 android:id="@+id/edit_row_medicine_description"
@@ -147,7 +147,7 @@
                 android:layout_height="12dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/medicine_table_bg_light" />
+                android:src="@color/pillerkollen_light_green" />
 
             <LinearLayout
                 android:id="@+id/edit_row_button_bar"
@@ -180,7 +180,7 @@
                 android:layout_height="12dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@color/medicine_table_color_light" />
+                android:src="@color/pillerkollen_light_green" />
         </LinearLayout>
     </ScrollView>
 

@@ -2,10 +2,10 @@
 <resources>
 
     <string-array name="schedule_recurrance_array">
-        <item>Every Day</item>
-        <item>Every Week</item>
-        <item>Evert Month</item>
-        <item>Every Year</item>
+        <item>EVERY DAY</item>
+        <item>EVERY WEEK</item>
+        <item>EVERT MONTH</item>
+        <item>EVERY YEAR</item>
     </string-array>
     <!-- Recurrence picker: How events are to be repeated.  [CHAR LIMIT = 20] -->
     <string-array name="recurrence_freq">

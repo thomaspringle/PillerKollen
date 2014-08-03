@@ -5,6 +5,11 @@
     
     <color name="form_separator">#66333333</color>
     
+    <color name="pillerkollen_green">#ff019355</color>
+    <color name="pillerkollen_light_green">#ff8fd0b4</color>
+    <color name="pillerkollen_blue">#025fac</color>
+    <color name="pillerkollen_light_blue">#ff90b9db</color>
+    
     <color name="recurrence_picker_background">#fff2f2f2</color>
     <color name="recurrence_bubble_text_normal">#ff737373</color>
 </resources>

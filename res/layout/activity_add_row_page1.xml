@@ -1,220 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView1"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_row_page1_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/add_row_button_bar_page1"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/add_row_medicine_name"
-            style="@style/AddRowHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medicines_title_name"/>
-
-        <EditText
-            android:id="@+id/add_row_medicine_name_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/medicines_hint_name"
-            android:inputType="text" >
-        </EditText>
-
-        <ImageView
-            android:id="@+id/add_row_imageView1"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
-
-        <TextView
-            android:id="@+id/add_row_medicine_type"
-            style="@style/AddRowHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medicines_title_type"/>
-
-        <EditText
-            android:id="@+id/add_row_medicine_type_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/medicines_hint_type"
-            android:inputType="text" />
-
-        <!-- <Spinner -->
-        <!-- android:id="@+id/add_row_medicine_type_spinner" -->
-        <!-- android:layout_width="match_parent" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_below="@id/add_row_project_text" /> -->
-
-        <ImageView
-            android:id="@+id/add_row_imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <!-- <Spinner -->
-            <!-- android:id="@+id/add_row_task_spinner" -->
-            <!-- android:layout_width="match_parent" -->
-            <!-- android:layout_height="wrap_content" -->
-            <!-- android:layout_below="@id/add_row_medicine_dosage_input" /> -->
-
-            <TextView
-                android:id="@+id/add_row_medicine_dosage"
-                style="@style/AddRowHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/medicines_title_dosage"
-                />
-
-            <EditText
-                android:id="@+id/add_row_medicine_dosage_input"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/add_row_medicine_dosage"
-                android:ems="10"
-                android:hint="@string/medicines_hint_dosage"
-                android:inputType="text" />
-
-            <TextView
-                android:id="@+id/add_row_medicine_unit"
-                style="@style/AddRowHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="30dp"
-                android:layout_toRightOf="@+id/add_row_medicine_dosage"
-                android:text="@string/medicines_title_unit"
-                 />
-
-            <EditText
-                android:id="@+id/add_row_medicine_unit_input"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/add_row_medicine_unit"
-                android:layout_below="@+id/add_row_medicine_unit"
-                android:ems="10"
-                android:hint="@string/medicines_hint_unit"
-                android:inputType="text" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/add_row_imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
-
-        <TextView
-            android:id="@+id/add_row_medicine_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medicines_title_description"
-            style="@style/AddRowHeader"
-             />
-
-        <EditText
-            android:id="@+id/add_row_medicine_description_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/medicines_hint_description" >
-        </EditText>
-
-        <ImageView
-            android:id="@+id/add_row_imageView5"
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
+        android:background="@color/pillerkollen_light_blue"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
 
         <LinearLayout
-            android:id="@+id/add_row_button_bar_page1"
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="match_parent"
+            android:id="@+id/add_row_page1_cancel_button_container"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
+            android:layout_weight="1"
             android:orientation="horizontal" >
 
-            <LinearLayout
-                android:id="@+id/add_row_page1_next_button_container"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="8dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/add_row_cancel_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_remove" />
+
+            <TextView
+                style="@style/ButtonAddMedicineButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"  >
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/add_row_cancel_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_remove" />
-
-                <TextView
-                    style="@style/ButtonAddMedicineButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="@string/add_row_cancel_button" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_row_page1_cancel_button_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/add_row_next_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_next_item" />
-
-                <TextView
-                    style="@style/ButtonAddMedicineButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="@string/add_row_next_button" />
-            </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/add_row_cancel_button" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/add_row_imageView6"
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@color/medicine_table_color_light" />
+        <LinearLayout
+            android:id="@+id/add_row_page1_next_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="8dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/add_row_next_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_next_item" />
+
+            <TextView
+                style="@style/ButtonAddMedicineButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/add_row_next_button" />
+        </LinearLayout>
     </LinearLayout>
 
-</ScrollView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@color/pillerkollen_blue" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/add_row_medicine_name"
+                style="@style/AddRowHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medicines_title_name" />
+
+            <EditText
+                android:id="@+id/add_row_medicine_name_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/medicines_hint_name"
+                android:inputType="text" >
+            </EditText>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
+
+            <TextView
+                android:id="@+id/add_row_medicine_type"
+                style="@style/AddRowHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medicines_title_type" />
+
+            <EditText
+                android:id="@+id/add_row_medicine_type_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/medicines_hint_type"
+                android:inputType="text" />
+
+            <!-- <Spinner -->
+            <!-- android:id="@+id/add_row_medicine_type_spinner" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_below="@id/add_row_project_text" /> -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <!-- <Spinner -->
+                <!-- android:id="@+id/add_row_task_spinner" -->
+                <!-- android:layout_width="match_parent" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_below="@id/add_row_medicine_dosage_input" /> -->
+
+                <TextView
+                    android:id="@+id/add_row_medicine_dosage"
+                    style="@style/AddRowHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/medicines_title_dosage" />
+
+                <EditText
+                    android:id="@+id/add_row_medicine_dosage_input"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/add_row_medicine_dosage"
+                    android:ems="10"
+                    android:hint="@string/medicines_hint_dosage"
+                    android:inputType="text" />
+
+                <TextView
+                    android:id="@+id/add_row_medicine_unit"
+                    style="@style/AddRowHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@+id/add_row_medicine_dosage"
+                    android:text="@string/medicines_title_unit" />
+
+                <EditText
+                    android:id="@+id/add_row_medicine_unit_input"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/add_row_medicine_unit"
+                    android:layout_below="@+id/add_row_medicine_unit"
+                    android:ems="10"
+                    android:hint="@string/medicines_hint_unit"
+                    android:inputType="text" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
+
+            <TextView
+                android:id="@+id/add_row_medicine_description"
+                style="@style/AddRowHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medicines_title_description" />
+
+            <EditText
+                android:id="@+id/add_row_medicine_description_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/medicines_hint_description" >
+            </EditText>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

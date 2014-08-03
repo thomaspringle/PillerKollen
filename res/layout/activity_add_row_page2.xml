@@ -1,297 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView2"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_row_page2_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/add_row_button_bar_page2"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical" >
+        android:background="@color/pillerkollen_light_blue"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
-
-        <TextView
-            android:id="@+id/add_row_schedule"
+        <LinearLayout
+            android:id="@+id/add_row_page2_previous_button_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/medicines_title_schedule"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#FF444444" />
+            android:layout_weight="1"
+            android:orientation="horizontal" >
 
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="5dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/add_row_previous_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_previous_item" />
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TableRow
+            <TextView
+                style="@style/ButtonAddMedicineButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/add_row_previous_button" />
+        </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/add_row_checkbox_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_row_time_1_label" />
+        <LinearLayout
+            android:id="@+id/add_row_page2_cancel_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
 
-                <EditText
-                    android:id="@+id/add_row_medicine_quantity1"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:ems="10"
-                    android:hint="@string/medicines_hint_quantity" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="8dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/add_row_cancel_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_remove" />
 
-                <TextView
-                    android:id="@+id/add_row_medicine_unit1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/medicines_hint_unit"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </TableRow>
-
-            <TableRow
+            <TextView
+                style="@style/ButtonAddMedicineButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/add_row_cancel_button" />
+        </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/add_row_checkbox_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_row_time_2_label" />
+        <LinearLayout
+            android:id="@+id/add_row_page2_add_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
 
-                <EditText
-                    android:id="@+id/add_row_medicine_quantity2"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:ems="10"
-                    android:hint="@string/medicines_hint_quantity" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="8dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/add_row_add_button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_action_new_disabled" />
 
-                <TextView
-                    android:id="@+id/add_row_medicine_unit2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/medicines_hint_unit"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </TableRow>
-
-            <TableRow
+            <TextView
+                style="@style/ButtonAddMedicineButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:gravity="center_vertical"
+                android:text="@string/add_row_add_button" />
+        </LinearLayout>
+    </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/add_row_checkbox_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_row_time_3_label" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@color/pillerkollen_blue" />
 
-                <EditText
-                    android:id="@+id/add_row_medicine_quantity3"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:ems="10"
-                    android:hint="@string/medicines_hint_quantity" />
-
-                <TextView
-                    android:id="@+id/add_row_medicine_unit3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/medicines_hint_unit"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <CheckBox
-                    android:id="@+id/add_row_checkbox_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_row_time_4_label" />
-
-                <EditText
-                    android:id="@+id/add_row_medicine_quantity4"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:ems="10"
-                    android:hint="@string/medicines_hint_quantity" />
-
-                <TextView
-                    android:id="@+id/add_row_medicine_unit4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/medicines_hint_unit"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </TableRow>
-        </TableLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="6dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/add_row_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/AddRowHeader"
-                android:text="@string/medicines_start_date_label" />
+                android:text="@string/medicines_title_schedule"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FF444444" />
 
             <Spinner
-                android:id="@+id/add_row_medicine_start_date"
-                style="@style/TextAppearance.RecurrencePickerStyle"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:entries="@array/recurrence_freq"
-                android:gravity="left"
-                android:padding="0dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/add_row_spinner_freq"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/AddRowHeader"
-                android:text="@string/medicines_end_date_label" />
+                android:visibility="gone" />
 
-            <Spinner
-                android:id="@+id/add_row_medicine_end_date"
-                style="@style/TextAppearance.RecurrencePickerStyle"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:entries="@array/recurrence_freq"
-                android:gravity="left"
-                android:padding="0dp" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/add_row_checkbox_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_row_time_1_label" />
+
+                    <EditText
+                        android:id="@+id/add_row_medicine_quantity1"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="" />
+
+                    <TextView
+                        android:id="@+id/add_row_medicine_type1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medicines_hint_type"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/add_row_checkbox_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_row_time_2_label" />
+
+                    <EditText
+                        android:id="@+id/add_row_medicine_quantity2"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="" />
+
+                    <TextView
+                        android:id="@+id/add_row_medicine_type2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medicines_hint_type"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/add_row_checkbox_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_row_time_3_label" />
+
+                    <EditText
+                        android:id="@+id/add_row_medicine_quantity3"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="" />
+
+                    <TextView
+                        android:id="@+id/add_row_medicine_type3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medicines_hint_type"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/add_row_checkbox_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_row_time_4_label" />
+
+                    <EditText
+                        android:id="@+id/add_row_medicine_quantity4"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="" />
+
+                    <TextView
+                        android:id="@+id/add_row_medicine_type4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medicines_hint_type"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </TableRow>
+            </TableLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/AddRowHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="@string/medicines_start_date_label" />
+
+                    <TextView
+                        android:id="@+id/add_row_medicine_start_date"
+                        style="@style/TextAppearance.EditEvent_SpinnerButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginTop="0dp"
+                        android:contentDescription="@string/acessibility_recurrence_choose_end_date_description"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:minWidth="80dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="16dp"
+                        android:singleLine="true"
+                        android:text="@string/medicines_date_default_value"
+                        android:textColor="@color/recurrence_spinner_text_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/AddRowHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="@string/medicines_end_date_label" />
+
+                    <TextView
+                        android:id="@+id/add_row_medicine_end_date"
+                        style="@style/TextAppearance.EditEvent_SpinnerButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginTop="0dp"
+                        android:contentDescription="@string/acessibility_recurrence_choose_end_date_description"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:minWidth="80dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="16dp"
+                        android:singleLine="true"
+                        android:text="@string/medicines_date_default_value"
+                        android:textColor="@color/recurrence_spinner_text_color"
+                        android:textSize="15sp" />
+                    <!-- <Spinner -->
+                    <!-- android:id="@+id/add_row_medicine_end_date" -->
+                    <!-- style="@style/TextAppearance.RecurrencePickerStyle" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:layout_gravity="center_horizontal" -->
+                    <!-- android:layout_weight="1" -->
+                    <!-- android:entries="@array/recurrence_freq" -->
+                    <!-- android:gravity="left" /> -->
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
         </LinearLayout>
+    </ScrollView>
 
-        <ImageView
-            android:id="@+id/add_row_imageView5"
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/medicine_table_bg_light" />
-
-        <LinearLayout
-            android:id="@+id/add_row_button_bar_page2"
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false" >
-
-            <LinearLayout
-                android:id="@+id/add_row_page2_previous_button_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="5dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/add_row_previous_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_previous_item" />
-
-                <TextView
-                    style="@style/ButtonAddMedicineButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/add_row_previous_button" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_row_page2_cancel_button_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/add_row_cancel_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_remove" />
-
-                <TextView
-                    style="@style/ButtonAddMedicineButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:text="@string/add_row_cancel_button" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_row_page2_add_button_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="8dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/add_row_add_button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_new_disabled" />
-
-                <TextView
-                    style="@style/ButtonAddMedicineButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:gravity="center_vertical"
-                    android:text="@string/add_row_add_button" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/add_row_imageView6"
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@color/medicine_table_color_light" />
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
