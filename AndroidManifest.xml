@@ -31,7 +31,7 @@
             android:label="@string/title_activity_medicines" >
         </activity>  
         <activity
-            android:name="se.tpr.pillerkollen.medicines.AddRowActivity"
+            android:name="se.tpr.pillerkollen.medicines.add.AddRowActivity"
             android:label="@string/add_row" >        
         </activity>
 		<activity

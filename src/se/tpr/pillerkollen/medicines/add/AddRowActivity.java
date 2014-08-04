@@ -1,9 +1,12 @@
-package se.tpr.pillerkollen.medicines;
+package se.tpr.pillerkollen.medicines.add;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
+import se.tpr.pillerkollen.medicines.Medicine;
+import se.tpr.pillerkollen.medicines.MedicinesDataSource;
 import se.tpr.pillerkollen.schedule.SchedulesDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,26 +20,31 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
-	private Context context;
+	private AddRowActivity context;
 	private ViewFlipper viewFlipper;
-
+//	private ListView dosagesListView;
+	DosagesArrayAdapter dosagesArrayAdapter;
+	
 	private MedicinesDataSource medicinesDatasource;
 	private SchedulesDataSource schedulesDatasource;
 
@@ -44,6 +52,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private String name = "";
 	private String type = "";
 	private String dosage = "";
+	private List<Dosage> dosages;
 	private String unit = "";
 	private String description = "";
 	private List<String> scheduledTimes;
@@ -84,6 +93,13 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		freqAdapter.setDropDownViewResource(R.layout.recurrencepicker_freq_item);
 		freqSpinner.setAdapter(freqAdapter);
+		
+		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
+		dosages = new ArrayList<Dosage>();
+		dosages.add(new Dosage());
+		dosagesArrayAdapter = new DosagesArrayAdapter(this, dosages);
+		dosagesListView.setAdapter(dosagesArrayAdapter);
+		
 	}
 	public void setupDismissKeyboard(View view) {
 		//Set up touch listener for non-text box views to hide keyboard.
@@ -121,14 +137,14 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private void updateSchedulePage() {
 		collectValuesFromPage1();
 
-		TextView type1 = (TextView) findViewById(R.id.add_row_medicine_type1);
-		TextView type2 = (TextView) findViewById(R.id.add_row_medicine_type2);
-		TextView type3 = (TextView) findViewById(R.id.add_row_medicine_type3);
-		TextView type4 = (TextView) findViewById(R.id.add_row_medicine_type4);
-		type1.setText(this.type);
-		type2.setText(this.type);
-		type3.setText(this.type);
-		type4.setText(this.type);
+		TextView unit1 = (TextView) findViewById(R.id.add_row_medicine_unit1);
+		TextView unit2 = (TextView) findViewById(R.id.add_row_medicine_unit2);
+		TextView unit3 = (TextView) findViewById(R.id.add_row_medicine_unit3);
+		TextView unit4 = (TextView) findViewById(R.id.add_row_medicine_unit4);
+		unit1.setText(this.unit);
+		unit2.setText(this.unit);
+		unit3.setText(this.unit);
+		unit4.setText(this.unit);
 
 		if (scheduleStartTime == null) {
 			scheduleStartTime = new Time(scheduleTime);
@@ -209,8 +225,57 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			}
 		});
 
+		View addDosage = (View) findViewById(R.id.add_row_page1_dosages_container);
+		addDosage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hideSoftKeyBoard(v);
+				
+				dosages.add(new Dosage());
+				ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
+				
+//				View childAt = dosagesListView.getChildAt(0);
+//				int height = childAt.getMeasuredHeight();
+//				Log.d(this.getClass().getName(), "Height of row: " + height);
+				
+				dosagesArrayAdapter = new DosagesArrayAdapter(context, dosages);
+				dosagesListView.setAdapter(dosagesArrayAdapter);
+				
+				/*
+				LayoutParams params = dosagesListView.getLayoutParams();
+				int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
+				int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
+				params.height = rowHeight * dosages.size() + padding;
+				Log.d(this.getClass().getName(), "Height of row: " + params.height);
+//				dosagesListView.setLayoutParams(params);
+				dosagesListView.setMinimumHeight((params.height) * dosages.size());*/
+				updateListViewHeight();
+			}
+		});
+		
 	}
+	private void updateListViewHeight() {
+		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
+		LayoutParams params = dosagesListView.getLayoutParams();
+		int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
+		int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
+		params.height = rowHeight * dosages.size() + padding;
+		Log.d(this.getClass().getName(), "Height of view: " + params.height);
+//		dosagesListView.setLayoutParams(params);
+		dosagesListView.setMinimumHeight((params.height) * dosages.size());
 
+	}
+	protected void removeDosage(Dosage dosageToRemove) {
+		updateListViewHeight();
+//		Iterator<Dosage> iter = dosages.iterator();
+//		while (iter.hasNext()) {
+//			Dosage dosage = iter.next();
+//			if(dosage.hasId(dosageToRemove.getId())) {
+//				iter.remove();
+//				return;
+//			}
+//		}
+	}
 	protected void addRow() {
 
 		collectValuesFromPage1();

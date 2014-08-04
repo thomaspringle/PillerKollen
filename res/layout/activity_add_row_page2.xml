@@ -149,11 +149,19 @@
                         android:hint="" />
 
                     <TextView
-                        android:id="@+id/add_row_medicine_type1"
+                        android:id="@+id/add_row_medicine_unit1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/medicines_hint_type"
+                        android:text="@string/medicines_hint_unit"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <EditText
+                        android:id="@+id/editText1"
+                        android:layout_width="40dp"
+                        android:layout_height="@dimen/edit_text_size"
+                        android:ems="10" >
+                    </EditText>
+
                 </TableRow>
 
                 <TableRow
@@ -176,10 +184,10 @@
                         android:hint="" />
 
                     <TextView
-                        android:id="@+id/add_row_medicine_type2"
+                        android:id="@+id/add_row_medicine_unit2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/medicines_hint_type"
+                        android:text="@string/medicines_hint_unit"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </TableRow>
 
@@ -203,10 +211,10 @@
                         android:hint="" />
 
                     <TextView
-                        android:id="@+id/add_row_medicine_type3"
+                        android:id="@+id/add_row_medicine_unit3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/medicines_hint_type"
+                        android:text="@string/medicines_hint_unit"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </TableRow>
 
@@ -230,10 +238,10 @@
                         android:hint="" />
 
                     <TextView
-                        android:id="@+id/add_row_medicine_type4"
+                        android:id="@+id/add_row_medicine_unit4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/medicines_hint_type"
+                        android:text="@string/medicines_hint_unit"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </TableRow>
             </TableLayout>

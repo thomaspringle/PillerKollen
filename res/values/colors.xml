@@ -3,7 +3,7 @@
     <color name="done_text_color_disabled">#cccccc</color>
     <color name="done_text_color_normal">#333333</color>
     
-    <color name="form_separator">#66333333</color>
+    <color name="form_separator">#66999999</color>
     
     <color name="pillerkollen_green">#ff019355</color>
     <color name="pillerkollen_light_green">#ff8fd0b4</color>

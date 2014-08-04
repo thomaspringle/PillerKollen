@@ -8,6 +8,7 @@
     <string name="error_title">An error has occurred!</string>
 	<string name="cancel_button">Cancel</string>
 	<string name="ok_button">OK</string>
+	<string name="remove_button">Remove</string>
 	
     <string name="title_activity_schedule">ScheduleActivity</string>
     <string name="title_activity_medicines">MedicinesActivity</string>
@@ -18,16 +19,20 @@
     <string name="medicines_title_name">NAME</string>
     <string name="medicines_title_type">TYPE (capsule, pill, inh.)</string>
     <string name="medicines_title_description">DESCRIPTION</string>
-    <string name="medicines_title_dosage">DOSAGE (75, 250)</string>
-    <string name="medicines_title_unit">UNIT (mg, ml)</string>
+    <string name="medicines_title_dosage">DOSAGE</string>
+    <string name="medicines_title_unit">UNIT</string>
     <string name="medicines_title_schedule">SCHEDULE</string>
+    
+    <string name="add_row_add_dosage">ADD DOSAGE</string>
     
     
     <string name="medicines_hint_name">name</string>
     <string name="medicines_hint_type">type</string>
     <string name="medicines_hint_description">description</string>
     <string name="medicines_hint_dosage">dosage</string>
+    <string name="medicines_hint_dosage_value">10</string>
     <string name="medicines_hint_unit">unit</string>
+    <string name="medicines_hint_unit_value">mg</string>
     <string name="medicines_hint_quantity">quantity</string>
     
     <string name="medicines_start_date_label">FROM</string>

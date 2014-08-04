@@ -95,11 +95,13 @@
 
             <EditText
                 android:id="@+id/add_row_medicine_name_input"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/medicines_hint_name"
-                android:inputType="text" >
+                android:inputType="text"
+                android:singleLine="true" >
             </EditText>
 
             <ImageView
@@ -118,11 +120,13 @@
 
             <EditText
                 android:id="@+id/add_row_medicine_type_input"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/medicines_hint_type"
-                android:inputType="text" />
+                android:inputType="text"
+                android:singleLine="true" />
 
             <!-- <Spinner -->
             <!-- android:id="@+id/add_row_medicine_type_spinner" -->
@@ -137,54 +141,101 @@
                 android:scaleType="fitXY"
                 android:src="@color/pillerkollen_light_green" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+            <!-- <Spinner -->
+            <!-- android:id="@+id/add_row_task_spinner" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_below="@id/add_row_medicine_dosage_input" /> -->
 
-                <!-- <Spinner -->
-                <!-- android:id="@+id/add_row_task_spinner" -->
-                <!-- android:layout_width="match_parent" -->
-                <!-- android:layout_height="wrap_content" -->
-                <!-- android:layout_below="@id/add_row_medicine_dosage_input" /> -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="6dp" >
 
                 <TextView
                     android:id="@+id/add_row_medicine_dosage"
                     style="@style/AddRowHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
                     android:text="@string/medicines_title_dosage" />
 
-                <EditText
-                    android:id="@+id/add_row_medicine_dosage_input"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/add_row_medicine_dosage"
-                    android:ems="10"
-                    android:hint="@string/medicines_hint_dosage"
-                    android:inputType="text" />
-
                 <TextView
-                    android:id="@+id/add_row_medicine_unit"
                     style="@style/AddRowHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="30dp"
-                    android:layout_toRightOf="@+id/add_row_medicine_dosage"
                     android:text="@string/medicines_title_unit" />
+            </LinearLayout>
 
-                <EditText
-                    android:id="@+id/add_row_medicine_unit_input"
-                    android:layout_width="100dp"
+            <EditText
+                android:id="@+id/add_row_medicine_dosage_input"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/medicines_hint_dosage_value"
+                android:inputType="number"
+                android:singleLine="true"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/add_row_page1_dosage_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="1dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                android:scrollbars="none" >
+            </ListView>
+
+            <LinearLayout
+                android:id="@+id/add_row_page1_dosages_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp" >
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="8dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/medicines_hint_dosage"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_action_new_disabled" />
+
+                <TextView
+                    style="@style/AddRowHeader"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/add_row_medicine_unit"
-                    android:layout_below="@+id/add_row_medicine_unit"
-                    android:ems="10"
-                    android:hint="@string/medicines_hint_unit"
-                    android:inputType="text" />
-            </RelativeLayout>
+                    android:text="@string/add_row_add_dosage" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green" />
+
+            <TextView
+                android:id="@+id/add_row_medicine_unit"
+                style="@style/AddRowHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medicines_title_unit" />
+
+            <EditText
+                android:id="@+id/add_row_medicine_unit_input"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="@string/medicines_hint_unit_value"
+                android:inputType="text"
+                android:singleLine="true" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -202,7 +253,7 @@
 
             <EditText
                 android:id="@+id/add_row_medicine_description_input"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/medicines_hint_description" >

@@ -4,6 +4,7 @@ import java.util.List;
 
 import se.tpr.pillerkollen.MainActivity;
 import se.tpr.pillerkollen.R;
+import se.tpr.pillerkollen.medicines.add.AddRowActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
