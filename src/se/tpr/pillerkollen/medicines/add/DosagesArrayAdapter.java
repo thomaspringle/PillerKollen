@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class DosagesArrayAdapter extends ArrayAdapter<Dosage> { 
 
@@ -31,6 +32,7 @@ public class DosagesArrayAdapter extends ArrayAdapter<Dosage> {
 		protected String id;
 		protected EditText dosage;
 		protected EditText unit;
+		protected TextView unitText;
 
 	}
 //	private void hideSoftKeyBoard() {
@@ -93,20 +95,34 @@ public class DosagesArrayAdapter extends ArrayAdapter<Dosage> {
 
 			viewHolder.dosage = (EditText) dosagesRowView.findViewById(R.id.add_row_medicine_dosage_input);
 			viewHolder.unit = (EditText) dosagesRowView.findViewById(R.id.add_row_medicine_unit_input);
-
+			viewHolder.unitText = (TextView) dosagesRowView.findViewById(R.id.add_row_medicine_unit_text);
+			
 			dosagesRowView.setTag(viewHolder);
 		} else {
 			dosagesRowView = convertView;
-			((ViewHolder) dosagesRowView.getTag()).dosage.setTag(dosages.get(position));
+			ViewHolder viewHolder = (ViewHolder) dosagesRowView.getTag();
+			viewHolder.dosage.setTag(dosages.get(position));
 		}
 
 		final Dosage dosage = dosages.get(position);
 		ViewHolder holder = (ViewHolder) dosagesRowView.getTag();
 
 		holder.id = dosage.getId();
-		holder.unit.setText(dosage.getUnit());
 		holder.dosage.setText(dosage.getDosage());
-
+		holder.unit.setText(dosage.getUnit());
+		holder.unitText.setText(dosage.getUnit());
+		
+		if (position == 0) {
+			holder.unit.setVisibility(View.VISIBLE);
+			holder.unitText.setVisibility(View.GONE);
+			holder.unit.setOnFocusChangeListener(new EditTextFocusListener(dosage.getId(), dosage.getUnit()));
+		} else {
+			holder.unit.setVisibility(View.GONE);
+			holder.unitText.setVisibility(View.VISIBLE);
+			holder.unitText.setText(dosages.get(0).getUnit());
+		}
+		
+		
 		ImageView removeButton = (ImageView) dosagesRowView.findViewById(R.id.add_row_medicine_remove_dosage_button);
 		
 		removeButton.setOnClickListener(new OnClickListener() {
@@ -120,63 +136,34 @@ public class DosagesArrayAdapter extends ArrayAdapter<Dosage> {
 
 		return dosagesRowView;
 	}
-//
-//	class EditTextFocusListener implements View.OnFocusChangeListener {
-//
-//
-//		private String originalValue;
-//		private long id;
-//		private String columnName;
-//
-//		public EditTextFocusListener(long id, String originalValue, String columnName) {
-//			this.id = id;
-//			this.originalValue = originalValue;
-//			this.columnName = columnName;
-//		}
-//
-//		@Override
-//		public void onFocusChange(View v, boolean hasFocus) {
-//			if (!hasFocus) {
-//				try {
-//
-//					String value = ((EditText)v).getText().toString();
-//					/*if (Float.parseFloat(hours) > 24) {
-//						hours = "24.0";
-//					}*/
-//					if (value.equals(originalValue)) {
-//						return;
-//					}
-//
-//					// The field might have been automatically cleared if it was '0' when focused
-//					/*boolean reportedHoursIsEmpty = "".equals(hours) && "0".equals(reportedHours); 
-//					if (reportedHoursIsEmpty) {
-//						((EditText)v).setText("0");
-//						return;
-//					}*/
-//
-//					/*
-//					BigDecimal roundedHours = new BigDecimal(hours).setScale(1, BigDecimal.ROUND_HALF_UP); 
-//					context.reportTimeForDay(date, roundedHours, lineId);
-//					((EditText)v).setText(roundedHours.toString()); //String.format("%.1f", hours)); */
-//					/*Medicine medicine = null;
-//					for (Medicine med : medicines) {
-//						if (med.hasId(id)) {
-//							medicine = med;
-//						}
-//					}*/
-//					addRowActivity.updateDosage(id, value, columnName);
-//
-//				} catch (Exception e) {
-//					((EditText)v).setText(originalValue);
-//				}
-//
-//			} /*else {
-//				// Clear the '0' so you don't have to erase it manually
-//				String hours = ((EditText)v).getText().toString();
-//				if ("0".equals(hours)) {
-//					((EditText)v).setText("");
-//				}
-//			}*/
-//		}
-//	}
+
+	class EditTextFocusListener implements View.OnFocusChangeListener {
+
+		private String originalValue;
+		private String id;
+
+		public EditTextFocusListener(String id, String originalValue) {
+			this.id = id;
+			this.originalValue = originalValue;
+		}
+
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (!hasFocus) {
+				try {
+
+					String value = ((EditText)v).getText().toString();
+
+					if (value.equals(originalValue)) {
+						return;
+					}
+
+					dosages.get(0).setUnit(value);
+					notifyDataSetChanged();
+				} catch (Exception e) {
+					((EditText)v).setText(originalValue);
+				}
+			} 
+		}
+	}
 }

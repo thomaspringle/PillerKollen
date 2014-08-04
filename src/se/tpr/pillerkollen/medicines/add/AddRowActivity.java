@@ -51,7 +51,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 	private String name = "";
 	private String type = "";
-	private String dosage = "";
+//	private String dosage = "";
 	private List<Dosage> dosages;
 	private String unit = "";
 	private String description = "";
@@ -234,21 +234,9 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				dosages.add(new Dosage());
 				ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
 				
-//				View childAt = dosagesListView.getChildAt(0);
-//				int height = childAt.getMeasuredHeight();
-//				Log.d(this.getClass().getName(), "Height of row: " + height);
-				
 				dosagesArrayAdapter = new DosagesArrayAdapter(context, dosages);
 				dosagesListView.setAdapter(dosagesArrayAdapter);
-				
-				/*
-				LayoutParams params = dosagesListView.getLayoutParams();
-				int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
-				int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
-				params.height = rowHeight * dosages.size() + padding;
-				Log.d(this.getClass().getName(), "Height of row: " + params.height);
-//				dosagesListView.setLayoutParams(params);
-				dosagesListView.setMinimumHeight((params.height) * dosages.size());*/
+
 				updateListViewHeight();
 			}
 		});
@@ -260,21 +248,12 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
 		int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
 		params.height = rowHeight * dosages.size() + padding;
-		Log.d(this.getClass().getName(), "Height of view: " + params.height);
-//		dosagesListView.setLayoutParams(params);
 		dosagesListView.setMinimumHeight((params.height) * dosages.size());
 
 	}
 	protected void removeDosage(Dosage dosageToRemove) {
 		updateListViewHeight();
-//		Iterator<Dosage> iter = dosages.iterator();
-//		while (iter.hasNext()) {
-//			Dosage dosage = iter.next();
-//			if(dosage.hasId(dosageToRemove.getId())) {
-//				iter.remove();
-//				return;
-//			}
-//		}
+
 	}
 	protected void addRow() {
 
@@ -305,7 +284,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		name = nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input));
 		type = nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input));
 		description = nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input));
-		dosage = nullCheck((EditText) findViewById(R.id.add_row_medicine_dosage_input));
+//		dosage = nullCheck((EditText) findViewById(R.id.add_row_medicine_dosage_input));
 		unit = nullCheck((EditText) findViewById(R.id.add_row_medicine_unit_input));
 	}
 
@@ -341,7 +320,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		} else if (type.isEmpty()) {
 			missingField = getString(R.string.medicines_hint_type);
 
-		} else if (dosage.isEmpty()) {
+		} else if (dosagesAreEmpty()) {
 			missingField = getString(R.string.medicines_hint_dosage);
 
 		} else if (unit.isEmpty()) {
@@ -353,6 +332,18 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		return missingField;
 	}
 
+	private boolean dosagesAreEmpty() {
+
+		if (dosages.isEmpty()) {
+			return true;
+		}
+		String dosage = dosages.get(0).getDosage();
+		String unit = dosages.get(0).getUnit();
+		if (dosage.isEmpty() || unit.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
 	private String nullCheck(EditText editText) {
 		String value = editText.getText().toString();
 		return value == null ? "" : value;
@@ -411,7 +402,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		@Override
 		protected Long doInBackground(Void... arg0) {
 			try {
-				Medicine createdMedicine = medicinesDatasource.createMedicine(name, type, description, dosage, unit);
+				// TODO FIXME
+				Medicine createdMedicine = medicinesDatasource.createMedicine(name, type, description, "dosage", unit);
 
 				// TODO: Add to Schedule:
 				for (String time : scheduledTimes) {
@@ -441,7 +433,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				intent.putExtra("name_field", name);
 				intent.putExtra("type_field", type);
 				intent.putExtra("description_field", description);
-				intent.putExtra("dosage_field", dosage);
+				intent.putExtra("dosage_field", "dosage"); // FIXME
 				intent.putExtra("unit_field", unit);
 
 				finish();

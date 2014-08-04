@@ -212,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_row_add_dosage" />
             </LinearLayout>
-
+<!-- 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
@@ -235,7 +235,7 @@
                 android:ems="10"
                 android:hint="@string/medicines_hint_unit_value"
                 android:inputType="text"
-                android:singleLine="true" />
+                android:singleLine="true" />  -->
 
             <ImageView
                 android:layout_width="match_parent"
