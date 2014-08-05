@@ -188,6 +188,12 @@
                 android:scrollbars="none" >
             </ListView>
 
+            <TableLayout
+                android:id="@+id/dosage_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </TableLayout>
+
             <LinearLayout
                 android:id="@+id/add_row_page1_dosages_container"
                 android:layout_width="wrap_content"

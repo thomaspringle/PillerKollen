@@ -1,7 +1,6 @@
 package se.tpr.pillerkollen.medicines.add;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
@@ -12,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -20,7 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +33,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -231,13 +231,22 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			public void onClick(View v) {
 				hideSoftKeyBoard(v);
 				
+				
 				dosages.add(new Dosage());
-				ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
+				
+				TableLayout table = (TableLayout) findViewById(R.id.dosage_table);
+				
+				TableRow row = (TableRow)LayoutInflater.from(context).inflate(R.layout.dosage_row, null);
+//			    ((TextView)row.findViewById(R.id.attrib_name)).setText(b.NAME);
+//			    ((TextView)row.findViewById(R.id.attrib_value)).setText(b.VALUE);
+			    table.addView(row);
+			    table.requestLayout();
+				/*ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
 				
 				dosagesArrayAdapter = new DosagesArrayAdapter(context, dosages);
 				dosagesListView.setAdapter(dosagesArrayAdapter);
 
-				updateListViewHeight();
+				updateListViewHeight(); */
 			}
 		});
 		
