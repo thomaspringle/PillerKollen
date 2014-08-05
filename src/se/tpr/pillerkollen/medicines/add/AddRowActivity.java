@@ -18,23 +18,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -43,7 +39,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private AddRowActivity context;
 	private ViewFlipper viewFlipper;
 //	private ListView dosagesListView;
-	DosagesArrayAdapter dosagesArrayAdapter;
+//	DosagesArrayAdapter dosagesArrayAdapter;
+	private AddDosagesController addDosagesController;
 	
 	private MedicinesDataSource medicinesDatasource;
 	private SchedulesDataSource schedulesDatasource;
@@ -65,10 +62,14 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// TODO: Hide and show action bar when scrolling?
+//		getActionBar().setDisplayShowTitleEnabled(true);
+//		getActionBar().setTitle(getString(R.string.add_row));
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+		getActionBar().hide();
 		setContentView(R.layout.activity_add_row);
-		getActionBar().setDisplayShowTitleEnabled(true);
-		getActionBar().setTitle(getString(R.string.add_row));
-
+		
 		scheduleTime.setToNow();
 
 		viewFlipper = (ViewFlipper) findViewById(R.id.add_row_medicines_view_flipper);
@@ -94,11 +95,13 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		freqAdapter.setDropDownViewResource(R.layout.recurrencepicker_freq_item);
 		freqSpinner.setAdapter(freqAdapter);
 		
-		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
+//		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
 		dosages = new ArrayList<Dosage>();
 		dosages.add(new Dosage());
-		dosagesArrayAdapter = new DosagesArrayAdapter(this, dosages);
-		dosagesListView.setAdapter(dosagesArrayAdapter);
+		addDosagesController = new AddDosagesController(this, dosages);
+		addDosagesController.reDrawTable();
+//		dosagesArrayAdapter = new DosagesArrayAdapter(this, dosages);
+//		dosagesListView.setAdapter(dosagesArrayAdapter);
 		
 	}
 	public void setupDismissKeyboard(View view) {
@@ -126,6 +129,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private void hideSoftKeyBoard(View view) {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		View rootView = findViewById(R.id.add_row_medicines_view_flipper);
+		rootView.requestFocus();
 	}
 
 
@@ -199,7 +204,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			public void onClick(View v) {
 				hideSoftKeyBoard(v);
 				if (viewFlipper.getDisplayedChild() == 1) {
-					addRow();
+					createMedicine();
 				}
 			}
 		});
@@ -231,16 +236,16 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			public void onClick(View v) {
 				hideSoftKeyBoard(v);
 				
-				
+				addDosagesController.addDosage();
+
+				/*
 				dosages.add(new Dosage());
 				
 				TableLayout table = (TableLayout) findViewById(R.id.dosage_table);
 				
-				TableRow row = (TableRow)LayoutInflater.from(context).inflate(R.layout.dosage_row, null);
-//			    ((TextView)row.findViewById(R.id.attrib_name)).setText(b.NAME);
-//			    ((TextView)row.findViewById(R.id.attrib_value)).setText(b.VALUE);
+				TableRow row = (TableRow)LayoutInflater.from(context).inflate(R.layout.add_medicines_dosage_row, null);
 			    table.addView(row);
-			    table.requestLayout();
+			    table.requestLayout(); */
 				/*ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
 				
 				dosagesArrayAdapter = new DosagesArrayAdapter(context, dosages);
@@ -251,20 +256,20 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		});
 		
 	}
-	private void updateListViewHeight() {
-		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
-		LayoutParams params = dosagesListView.getLayoutParams();
-		int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
-		int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
-		params.height = rowHeight * dosages.size() + padding;
-		dosagesListView.setMinimumHeight((params.height) * dosages.size());
-
-	}
+//	private void updateListViewHeight() {
+//		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
+//		LayoutParams params = dosagesListView.getLayoutParams();
+//		int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
+//		int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
+//		params.height = rowHeight * dosages.size() + padding;
+//		dosagesListView.setMinimumHeight((params.height) * dosages.size());
+//
+//	}
 	protected void removeDosage(Dosage dosageToRemove) {
-		updateListViewHeight();
+//		updateListViewHeight();
 
 	}
-	protected void addRow() {
+	protected void createMedicine() {
 
 		collectValuesFromPage1();
 
@@ -371,6 +376,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 	@Override
 	public void onResume() {
+		// TODO: All values already added must be saved and re-populated
+		// TODO: Dosages as well.
 		medicinesDatasource.open();	
 		schedulesDatasource.open();
 		super.onResume();

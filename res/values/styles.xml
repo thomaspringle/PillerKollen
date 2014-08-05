@@ -16,6 +16,11 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    <style name="HideActionBar" parent="AppBaseTheme">
+<!--         <item name="android:windowNoTitle">true</item> -->
+        <item name="android:windowActionBar">false</item>
+		<item name="android:windowTitleSize">0dp</item>
+    </style>
 
     <style name="ButtonAddMedicineButtonStyle" parent="AppBaseTheme">
         <item name="android:textSize">15sp</item>

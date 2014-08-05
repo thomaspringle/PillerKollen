@@ -101,7 +101,8 @@
                 android:ems="10"
                 android:hint="@string/medicines_hint_name"
                 android:inputType="text"
-                android:singleLine="true" >
+                android:singleLine="true"
+                android:imeOptions="flagNoExtractUi" >
             </EditText>
 
             <ImageView
@@ -126,7 +127,8 @@
                 android:ems="10"
                 android:hint="@string/medicines_hint_type"
                 android:inputType="text"
-                android:singleLine="true" />
+                android:singleLine="true" 
+                android:imeOptions="flagNoExtractUi"/>
 
             <!-- <Spinner -->
             <!-- android:id="@+id/add_row_medicine_type_spinner" -->
@@ -175,7 +177,8 @@
                 android:hint="@string/medicines_hint_dosage_value"
                 android:inputType="number"
                 android:singleLine="true"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:imeOptions="flagNoExtractUi" />
 
             <ListView
                 android:id="@+id/add_row_page1_dosage_list"
@@ -262,7 +265,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/medicines_hint_description" >
+                android:hint="@string/medicines_hint_description" 
+                android:imeOptions="flagNoExtractUi">
             </EditText>
 
             <ImageView
