@@ -130,7 +130,7 @@ public class DosagesArrayAdapter extends ArrayAdapter<Dosage> {
 			@Override
 			public void onClick(View v) {
 				removeRow(dosage.getId());
-				addRowActivity.removeDosage(dosage);
+//				addRowActivity.removeDosage(dosage);
 			}
 		});
 

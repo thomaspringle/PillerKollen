@@ -95,13 +95,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		freqAdapter.setDropDownViewResource(R.layout.recurrencepicker_freq_item);
 		freqSpinner.setAdapter(freqAdapter);
 		
-//		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
 		dosages = new ArrayList<Dosage>();
 		dosages.add(new Dosage());
 		addDosagesController = new AddDosagesController(this, dosages);
 		addDosagesController.reDrawTable();
-//		dosagesArrayAdapter = new DosagesArrayAdapter(this, dosages);
-//		dosagesListView.setAdapter(dosagesArrayAdapter);
 		
 	}
 	public void setupDismissKeyboard(View view) {
@@ -238,37 +235,11 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				
 				addDosagesController.addDosage();
 
-				/*
-				dosages.add(new Dosage());
-				
-				TableLayout table = (TableLayout) findViewById(R.id.dosage_table);
-				
-				TableRow row = (TableRow)LayoutInflater.from(context).inflate(R.layout.add_medicines_dosage_row, null);
-			    table.addView(row);
-			    table.requestLayout(); */
-				/*ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
-				
-				dosagesArrayAdapter = new DosagesArrayAdapter(context, dosages);
-				dosagesListView.setAdapter(dosagesArrayAdapter);
-
-				updateListViewHeight(); */
 			}
 		});
 		
 	}
-//	private void updateListViewHeight() {
-//		ListView dosagesListView = (ListView) findViewById(R.id.add_row_page1_dosage_list);
-//		LayoutParams params = dosagesListView.getLayoutParams();
-//		int rowHeight = getResources().getDimensionPixelSize(R.dimen.add_dosage_row_height);
-//		int padding = getResources().getDimensionPixelSize(R.dimen.add_dosage_padding);
-//		params.height = rowHeight * dosages.size() + padding;
-//		dosagesListView.setMinimumHeight((params.height) * dosages.size());
-//
-//	}
-	protected void removeDosage(Dosage dosageToRemove) {
-//		updateListViewHeight();
-
-	}
+	
 	protected void createMedicine() {
 
 		collectValuesFromPage1();
@@ -278,6 +249,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		this.scheduledTimes = schedules;
 		String missingField = checkForMissingFields();
 
+		// TODO: check for incorrect page2 values?
+		
 		if (missingField.isEmpty()) {
 			new AddRowTask().execute();
 		} else {
@@ -298,7 +271,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		name = nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input));
 		type = nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input));
 		description = nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input));
-//		dosage = nullCheck((EditText) findViewById(R.id.add_row_medicine_dosage_input));
 		unit = nullCheck((EditText) findViewById(R.id.add_row_medicine_unit_input));
 	}
 
@@ -341,8 +313,9 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			missingField = getString(R.string.medicines_hint_unit);
 
 		} else if (description.isEmpty()) {
-			//			missingField = getString(R.string.medicines_title_description);
+			// description is optional
 		}
+		
 		return missingField;
 	}
 
@@ -419,6 +392,19 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		protected Long doInBackground(Void... arg0) {
 			try {
 				// TODO FIXME
+				// Save as JSON in stead of rows?
+				/* {
+					    "name": "namnet",
+					    "type": "capsule",
+					    "dosages": [
+					        {
+					            "dosage": "10",
+					            "unit": "mg"
+					        }
+					    ],
+					    "description": "immunesupressant"
+					}
+				*/
 				Medicine createdMedicine = medicinesDatasource.createMedicine(name, type, description, "dosage", unit);
 
 				// TODO: Add to Schedule:

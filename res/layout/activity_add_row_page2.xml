@@ -11,21 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/pillerkollen_light_blue"
+        android:gravity="center"
         android:baselineAligned="false"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/add_row_page2_previous_button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+			android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="center" 
             android:orientation="horizontal" >
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical|left"
-                android:layout_marginLeft="5dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/add_row_previous_button"
                 android:scaleType="fitCenter"
@@ -41,16 +42,16 @@
 
         <LinearLayout
             android:id="@+id/add_row_page2_cancel_button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+			android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="center" 
             android:orientation="horizontal" >
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical|left"
-                android:layout_marginLeft="8dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/add_row_cancel_button"
                 android:scaleType="fitCenter"
@@ -67,16 +68,16 @@
 
         <LinearLayout
             android:id="@+id/add_row_page2_add_button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+			android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="center" 
             android:orientation="horizontal" >
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical|left"
-                android:layout_marginLeft="8dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/add_row_add_button"
                 android:scaleType="fitCenter"
