@@ -21,6 +21,15 @@ public class Medicine {
 		this.dosage = dosage;
 		this.unit = unit;
 	}
+	public Medicine(Medicine medicine) {
+		this.id = medicine.getId();
+		this.name = medicine.getName();
+		this.type = medicine.getType();
+		this.description = medicine.getDescription();
+		this.dosage = medicine.getDosage();
+		this.unit = medicine.getUnit();
+	}
+
 	public long getId() {
 		return id;
 	}

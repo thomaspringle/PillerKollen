@@ -52,7 +52,7 @@ public class EditRowActivity extends Activity {
 		((EditText) findViewById(R.id.edit_row_medicine_name_input)).setText(medicine.getName());
 		((EditText) findViewById(R.id.edit_row_medicine_type_input)).setText(medicine.getType());
 		((EditText) findViewById(R.id.edit_row_medicine_description_input)).setText(medicine.getDescription());
-		((EditText) findViewById(R.id.edit_row_medicine_dosage_input)).setText(medicine.getDosage());
+		((EditText) findViewById(R.id.edit_row_medicine_dosage_input)).setText("");
 		((EditText) findViewById(R.id.edit_row_medicine_unit_input)).setText(medicine.getUnit());
 		
 	}
@@ -175,7 +175,7 @@ public class EditRowActivity extends Activity {
 		protected Long doInBackground(Void... arg0) {
 			try {
 
-				Medicine updatedMedicine = new Medicine(medicine.getId(), name, type, description, dosage, unit);
+				Medicine updatedMedicine = new Medicine(medicine.getId(), name, type, description, null, unit);
 				datasource.updateMedicine(updatedMedicine);
 				return medicine.getId();
 

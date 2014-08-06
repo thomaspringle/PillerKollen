@@ -1,6 +1,7 @@
 package se.tpr.pillerkollen.medicines.add;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
@@ -242,7 +243,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	
 	protected void createMedicine() {
 
-		collectValuesFromPage1();
+		Medicine medicine = collectValuesFromPage1();
 
 		List<String> schedules = findScheduledTimes();
 
@@ -251,8 +252,18 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		// TODO: check for incorrect page2 values?
 		
+		// Create a row for each dosage
+		
+		
 		if (missingField.isEmpty()) {
-			new AddRowTask().execute();
+			List<Medicine> medicines = new ArrayList<Medicine>();
+			for (Dosage dosage : dosages) {
+				Medicine newMedicine = new Medicine(medicine);
+				medicine.setDosage(dosage.getDosage());
+				medicine.setUnit(dosage.getUnit());
+				medicines.add(newMedicine);
+			}
+			new AddRowsTask(medicines).execute();
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			// Add the button
@@ -267,13 +278,24 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		}
 
 	}
-	private void collectValuesFromPage1() {
-		name = nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input));
-		type = nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input));
-		description = nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input));
-		unit = nullCheck((EditText) findViewById(R.id.add_row_medicine_unit_input));
+	private Medicine collectValuesFromPage1() {
+		
+		Medicine medicine = new Medicine();
+		
+		medicine.setName(nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input)));
+		medicine.setType(nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input)));
+		medicine.setDescription(nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input)));
+
+		return medicine;
 	}
 
+	private List<String> getDosages() {
+		List<String> result = new ArrayList<String>();
+		for (Dosage dosage : dosages) {
+			result.add(dosage.getDosage());
+		}
+		return result;
+	}
 	private List<String> findScheduledTimes() {
 		List<String> schedules = new ArrayList<String>();
 
@@ -376,10 +398,15 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
-	public class AddRowTask extends AsyncTask<Void, Void, Long> {
+	public class AddRowsTask extends AsyncTask<Void, Void, List<Long>> {
 
 		private Exception exception;
 		private ProgressDialog progress;
+		private List<Medicine> medicines;
+
+		public AddRowsTask(List<Medicine> medicines) {
+			this.medicines = medicines;
+		}
 
 		@Override
 		protected void onPreExecute() {
@@ -389,7 +416,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		}
 
 		@Override
-		protected Long doInBackground(Void... arg0) {
+		protected List<Long> doInBackground(Void... arg0) {
 			try {
 				// TODO FIXME
 				// Save as JSON in stead of rows?
@@ -405,14 +432,17 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 					    "description": "immunesupressant"
 					}
 				*/
-				Medicine createdMedicine = medicinesDatasource.createMedicine(name, type, description, "dosage", unit);
+				List<Long> ids = new ArrayList<Long>();
+				for (Medicine medicine : medicines) {
+					Medicine createdMedicine = medicinesDatasource.createMedicine(medicine);
+					ids.add(createdMedicine.getId());
+				}
 
 				// TODO: Add to Schedule:
 				for (String time : scheduledTimes) {
 
 				}
-				//				String lineNo = AltranHttpClient.addRow(selectedCustomer, selectedProject, selectedTask, comment);
-				return createdMedicine.getId();
+				return ids;
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -422,7 +452,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		}
 
 		@Override
-		protected void onPostExecute(Long lineId) {
+		protected void onPostExecute(List<Long> param) {
 			if (progress != null) {
 				progress.dismiss();
 			}
@@ -432,15 +462,17 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			} else {
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
+				intent.putExtra("id_field", param.toString());
 				intent.putExtra("name_field", name);
 				intent.putExtra("type_field", type);
 				intent.putExtra("description_field", description);
-				intent.putExtra("dosage_field", "dosage"); // FIXME
+				String[] typ = new String[1];
+				intent.putExtra("dosages_field", Arrays.toString(getDosages().toArray(typ))); // FIXME
 				intent.putExtra("unit_field", unit);
-
+					
 				finish();
 			}
-			super.onPostExecute(lineId);
+			super.onPostExecute(param);
 		}
 	}
 }

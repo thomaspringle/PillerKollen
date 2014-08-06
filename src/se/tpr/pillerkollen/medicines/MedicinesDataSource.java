@@ -36,6 +36,16 @@ public class MedicinesDataSource {
 		dbHelper.close();
 	}
 
+	public Medicine createMedicine(Medicine newMedicine) {
+		String name = newMedicine.getName();
+		String type = newMedicine.getType();
+		String description = newMedicine.getDescription();
+		String dosage = newMedicine.getDosage();
+		String unit = newMedicine.getUnit();
+		
+		return createMedicine(name, type, description, dosage, unit);
+	}
+	
 	public Medicine createMedicine(String name, String type, String description, String dosage, String unit) {
 		ContentValues values = new ContentValues();
 		values.put(MedicinesSQLiteHelper.COLUMN_NAME, name);
@@ -133,4 +143,5 @@ public class MedicinesDataSource {
 		
 		return getMedicine(id);
 	}
+
 }
