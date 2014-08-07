@@ -1,5 +1,6 @@
 package se.tpr.pillerkollen.medicines.add;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
@@ -15,11 +16,12 @@ import android.widget.TextView;
 public class AddDosagesController {
 
 	private AddRowActivity addRowActivity;
-	private List<Dosage> dosages;
+	protected List<Dosage> dosages;
 	
-	public AddDosagesController(AddRowActivity addRowActivity, List<Dosage> dosages) {
+	public AddDosagesController(AddRowActivity addRowActivity) {
 		this.addRowActivity = addRowActivity;
-		this.dosages = dosages;
+		dosages = new ArrayList<Dosage>();
+		dosages.add(new Dosage());
 	}
 
 	protected void reDrawTable() {
@@ -28,8 +30,9 @@ public class AddDosagesController {
 		
 		for (int i = 0; i < dosages.size(); i++) {
 			displayRow(i);
+			table.requestLayout();
 		}
-		table.requestLayout();
+		
 	}
 	
 	protected void addDosage() {
@@ -74,14 +77,6 @@ public class AddDosagesController {
 		table.removeView(child);
 		dosages.remove(dosage);
 		table.requestLayout();
-//		Iterator<Dosage> iter = dosages.iterator();
-//		while (iter.hasNext()) {
-//			Dosage dosage = iter.next();
-//			if(dosage.hasId(dosageToRemove)) {
-//				iter.remove();
-//				return;
-//			}
-//		}
 	}
 	
 	private void updateUnits() {
@@ -132,6 +127,7 @@ public class AddDosagesController {
 				unitTextField.setVisibility(View.VISIBLE);
 				unitTextField.setText(dosages.get(0).getUnit());
 			}
+			dosageField.setText(dosage.getDosage());
 			dosageField.setOnFocusChangeListener(new EditDosageFocusListener(dosage));
 			
 			ImageView removeButton = (ImageView) dosagesRowView.findViewById(R.id.add_row_medicine_remove_dosage_button);
@@ -196,6 +192,13 @@ public class AddDosagesController {
 					((EditText)v).setText(originalValue);
 				}
 			} 
+		}
+	}
+	
+	public void reBuildDosages(String[] dosageArray, String unitString) {
+		dosages.clear();
+		for (String dosageValue : dosageArray) {
+			dosages.add(new Dosage(null, dosageValue, unitString));
 		}
 	}
 }

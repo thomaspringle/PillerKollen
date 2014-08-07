@@ -2,6 +2,7 @@ package se.tpr.pillerkollen.medicines.add;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
@@ -11,6 +12,7 @@ import se.tpr.pillerkollen.schedule.SchedulesDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,7 +45,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private ViewFlipper viewFlipper;
 
 	private AddDosagesController addDosagesController;
-	
+
 	private MedicinesDataSource medicinesDatasource;
 	private SchedulesDataSource schedulesDatasource;
 
@@ -52,11 +56,11 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private static final String TYPE_FIELD = "type_field";
 	private static final String NAME_FIELD = "name_field";
 	private static final String ID_FIELD = "id_field";
-	
+
 	private String name = "";
 	private String type = "";
 
-	private List<Dosage> dosages;
+	//	private List<Dosage> dosages;
 	private String unit = "";
 	private String description = "";
 	private List<String> scheduledTimes;
@@ -69,14 +73,14 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// TODO: Hide and show action bar when scrolling?
-//		getActionBar().setDisplayShowTitleEnabled(true);
-//		getActionBar().setTitle(getString(R.string.add_row));
+		//		getActionBar().setDisplayShowTitleEnabled(true);
+		//		getActionBar().setTitle(getString(R.string.add_row));
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_add_row);
-		
+
 		scheduleTime.setToNow();
 
 		viewFlipper = (ViewFlipper) findViewById(R.id.add_row_medicines_view_flipper);
@@ -89,7 +93,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		schedulesDatasource = new SchedulesDataSource(context);
 		schedulesDatasource.open();
 
-		setButtonListeners();
+		
+		setButtonListenersPage1();
+		setupScheduleTimes();
+		setButtonListenersPage2();
 		setupDismissKeyboard(viewFlipper);
 
 
@@ -101,37 +108,52 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		freqAdapter.setDropDownViewResource(R.layout.recurrencepicker_freq_item);
 		freqSpinner.setAdapter(freqAdapter);
-		
-		dosages = new ArrayList<Dosage>();
-		dosages.add(new Dosage());
-		addDosagesController = new AddDosagesController(this, dosages);
+
+
+		addDosagesController = new AddDosagesController(this);
+		restoreState(savedInstanceState);
 		addDosagesController.reDrawTable();
-		
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		Medicine medicine = collectValuesFromPage1();
-		
+
 		outState.putString(NAME_FIELD, medicine.getName());
 		outState.putString(TYPE_FIELD, medicine.getType());
 		outState.putString(DESCRIPTION_FIELD, medicine.getDescription());
 		outState.putLong(ID_FIELD, medicine.getId());
-		
-		
-		if (!dosages.isEmpty()) {
-			String[] typ = new String[1];
-			outState.putString(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ)));
-			outState.putString(UNIT_FIELD, dosages.get(0).getUnit());
-			addDosagesController.reDrawTable();
+
+
+		if (!addDosagesController.dosages.isEmpty()) {
+			List<String> dosageStrings = getDosages();
+			String dosageString = "";
+			for (String dosage : dosageStrings) {
+				dosageString +=dosage + ",";
+			}
+			//			String[] typ = new String[1];
+			//			String[] dosagesArray = getDosages().toArray(typ);
+			//			outState.putString(DOSAGES_FIELD, Arrays.toString(dosagesArray));
+			outState.putString(DOSAGES_FIELD, dosageString);
+			Log.d(this.getClass().getName(), "Dosages on save: " + dosageString);
+			outState.putString(UNIT_FIELD, addDosagesController.dosages.get(0).getUnit());
+
 		}
 	}
-	
-	@Override
-	protected void onRestoreInstanceState(Bundle inState) {
-		super.onRestoreInstanceState(inState);
-		
+
+	//	@Override
+	//	protected void onRestoreInstanceState(Bundle inState) {
+	//		super.onRestoreInstanceState(inState);
+	//		
+	//		restoreState(inState);
+	//	}
+
+	private void restoreState(Bundle inState) {
+		List<Dosage> dosages = new ArrayList<Dosage>();
+		dosages.add(new Dosage());
+
+
 		if (inState != null) {
 			if (inState.containsKey(NAME_FIELD)) {
 				EditText nameInput = (EditText)findViewById(R.id.add_row_medicine_name_input);
@@ -148,17 +170,16 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			if (inState.containsKey(DOSAGES_FIELD)) {
 
 				String dosagesString = inState.getString(DOSAGES_FIELD);
+				Log.d(this.getClass().getName(), "Dosages on restore: " + dosagesString);
+				dosagesString = dosagesString.substring(0, dosagesString.length());
 				String unitString = inState.getString(UNIT_FIELD);
-				dosages = new ArrayList<Dosage>();
+
 				String[] dosageArray = dosagesString.split(",");
-				for (String dosageValue : dosageArray) {
-					dosages.add(new Dosage(null, dosageValue, unitString));
-				}
-				
+				addDosagesController.reBuildDosages(dosageArray, unitString);
 			}
 		}
 	}
-	
+
 	public void setupDismissKeyboard(View view) {
 		//Set up touch listener for non-text box views to hide keyboard.
 		if(!(view instanceof EditText)) {
@@ -166,7 +187,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			view.setOnTouchListener(new OnTouchListener() {
 				@SuppressLint("ClickableViewAccessibility")
 				public boolean onTouch(View v, MotionEvent event) {
-//					v.performClick();
+					//					v.performClick();
 					hideSoftKeyBoard(v);
 					return false;
 				}
@@ -206,26 +227,34 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		unit3.setText(this.unit);
 		unit4.setText(this.unit);
 
+		
+		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
+		
+		if (startDate.getText() == null || startDate.getText().toString().isEmpty()) {
+			final String startDateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+			startDate.setText(startDateStr);	
+		}
+		
+		TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
+		
+		if (endDate.getText() == null || endDate.getText().toString().isEmpty()) {
+			final String endDateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+			endDate.setText(endDateStr);	
+		}
+	}
+
+	private void setupScheduleTimes() {
 		if (scheduleStartTime == null) {
 			scheduleStartTime = new Time(scheduleTime);
-			
-			final String dateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-			TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
-			startDate.setText(dateStr);
 		}
-
 		if (scheduleEndTime == null) {
 			scheduleEndTime = new Time(scheduleTime);
 			scheduleEndTime.month += 3;
 			scheduleEndTime.normalize(false);
-			
-			final String dateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-			TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
-			endDate.setText(dateStr);
 		}
 	}
 
-	private void setButtonListeners() {
+	private void setButtonListenersPage1() {
 		View nextButton = (View) findViewById(R.id.add_row_page1_next_button_container);
 		nextButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -239,6 +268,32 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				}
 			}
 		});
+
+
+		View cancelButtonPage1 = (View) findViewById(R.id.add_row_page1_cancel_button_container);
+		cancelButtonPage1.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hideSoftKeyBoard(v);
+				Intent intent = new Intent();
+				setResult(RESULT_CANCELED, intent);
+				finish();
+			}
+		});
+
+
+		View addDosage = (View) findViewById(R.id.add_row_page1_dosages_container);
+		addDosage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				hideSoftKeyBoard(v);
+
+				addDosagesController.addDosage();
+			}
+		});
+
+	}
+	private void setButtonListenersPage2() {
 		View previousButton = (View) findViewById(R.id.add_row_page2_previous_button_container);
 		previousButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -264,16 +319,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			}
 		});
 
-		View cancelButtonPage1 = (View) findViewById(R.id.add_row_page1_cancel_button_container);
-		cancelButtonPage1.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				hideSoftKeyBoard(v);
-				Intent intent = new Intent();
-				setResult(RESULT_CANCELED, intent);
-				finish();
-			}
-		});
 		View cancelButtonPage2 = (View) findViewById(R.id.add_row_page2_cancel_button_container);
 		cancelButtonPage2.setOnClickListener(new OnClickListener() {
 			@Override
@@ -285,19 +330,64 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			}
 		});
 
-		View addDosage = (View) findViewById(R.id.add_row_page1_dosages_container);
-		addDosage.setOnClickListener(new OnClickListener() {
+		View changeStartDate = findViewById(R.id.add_row_medicine_start_date);
+		changeStartDate.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				hideSoftKeyBoard(v);
-				
-				addDosagesController.addDosage();
+				int selectedYear = scheduleStartTime.year; 
+				int selectedMonth = scheduleStartTime.month;
+				int selectedDayOfMonth = scheduleStartTime.monthDay;
 
+				DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+
+					@Override
+					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+						scheduleStartTime = new Time(scheduleTime);
+
+						scheduleStartTime.year = year; 
+						scheduleStartTime.month = monthOfYear;
+						scheduleStartTime.monthDay = dayOfMonth;
+						
+						final String dateStr = DateUtils.formatDateTime(context, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+						TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
+						startDate.setText(dateStr);
+
+					}
+				}, selectedYear, selectedMonth, selectedDayOfMonth);
+				datePickerDialog.show();
 			}
 		});
 		
+		View changeEndDate = findViewById(R.id.add_row_medicine_end_date);
+		changeEndDate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				int selectedYear = scheduleEndTime.year; 
+				int selectedMonth = scheduleEndTime.month;
+				int selectedDayOfMonth = scheduleEndTime.monthDay;
+
+				DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+
+					@Override
+					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+						scheduleEndTime = new Time(scheduleTime);
+
+						scheduleEndTime.year = year; 
+						scheduleEndTime.month = monthOfYear;
+						scheduleEndTime.monthDay = dayOfMonth;
+						
+						final String dateStr = DateUtils.formatDateTime(context, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+						TextView startDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
+						startDate.setText(dateStr);
+
+					}
+				}, selectedYear, selectedMonth, selectedDayOfMonth);
+				datePickerDialog.show();
+			}
+		});
 	}
-	
 	protected void createMedicine() {
 
 		Medicine medicine = collectValuesFromPage1();
@@ -308,44 +398,44 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		String missingField = checkForMissingFields();
 
 		// TODO: check for incorrect page2 values?
-		
-		// Create a row for each dosage
-		
-		
-		if (missingField.isEmpty()) {
-			// Create a medicine for each dosage (medA, 10mg; medA, 5mg)
-			List<Medicine> medicines = new ArrayList<Medicine>();
-			for (Dosage dosage : dosages) {
-				String dosageValue = dosage.getDosage();
-				if (dosageValue == null || dosageValue.trim().isEmpty()) {
-					continue;
-				}
-				
-				Medicine newMedicine = new Medicine(medicine);
-				
-				medicine.setDosage(dosageValue);
-				medicine.setUnit(dosage.getUnit());
-				medicines.add(newMedicine);
-			}
-			new AddRowsTask(medicines).execute();
-		} else {
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			// Add the button
-			builder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.dismiss();
-				}
-			});
-			builder.setMessage(getString(R.string.add_row_missing_value) + " " + missingField).setTitle(R.string.add_row_missing_title);
 
-			builder.create().show();
-		}
+				// Create a row for each dosage
+
+
+				if (missingField.isEmpty()) {
+					// Create a medicine for each dosage (medA, 10mg; medA, 5mg)
+					List<Medicine> medicines = new ArrayList<Medicine>();
+					for (Dosage dosage : addDosagesController.dosages) {
+						String dosageValue = dosage.getDosage();
+						if (dosageValue == null || dosageValue.trim().isEmpty()) {
+							continue;
+						}
+
+						Medicine newMedicine = new Medicine(medicine);
+
+						medicine.setDosage(dosageValue);
+						medicine.setUnit(dosage.getUnit());
+						medicines.add(newMedicine);
+					}
+					new AddRowsTask(medicines).execute();
+				} else {
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					// Add the button
+					builder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+					builder.setMessage(getString(R.string.add_row_missing_value) + " " + missingField).setTitle(R.string.add_row_missing_title);
+
+					builder.create().show();
+				}
 
 	}
 	private Medicine collectValuesFromPage1() {
-		
+
 		Medicine medicine = new Medicine();
-		
+
 		medicine.setName(nullCheck((EditText) findViewById(R.id.add_row_medicine_name_input)));
 		medicine.setType(nullCheck((EditText) findViewById(R.id.add_row_medicine_type_input)));
 		medicine.setDescription(nullCheck((EditText) findViewById(R.id.add_row_medicine_description_input)));
@@ -355,7 +445,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 	private List<String> getDosages() {
 		List<String> result = new ArrayList<String>();
-		for (Dosage dosage : dosages) {
+		for (Dosage dosage : addDosagesController.dosages) {
 			result.add(dosage.getDosage());
 		}
 		return result;
@@ -401,17 +491,17 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		} else if (description.isEmpty()) {
 			// description is optional
 		}
-		
+
 		return missingField;
 	}
 
 	private boolean dosagesAreEmpty() {
 
-		if (dosages.isEmpty()) {
+		if (addDosagesController.dosages.isEmpty()) {
 			return true;
 		}
-		String dosage = dosages.get(0).getDosage();
-		String unit = dosages.get(0).getUnit();
+		String dosage = addDosagesController.dosages.get(0).getDosage();
+		String unit = addDosagesController.dosages.get(0).getUnit();
 		if (dosage.isEmpty() || unit.isEmpty()) {
 			return true;
 		}
@@ -496,7 +586,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 					    ],
 					    "description": "immunesupressant"
 					}
-				*/
+				 */
 				List<Long> ids = new ArrayList<Long>();
 				for (Medicine medicine : medicines) {
 					Medicine createdMedicine = medicinesDatasource.createMedicine(medicine);
@@ -534,7 +624,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				String[] typ = new String[1];
 				intent.putExtra(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ))); // FIXME
 				intent.putExtra(UNIT_FIELD, unit);
-					
+
 				finish();
 			}
 			super.onPostExecute(param);

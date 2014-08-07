@@ -33,7 +33,8 @@
         <activity
             android:name="se.tpr.pillerkollen.medicines.add.AddRowActivity"
             android:label="@string/add_row" 
-            android:theme="@style/HideActionBar">        
+            android:theme="@style/HideActionBar"
+            android:screenOrientation="portrait">        
         </activity>
 		<activity
             android:name="se.tpr.pillerkollen.medicines.EditRowActivity"
