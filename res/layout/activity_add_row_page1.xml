@@ -187,16 +187,6 @@
                 android:visibility="gone"
                 android:imeOptions="flagNoExtractUi" />
 
-            <ListView
-                android:id="@+id/add_row_page1_dosage_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="1dp"
-                android:paddingBottom="2dp"
-                android:paddingTop="2dp"
-                android:scrollbars="none" >
-            </ListView>
 
             <TableLayout
                 android:id="@+id/dosage_table"
@@ -210,7 +200,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingBottom="6dp"
-                android:paddingTop="6dp" >
+                android:paddingTop="6dp" 
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:background="@drawable/image_button_background">
 
                 <ImageView
                     android:layout_width="24dp"
@@ -220,13 +214,15 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/medicines_hint_dosage"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_new_disabled" />
+                    android:src="@drawable/ic_action_new_disabled" 
+                    android:duplicateParentState="true"/>
 
                 <TextView
                     style="@style/AddRowHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_row_add_dosage" />
+                    android:text="@string/add_row_add_dosage" 
+                    android:duplicateParentState="true"/>
             </LinearLayout>
 <!-- 
             <ImageView
@@ -273,7 +269,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/medicines_hint_description" 
-                android:imeOptions="flagNoExtractUi">
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" >
             </EditText>
 
             <ImageView

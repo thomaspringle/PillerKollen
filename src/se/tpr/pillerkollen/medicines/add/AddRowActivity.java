@@ -19,8 +19,6 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Handler.Callback;
-import android.os.Message;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.Log;
@@ -59,12 +57,12 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private static final String NAME_FIELD = "name_field";
 	private static final String ID_FIELD = "id_field";
 
-	private String name = "";
-	private String type = "";
+//	private String name = "";
+//	private String type = "";
 
 	//	private List<Dosage> dosages;
-	private String unit = "";
-	private String description = "";
+//	private String unit = "";
+//	private String description = "";
 	private List<String> scheduledTimes;
 	private Time scheduleEndTime = null;
 	private Time scheduleStartTime = null;
@@ -111,8 +109,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		freqAdapter.setDropDownViewResource(R.layout.recurrencepicker_freq_item);
 		freqSpinner.setAdapter(freqAdapter);
 
-		// Delay drawing of table
-		Handler handler = getWindow().getDecorView().getHandler();
+		// Delay drawing of table to avoid layout bug
+		Handler handler = new Handler();
 		
 		handler.post(new Runnable() {
 			@Override
@@ -141,22 +139,13 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			for (String dosage : dosageStrings) {
 				dosageString +=dosage + ",";
 			}
-			//			String[] typ = new String[1];
-			//			String[] dosagesArray = getDosages().toArray(typ);
-			//			outState.putString(DOSAGES_FIELD, Arrays.toString(dosagesArray));
+
 			outState.putString(DOSAGES_FIELD, dosageString);
 			Log.d(this.getClass().getName(), "Dosages on save: " + dosageString);
 			outState.putString(UNIT_FIELD, addDosagesController.dosages.get(0).getUnit());
 
 		}
 	}
-
-	//	@Override
-	//	protected void onRestoreInstanceState(Bundle inState) {
-	//		super.onRestoreInstanceState(inState);
-	//		
-	//		restoreState(inState);
-	//	}
 
 	private void restoreState(Bundle inState) {
 		List<Dosage> dosages = new ArrayList<Dosage>();
@@ -231,10 +220,12 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		TextView unit2 = (TextView) findViewById(R.id.add_row_medicine_unit2);
 		TextView unit3 = (TextView) findViewById(R.id.add_row_medicine_unit3);
 		TextView unit4 = (TextView) findViewById(R.id.add_row_medicine_unit4);
-		unit1.setText(this.unit);
-		unit2.setText(this.unit);
-		unit3.setText(this.unit);
-		unit4.setText(this.unit);
+		
+		String unit = addDosagesController.getUnit(); // addDosagesController.dosages.isEmpty() ? "mg" : addDosagesController.dosages.get(0).getUnit();
+		unit1.setText(unit);
+		unit2.setText(unit);
+		unit3.setText(unit);
+		unit4.setText(unit);
 
 		
 		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
@@ -270,10 +261,16 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			public void onClick(View v) {
 				hideSoftKeyBoard(v);
 				if (viewFlipper.getDisplayedChild() == 0) {
-					updateSchedulePage();
-					viewFlipper.setInAnimation(context, R.anim.in_from_right);
-					viewFlipper.setOutAnimation(context, R.anim.out_to_left);
-					viewFlipper.showNext();
+					Medicine medicine = collectValuesFromPage1();
+					String missingField = checkForMissingFieldsPage1(medicine);
+					if (!missingField.isEmpty()) {
+						alertMissingField(missingField);
+					} else {
+						updateSchedulePage();
+						viewFlipper.setInAnimation(context, R.anim.in_from_right);
+						viewFlipper.setOutAnimation(context, R.anim.out_to_left);
+						viewFlipper.showNext();
+					}
 				}
 			}
 		});
@@ -404,7 +401,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		List<String> schedules = findScheduledTimes();
 
 		this.scheduledTimes = schedules;
-		String missingField = checkForMissingFields();
+		String missingField = checkForMissingFieldsPage1(medicine);
 
 		// TODO: check for incorrect page2 values?
 
@@ -428,18 +425,22 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 					}
 					new AddRowsTask(medicines).execute();
 				} else {
-					AlertDialog.Builder builder = new AlertDialog.Builder(context);
-					// Add the button
-					builder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-						}
-					});
-					builder.setMessage(getString(R.string.add_row_missing_value) + " " + missingField).setTitle(R.string.add_row_missing_title);
-
-					builder.create().show();
+					alertMissingField(missingField);
 				}
 
+	}
+
+	private void alertMissingField(String missingField) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		// Add the button
+		builder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+			}
+		});
+		builder.setMessage(getString(R.string.add_row_missing_value) + " " + missingField).setTitle(R.string.add_row_missing_title);
+
+		builder.create().show();
 	}
 	private Medicine collectValuesFromPage1() {
 
@@ -482,22 +483,22 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		return schedules;
 	}
 
-	private String checkForMissingFields() {
+	private String checkForMissingFieldsPage1(Medicine medicine) {
 		String missingField = "";
 
-		if (name.isEmpty() ) {
+		if (medicine.getName().isEmpty() ) {
 			missingField = getString(R.string.medicines_hint_name);
 
-		} else if (type.isEmpty()) {
+		} else if (medicine.getType().isEmpty()) {
 			missingField = getString(R.string.medicines_hint_type);
 
 		} else if (dosagesAreEmpty()) {
 			missingField = getString(R.string.medicines_hint_dosage);
 
-		} else if (unit.isEmpty()) {
+		} else if (addDosagesController.getUnit().isEmpty()) {
 			missingField = getString(R.string.medicines_hint_unit);
 
-		} else if (description.isEmpty()) {
+		} else if (medicine.getDescription().isEmpty()) {
 			// description is optional
 		}
 
@@ -581,7 +582,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		@Override
 		protected List<Long> doInBackground(Void... arg0) {
 			try {
-				// TODO FIXME
+				// TODO
 				// Save as JSON in stead of rows?
 				// Easier to serialize - deserialize
 				/* {
@@ -624,15 +625,22 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			if (this.exception != null) {
 				showErrorDialog(exception);
 			} else {
+//				Medicine medicine = medicines.get(0);
+				
+				long[] ids = new long[param.size()];
+				for (int i=0; i<param.size(); i++) {
+					ids[i] = param.get(i);
+				}
+				
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
-				intent.putExtra(ID_FIELD, param.toString());
-				intent.putExtra(NAME_FIELD, name);
-				intent.putExtra(TYPE_FIELD, type);
-				intent.putExtra(DESCRIPTION_FIELD, description);
-				String[] typ = new String[1];
-				intent.putExtra(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ))); // FIXME
-				intent.putExtra(UNIT_FIELD, unit);
+				intent.putExtra(ID_FIELD, ids);
+//				intent.putExtra(NAME_FIELD, medicine.getName());
+//				intent.putExtra(TYPE_FIELD, medicine.getType());
+//				intent.putExtra(DESCRIPTION_FIELD, medicine.getDescription());
+//				String[] typ = new String[1];
+//				intent.putExtra(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ))); // FIXME
+//				intent.putExtra(UNIT_FIELD, addDosagesController.getUnit());
 
 				finish();
 			}

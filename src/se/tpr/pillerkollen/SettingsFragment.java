@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 
 public class SettingsFragment extends Fragment {
 
+	// TODO:
+	// reminders - remind to take medicine
+	// reminders - remind to renew medicine
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);

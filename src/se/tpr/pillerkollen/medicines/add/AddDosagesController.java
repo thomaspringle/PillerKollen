@@ -30,9 +30,8 @@ public class AddDosagesController {
 		
 		for (int i = 0; i < dosages.size(); i++) {
 			displayRow(i);
-			table.requestLayout();
 		}
-		
+		table.requestLayout();		
 	}
 	
 	protected void addDosage() {
@@ -56,6 +55,8 @@ public class AddDosagesController {
 			unitTextField.setVisibility(View.VISIBLE);
 			unitTextField.setText(dosages.get(0).getUnit());
 		}
+		unitField.setNextFocusForwardId(R.id.add_row_page1_dosages_container);
+		dosageField.setNextFocusForwardId(R.id.add_row_page1_dosages_container);
 		dosageField.setOnFocusChangeListener(new EditDosageFocusListener(dosage));
 		ImageView removeButton = (ImageView) dosagesRowView.findViewById(R.id.add_row_medicine_remove_dosage_button);
 		
@@ -199,6 +200,14 @@ public class AddDosagesController {
 		dosages.clear();
 		for (String dosageValue : dosageArray) {
 			dosages.add(new Dosage(null, dosageValue, unitString));
+		}
+	}
+
+	public String getUnit() {
+		if (dosages.isEmpty()) {
+			return "";
+		} else {
+			return dosages.get(0).getUnit();
 		}
 	}
 }

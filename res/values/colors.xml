@@ -3,6 +3,9 @@
     <color name="done_text_color_disabled">#cccccc</color>
     <color name="done_text_color_normal">#333333</color>
     
+    <color name="image_button_focused">#ff90b9db</color>
+    <color name="image_button_not_focused">@android:color/transparent</color>
+    
     <color name="form_separator">#66999999</color>
     
     <color name="pillerkollen_green">#ff019355</color>
