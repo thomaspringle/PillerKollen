@@ -39,17 +39,23 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 	private AddRowActivity context;
 	private ViewFlipper viewFlipper;
-//	private ListView dosagesListView;
-//	DosagesArrayAdapter dosagesArrayAdapter;
+
 	private AddDosagesController addDosagesController;
 	
 	private MedicinesDataSource medicinesDatasource;
 	private SchedulesDataSource schedulesDatasource;
 
 
+	private static final String UNIT_FIELD = "unit_field";
+	private static final String DOSAGES_FIELD = "dosages_field";
+	private static final String DESCRIPTION_FIELD = "description_field";
+	private static final String TYPE_FIELD = "type_field";
+	private static final String NAME_FIELD = "name_field";
+	private static final String ID_FIELD = "id_field";
+	
 	private String name = "";
 	private String type = "";
-//	private String dosage = "";
+
 	private List<Dosage> dosages;
 	private String unit = "";
 	private String description = "";
@@ -102,6 +108,57 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		addDosagesController.reDrawTable();
 		
 	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Medicine medicine = collectValuesFromPage1();
+		
+		outState.putString(NAME_FIELD, medicine.getName());
+		outState.putString(TYPE_FIELD, medicine.getType());
+		outState.putString(DESCRIPTION_FIELD, medicine.getDescription());
+		outState.putLong(ID_FIELD, medicine.getId());
+		
+		
+		if (!dosages.isEmpty()) {
+			String[] typ = new String[1];
+			outState.putString(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ)));
+			outState.putString(UNIT_FIELD, dosages.get(0).getUnit());
+			addDosagesController.reDrawTable();
+		}
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle inState) {
+		super.onRestoreInstanceState(inState);
+		
+		if (inState != null) {
+			if (inState.containsKey(NAME_FIELD)) {
+				EditText nameInput = (EditText)findViewById(R.id.add_row_medicine_name_input);
+				nameInput.setText(inState.getString(NAME_FIELD));
+			}
+			if (inState.containsKey(TYPE_FIELD)) {
+				EditText typeInput = (EditText)findViewById(R.id.add_row_medicine_type_input);
+				typeInput.setText(inState.getString(TYPE_FIELD));
+			}
+			if (inState.containsKey(DESCRIPTION_FIELD)) {
+				EditText descInput = (EditText)findViewById(R.id.add_row_medicine_description_input);
+				descInput.setText(inState.getString(DESCRIPTION_FIELD));
+			}
+			if (inState.containsKey(DOSAGES_FIELD)) {
+
+				String dosagesString = inState.getString(DOSAGES_FIELD);
+				String unitString = inState.getString(UNIT_FIELD);
+				dosages = new ArrayList<Dosage>();
+				String[] dosageArray = dosagesString.split(",");
+				for (String dosageValue : dosageArray) {
+					dosages.add(new Dosage(null, dosageValue, unitString));
+				}
+				
+			}
+		}
+	}
+	
 	public void setupDismissKeyboard(View view) {
 		//Set up touch listener for non-text box views to hide keyboard.
 		if(!(view instanceof EditText)) {
@@ -256,10 +313,17 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		
 		
 		if (missingField.isEmpty()) {
+			// Create a medicine for each dosage (medA, 10mg; medA, 5mg)
 			List<Medicine> medicines = new ArrayList<Medicine>();
 			for (Dosage dosage : dosages) {
+				String dosageValue = dosage.getDosage();
+				if (dosageValue == null || dosageValue.trim().isEmpty()) {
+					continue;
+				}
+				
 				Medicine newMedicine = new Medicine(medicine);
-				medicine.setDosage(dosage.getDosage());
+				
+				medicine.setDosage(dosageValue);
 				medicine.setUnit(dosage.getUnit());
 				medicines.add(newMedicine);
 			}
@@ -420,6 +484,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			try {
 				// TODO FIXME
 				// Save as JSON in stead of rows?
+				// Easier to serialize - deserialize
 				/* {
 					    "name": "namnet",
 					    "type": "capsule",
@@ -462,13 +527,13 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			} else {
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
-				intent.putExtra("id_field", param.toString());
-				intent.putExtra("name_field", name);
-				intent.putExtra("type_field", type);
-				intent.putExtra("description_field", description);
+				intent.putExtra(ID_FIELD, param.toString());
+				intent.putExtra(NAME_FIELD, name);
+				intent.putExtra(TYPE_FIELD, type);
+				intent.putExtra(DESCRIPTION_FIELD, description);
 				String[] typ = new String[1];
-				intent.putExtra("dosages_field", Arrays.toString(getDosages().toArray(typ))); // FIXME
-				intent.putExtra("unit_field", unit);
+				intent.putExtra(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ))); // FIXME
+				intent.putExtra(UNIT_FIELD, unit);
 					
 				finish();
 			}

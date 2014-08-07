@@ -1,10 +1,8 @@
 package se.tpr.pillerkollen.medicines.add;
 
-import java.util.Iterator;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
-import se.tpr.pillerkollen.medicines.add.DosagesArrayAdapter.EditTextFocusListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
