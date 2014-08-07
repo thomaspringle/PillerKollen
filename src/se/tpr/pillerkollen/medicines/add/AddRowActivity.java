@@ -2,7 +2,6 @@ package se.tpr.pillerkollen.medicines.add;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
@@ -19,6 +18,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.Message;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.Log;
@@ -71,7 +73,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private Spinner freqSpinner;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// TODO: Hide and show action bar when scrolling?
@@ -109,12 +111,19 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		freqAdapter.setDropDownViewResource(R.layout.recurrencepicker_freq_item);
 		freqSpinner.setAdapter(freqAdapter);
 
-
-		addDosagesController = new AddDosagesController(this);
-		restoreState(savedInstanceState);
-		addDosagesController.reDrawTable();
+		// Delay drawing of table
+		Handler handler = getWindow().getDecorView().getHandler();
+		
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				addDosagesController = new AddDosagesController(context);
+				restoreState(savedInstanceState);
+				addDosagesController.reDrawTable();
+			}
+		});
 	}
-
+	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
