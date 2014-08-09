@@ -10,17 +10,17 @@
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pillerkollen_light_blue"
-        android:gravity="center"
+        android:background="@color/pillerkollen_buttonbar_background"
         android:baselineAligned="false"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/add_row_page1_cancel_button_container"
-			android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:gravity="center" 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal" >
 
             <ImageView
@@ -40,19 +40,20 @@
                 android:gravity="center_vertical"
                 android:text="@string/add_row_cancel_button" />
         </LinearLayout>
-<!--         <View -->
-<!--                 android:id="@+id/divider_2" -->
-<!--                 android:layout_height="match_parent" -->
-<!--                 android:layout_marginTop="8dip" -->
-<!--                 android:layout_marginBottom="8dip" -->
-<!--                 android:layout_width="1dip" -->
-<!--                 android:background="@color/form_separator"/> -->
+        <!-- <View -->
+        <!-- android:id="@+id/divider_2" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:layout_marginTop="8dip" -->
+        <!-- android:layout_marginBottom="8dip" -->
+        <!-- android:layout_width="1dip" -->
+        <!-- android:background="@color/form_separator"/> -->
+
         <LinearLayout
             android:id="@+id/add_row_page1_next_button_container"
-			android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:gravity="center" 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal" >
 
             <ImageView
@@ -79,7 +80,8 @@
         android:layout_height="2dp"
         android:contentDescription="@null"
         android:scaleType="fitXY"
-        android:src="@color/pillerkollen_blue" />
+        android:src="@color/pillerkollen_blue" 
+        android:visibility="gone"/>
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -89,6 +91,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical" >
@@ -107,9 +113,9 @@
                 android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/medicines_hint_name"
+                android:imeOptions="flagNoExtractUi"
                 android:inputType="text"
-                android:singleLine="true"
-                android:imeOptions="flagNoExtractUi" >
+                android:singleLine="true" >
             </EditText>
 
             <ImageView
@@ -117,7 +123,8 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@color/pillerkollen_light_green" />
+                android:src="@color/pillerkollen_light_green"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/add_row_medicine_type"
@@ -133,9 +140,9 @@
                 android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/medicines_hint_type"
+                android:imeOptions="flagNoExtractUi"
                 android:inputType="text"
-                android:singleLine="true" 
-                android:imeOptions="flagNoExtractUi"/>
+                android:singleLine="true" />
 
             <!-- <Spinner -->
             <!-- android:id="@+id/add_row_medicine_type_spinner" -->
@@ -148,7 +155,8 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@color/pillerkollen_light_green" />
+                android:src="@color/pillerkollen_light_green"
+                android:visibility="gone" />
 
             <!-- <Spinner -->
             <!-- android:id="@+id/add_row_task_spinner" -->
@@ -182,11 +190,10 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/medicines_hint_dosage_value"
+                android:imeOptions="flagNoExtractUi"
                 android:inputType="number"
                 android:singleLine="true"
-                android:visibility="gone"
-                android:imeOptions="flagNoExtractUi" />
-
+                android:visibility="gone" />
 
             <TableLayout
                 android:id="@+id/dosage_table"
@@ -198,15 +205,16 @@
                 android:id="@+id/add_row_page1_dosages_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="6dp"
-                android:paddingTop="6dp" 
+                android:background="@drawable/image_button_background"
+
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:clickable="true"
-                android:background="@drawable/image_button_background">
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp" >
 
                 <ImageView
+                    android:id="@+id/add_row_page1_add_dosage_image"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical|left"
@@ -214,17 +222,39 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/medicines_hint_dosage"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_new_disabled" 
-                    android:duplicateParentState="true"/>
+                    android:src="@drawable/ic_action_new_disabled"
+                    />
 
+				<TextView
+				    android:id="@+id/add_row_page1_add_dosage_text"
+				    style="@style/AddRowHeader"
+				    android:layout_width="100dp"
+				    android:layout_height="22dp"
+				    android:gravity="center"
+				    android:text="@string/add_row_add_dosage" />
+                    
+<!--
                 <TextView
-                    style="@style/AddRowHeader"
+                    style="@style/TextAppearance.EditEvent_SpinnerButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_row_add_dosage" 
-                    android:duplicateParentState="true"/>
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:contentDescription="@string/acessibility_recurrence_choose_end_date_description"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:minWidth="80dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:text="@string/add_row_add_dosage"
+                    android:textColor="@color/recurrence_spinner_text_color"
+                    android:textSize="15sp" /> 
+                    -->
             </LinearLayout>
-<!-- 
+            <!--
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
@@ -247,14 +277,16 @@
                 android:ems="10"
                 android:hint="@string/medicines_hint_unit_value"
                 android:inputType="text"
-                android:singleLine="true" />  -->
+                android:singleLine="true" />
+            -->
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@color/pillerkollen_light_green" />
+                android:src="@color/pillerkollen_light_green"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/add_row_medicine_description"
@@ -268,7 +300,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/medicines_hint_description" 
+                android:hint="@string/medicines_hint_description"
                 android:imeOptions="flagNoExtractUi"
                 android:singleLine="true" >
             </EditText>
@@ -278,7 +310,8 @@
                 android:layout_height="6dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@color/pillerkollen_light_green" />
+                android:src="@color/pillerkollen_light_green"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.tpr.pillerkollen.R;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -116,7 +117,7 @@ public class AddDosagesController {
 	    if (child instanceof TableRow) {
 	        final TableRow dosagesRowView = (TableRow) child;
 	        final Dosage dosage = dosages.get(position);
-	        EditText dosageField = (EditText) dosagesRowView.findViewById(R.id.add_row_medicine_dosage_input);
+	        final EditText dosageField = (EditText) dosagesRowView.findViewById(R.id.add_row_medicine_dosage_input);
 			EditText unitField = (EditText) dosagesRowView.findViewById(R.id.add_row_medicine_unit_input);
 			TextView unitTextField = (TextView) dosagesRowView.findViewById(R.id.add_row_medicine_unit_text);
 			if (position == 0) {
@@ -141,6 +142,7 @@ public class AddDosagesController {
 //					addRowActivity.removeDosage(dosage);
 				}
 			});
+
 	    }
 		
 	}
@@ -163,6 +165,7 @@ public class AddDosagesController {
 
 					dosages.get(0).setUnit(value);
 					updateUnits();
+					originalValue = value;
 				} catch (Exception e) {
 					((EditText)v).setText(originalValue);
 				}
@@ -184,11 +187,12 @@ public class AddDosagesController {
 			if (!hasFocus) {
 				try {
 					String value = ((EditText)v).getText().toString();
-					if (value.equals(originalValue)) {
+					if (value == null || value.equals(originalValue)) {
 						return;
 					}
 					
 					dosage.setDosage(value);
+					originalValue = value;
 				} catch (Exception e) {
 					((EditText)v).setText(originalValue);
 				}

@@ -1,8 +1,13 @@
 package se.tpr.pillerkollen.medicines.add;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import se.tpr.pillerkollen.R;
 import se.tpr.pillerkollen.medicines.Medicine;
@@ -11,7 +16,6 @@ import se.tpr.pillerkollen.schedule.SchedulesDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,12 +23,12 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -33,10 +37,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 public class AddRowActivity extends Activity implements OnItemSelectedListener {
@@ -45,6 +47,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private ViewFlipper viewFlipper;
 
 	private AddDosagesController addDosagesController;
+	private AddScheduleController addScheduleController;
 
 	private MedicinesDataSource medicinesDatasource;
 	private SchedulesDataSource schedulesDatasource;
@@ -57,16 +60,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private static final String NAME_FIELD = "name_field";
 	private static final String ID_FIELD = "id_field";
 
-//	private String name = "";
-//	private String type = "";
 
-	//	private List<Dosage> dosages;
-//	private String unit = "";
-//	private String description = "";
+	
 	private List<String> scheduledTimes;
-	private Time scheduleEndTime = null;
-	private Time scheduleStartTime = null;
-	private Time scheduleTime = new Time(); 
+
 
 	private Spinner freqSpinner;
 
@@ -81,7 +78,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		getActionBar().hide();
 		setContentView(R.layout.activity_add_row);
 
-		scheduleTime.setToNow();
 
 		viewFlipper = (ViewFlipper) findViewById(R.id.add_row_medicines_view_flipper);
 
@@ -95,7 +91,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		
 		setButtonListenersPage1();
-		setupScheduleTimes();
 		setButtonListenersPage2();
 		setupDismissKeyboard(viewFlipper);
 
@@ -120,6 +115,8 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				addDosagesController.reDrawTable();
 			}
 		});
+		
+		addScheduleController = new AddScheduleController(context);
 	}
 	
 	@Override
@@ -214,45 +211,30 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	}
 
 	private void updateSchedulePage() {
-		collectValuesFromPage1();
+//		collectValuesFromPage1();
 
-		TextView unit1 = (TextView) findViewById(R.id.add_row_medicine_unit1);
-		TextView unit2 = (TextView) findViewById(R.id.add_row_medicine_unit2);
-		TextView unit3 = (TextView) findViewById(R.id.add_row_medicine_unit3);
-		TextView unit4 = (TextView) findViewById(R.id.add_row_medicine_unit4);
-		
-		String unit = addDosagesController.getUnit(); // addDosagesController.dosages.isEmpty() ? "mg" : addDosagesController.dosages.get(0).getUnit();
-		unit1.setText(unit);
-		unit2.setText(unit);
-		unit3.setText(unit);
-		unit4.setText(unit);
+		String unit = addDosagesController.getUnit(); 
 
+		addScheduleController.updateUnit(unit);
+
+		addScheduleController.initScheduleTimesUI();
 		
-		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
+//		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
 		
-		if (startDate.getText() == null || startDate.getText().toString().isEmpty()) {
-			final String startDateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-			startDate.setText(startDateStr);	
-		}
-		
-		TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
-		
-		if (endDate.getText() == null || endDate.getText().toString().isEmpty()) {
-			final String endDateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-			endDate.setText(endDateStr);	
-		}
+//		if (startDate.getText() == null || startDate.getText().toString().isEmpty()) {
+//			final String startDateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+//			startDate.setText(startDateStr);	
+//		}
+//		
+//		TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
+//		
+//		if (endDate.getText() == null || endDate.getText().toString().isEmpty()) {
+//			final String endDateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+//			endDate.setText(endDateStr);	
+//		}
 	}
 
-	private void setupScheduleTimes() {
-		if (scheduleStartTime == null) {
-			scheduleStartTime = new Time(scheduleTime);
-		}
-		if (scheduleEndTime == null) {
-			scheduleEndTime = new Time(scheduleTime);
-			scheduleEndTime.month += 3;
-			scheduleEndTime.normalize(false);
-		}
-	}
+
 
 	private void setButtonListenersPage1() {
 		View nextButton = (View) findViewById(R.id.add_row_page1_next_button_container);
@@ -288,13 +270,36 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		});
 
 
-		View addDosage = (View) findViewById(R.id.add_row_page1_dosages_container);
-		addDosage.setOnClickListener(new OnClickListener() {
+		View addDosageContainer = (View) findViewById(R.id.add_row_page1_dosages_container);
+		View addDosageImage = (View) findViewById(R.id.add_row_page1_add_dosage_image);
+		View addDosageText = (View) findViewById(R.id.add_row_page1_add_dosage_text);
+		OnClickListener addDosageListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				hideSoftKeyBoard(v);
+//				hideSoftKeyBoard(v);
 
 				addDosagesController.addDosage();
+			}
+		};
+//		addDosageContainer.setOnClickListener(addDosageListener);
+		addDosageImage.setOnClickListener(addDosageListener);
+		addDosageText.setOnClickListener(addDosageListener);
+		
+		addDosageContainer.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.ACTION_DOWN || keyCode == KeyEvent.ACTION_UP) {
+					return false;
+				}
+				
+				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+					hideSoftKeyBoard(v);
+	
+					addDosagesController.addDosage();
+					return true;
+				}
+				return false;
 			}
 		});
 
@@ -341,27 +346,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 			@Override
 			public void onClick(View v) {
-				int selectedYear = scheduleStartTime.year; 
-				int selectedMonth = scheduleStartTime.month;
-				int selectedDayOfMonth = scheduleStartTime.monthDay;
-
-				DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						scheduleStartTime = new Time(scheduleTime);
-
-						scheduleStartTime.year = year; 
-						scheduleStartTime.month = monthOfYear;
-						scheduleStartTime.monthDay = dayOfMonth;
-						
-						final String dateStr = DateUtils.formatDateTime(context, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-						TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
-						startDate.setText(dateStr);
-
-					}
-				}, selectedYear, selectedMonth, selectedDayOfMonth);
-				datePickerDialog.show();
+				addScheduleController.setStartDateClickListener();
 			}
 		});
 		
@@ -370,27 +355,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 			@Override
 			public void onClick(View v) {
-				int selectedYear = scheduleEndTime.year; 
-				int selectedMonth = scheduleEndTime.month;
-				int selectedDayOfMonth = scheduleEndTime.monthDay;
+				
+				addScheduleController.setEndDateClickListener();
+				
 
-				DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						scheduleEndTime = new Time(scheduleTime);
-
-						scheduleEndTime.year = year; 
-						scheduleEndTime.month = monthOfYear;
-						scheduleEndTime.monthDay = dayOfMonth;
-						
-						final String dateStr = DateUtils.formatDateTime(context, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-						TextView startDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
-						startDate.setText(dateStr);
-
-					}
-				}, selectedYear, selectedMonth, selectedDayOfMonth);
-				datePickerDialog.show();
 			}
 		});
 	}
@@ -646,5 +614,61 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			}
 			super.onPostExecute(param);
 		}
+	}
+
+	public String createDescription(String value) throws NumberFormatException {
+
+		BigDecimal totalDosage = new BigDecimal(value);
+		Set<BigDecimal> parts = new TreeSet<BigDecimal>(java.util.Collections.reverseOrder());
+		Map<BigDecimal, Integer> numberOfParts = new LinkedHashMap<BigDecimal, Integer>();
+		for (Dosage dosage : addDosagesController.dosages) {
+			BigDecimal bigDecimal = new BigDecimal(dosage.getDosage());
+			parts.add(bigDecimal);
+			numberOfParts.put(bigDecimal, 0);
+		}
+		
+//		Map<BigDecimal, Integer> numberOfParts = new LinkedHashMap<BigDecimal, Integer>();
+		
+		calculateNumberOfParts(totalDosage, new LinkedList<BigDecimal>(parts), numberOfParts);
+		
+		// %s x %s%s -> 1 x 10mg
+//		getResources().getString(R.id.medicines_schedule_units_description_template, formatArgs);
+		return null;
+	}
+
+	/**
+	 * Calculates how to divide the total dosage into the given pills dosages.
+	 * The result is stored in numberOfParts.
+	 * 
+	 * With the parts 10mg, 5mg, 1mg, and the totalDosage of 27mg, 
+	 * the result is to take the pills 2x10mg, 1x5mg, 2x1mg
+	 *  
+	 * @param totalDosage The total dosage of the medicine to take
+	 * @param parts The different dosages the medicine is available in
+	 * @param numberOfParts The resulting map containing how many pills of a certain dosage to take. [(10mg, 2), (5mg, 1), (1mg, 2)]; 
+	 */
+	private void calculateNumberOfParts(BigDecimal totalDosage, List<BigDecimal> parts, Map<BigDecimal, Integer> numberOfParts) {
+		if (parts.isEmpty() || totalDosage.floatValue() <= 0) {
+			return;
+		}
+		
+		BigDecimal part = parts.get(0);
+
+		while (totalDosage.subtract(part).floatValue() >= 0) {
+			numberOfParts.put(part, numberOfParts.get(part)+1);
+			totalDosage = totalDosage.subtract(part);
+		}
+		
+		List<BigDecimal> subList = parts.subList(1, parts.size());
+		if (hasNonDividableRest(totalDosage, subList)) {
+			BigDecimal divide = totalDosage.divide(part);
+			numberOfParts.put(divide, 1);
+		}
+		calculateNumberOfParts(totalDosage, subList, numberOfParts);
+	}
+	
+	private static final float ERROR_MARGIN = 0.001f;
+	private boolean hasNonDividableRest(BigDecimal totalDosage, List<BigDecimal> subList) {
+		return subList.isEmpty() && totalDosage.floatValue() > ERROR_MARGIN;
 	}
 }

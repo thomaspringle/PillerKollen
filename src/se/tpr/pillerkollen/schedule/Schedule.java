@@ -7,6 +7,9 @@ public class Schedule {
 	private String time;
 	private String quantity;
 	
+	// private String from
+	// private String until
+	
 	public Schedule(long id, long medicine_id, String time, String quantity) {
 		this.id = id;
 		this.medicine_id = medicine_id;

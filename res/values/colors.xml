@@ -3,7 +3,7 @@
     <color name="done_text_color_disabled">#cccccc</color>
     <color name="done_text_color_normal">#333333</color>
     
-    <color name="image_button_focused">#ff90b9db</color>
+    <color name="image_button_focused">#dddddd</color>
     <color name="image_button_not_focused">@android:color/transparent</color>
     
     <color name="form_separator">#66999999</color>
@@ -12,6 +12,9 @@
     <color name="pillerkollen_light_green">#ff8fd0b4</color>
     <color name="pillerkollen_blue">#025fac</color>
     <color name="pillerkollen_light_blue">#ff90b9db</color>
+    <color name="pillerkollen_light_light_blue">#ffc6e5ff</color>
+    
+    <color name="pillerkollen_buttonbar_background">#dddddd</color>
     
     <color name="recurrence_picker_background">#fff2f2f2</color>
     <color name="recurrence_bubble_text_normal">#ff737373</color>

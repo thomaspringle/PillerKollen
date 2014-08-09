@@ -6,8 +6,8 @@ public class Dosage {
 
 	private String id;
 
-	private String dosage;
-	private String unit;
+	private String dosage = "";
+	private String unit = "";
 	
 	public Dosage() {
 		id = UUID.randomUUID().toString();
