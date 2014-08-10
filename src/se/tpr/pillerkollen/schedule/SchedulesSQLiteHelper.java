@@ -11,7 +11,7 @@ public class SchedulesSQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_MEDICINE_ID = "medicine_id";
 	public static final String COLUMN_TIME = "time";
-	public static final String COLUMN_QUANTITY= "quantity";
+	public static final String COLUMN_DOSAGE= "dosage";
 	
 	private static final String DATABASE_NAME = "schedules.db";
 	private static final int DATABASE_VERSION = 1;
@@ -21,7 +21,7 @@ public class SchedulesSQLiteHelper extends SQLiteOpenHelper {
 			+ TABLE_SCHEDULES + "(" + COLUMN_ID	+ " integer primary key autoincrement, "
 			+ COLUMN_MEDICINE_ID + " integer, "
 			+ COLUMN_TIME + " text, "
-			+ COLUMN_QUANTITY + " text); ";
+			+ COLUMN_DOSAGE + " text); ";
 			//+ "FOREIGN KEY(" + COLUMN_MEDICINE_ID + ") REFERENCES medicines(_id));";
 
 	public SchedulesSQLiteHelper(Context context) {

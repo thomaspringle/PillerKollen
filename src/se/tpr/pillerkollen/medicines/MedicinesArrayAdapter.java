@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -102,34 +101,13 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		holder.name.setText(medicine.getName());
 		holder.type.setText(medicine.getType());
 		holder.description.setText(medicine.getDescription());
-		holder.dosage.setText(medicine.getDosage());
+		holder.dosage.setText(medicine.getDosagesString());
 		holder.unit.setText(medicine.getUnit());
-//		medicinesRowView.setOnTouchListener(this);
-		
-		/*List<TimesheetTableDayBean> days = medicine.getDays();
-		List<Boolean> activeDays = weekSelection.activeDays();
-		List<String> datesInYYYYMMdd = TimeUtil.datesInYYYYMMdd(weekSelection);
-		timesheetRowView.setOnTouchListener(this);
 
-		for (int i=0; i<7; i++) {
-
-			EditText editText = holder.dayFields.get(i);
-			TimesheetTableDayBean dayBean = days.get(i);
-			String reportedHours = dayBean.getHours().toString();
-			editText.setText(reportedHours);
-		 */
-		//if (activeDays.get(i) && !signed) {
-		//			holder.name.setEnabled(true);
-		/*	} else {
-				editText.setFocusable(false);
-				editText.setEnabled(false);
-			}*/
-//		holder.name.setOnTouchListener(this);
-//		holder.name.setOnFocusChangeListener(new EditTextFocusListener(holder.id, medicine.getName(), MedicinesSQLiteHelper.COLUMN_NAME));
-		//		}
-//		medicinesRowView.setOnFocusChangeListener(this);
 		return medicinesRowView;
 	}
+
+
 
 	class EditTextFocusListener implements View.OnFocusChangeListener {
 

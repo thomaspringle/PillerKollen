@@ -1,6 +1,7 @@
 package se.tpr.pillerkollen.medicines.add;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -61,7 +62,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private static final String ID_FIELD = "id_field";
 
 
-	
+
 	private List<String> scheduledTimes;
 
 
@@ -89,7 +90,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		schedulesDatasource = new SchedulesDataSource(context);
 		schedulesDatasource.open();
 
-		
+
 		setButtonListenersPage1();
 		setButtonListenersPage2();
 		setupDismissKeyboard(viewFlipper);
@@ -106,7 +107,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		// Delay drawing of table to avoid layout bug
 		Handler handler = new Handler();
-		
+
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
@@ -115,10 +116,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				addDosagesController.reDrawTable();
 			}
 		});
-		
+
 		addScheduleController = new AddScheduleController(context);
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -211,27 +212,27 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	}
 
 	private void updateSchedulePage() {
-//		collectValuesFromPage1();
+		//		collectValuesFromPage1();
 
 		String unit = addDosagesController.getUnit(); 
 
 		addScheduleController.updateUnit(unit);
 
 		addScheduleController.initScheduleTimesUI();
-		
-//		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
-		
-//		if (startDate.getText() == null || startDate.getText().toString().isEmpty()) {
-//			final String startDateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-//			startDate.setText(startDateStr);	
-//		}
-//		
-//		TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
-//		
-//		if (endDate.getText() == null || endDate.getText().toString().isEmpty()) {
-//			final String endDateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-//			endDate.setText(endDateStr);	
-//		}
+
+		//		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
+
+		//		if (startDate.getText() == null || startDate.getText().toString().isEmpty()) {
+		//			final String startDateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+		//			startDate.setText(startDateStr);	
+		//		}
+		//		
+		//		TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
+		//		
+		//		if (endDate.getText() == null || endDate.getText().toString().isEmpty()) {
+		//			final String endDateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
+		//			endDate.setText(endDateStr);	
+		//		}
 	}
 
 
@@ -276,26 +277,26 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		OnClickListener addDosageListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				hideSoftKeyBoard(v);
+				//				hideSoftKeyBoard(v);
 
 				addDosagesController.addDosage();
 			}
 		};
-//		addDosageContainer.setOnClickListener(addDosageListener);
+		//		addDosageContainer.setOnClickListener(addDosageListener);
 		addDosageImage.setOnClickListener(addDosageListener);
 		addDosageText.setOnClickListener(addDosageListener);
-		
+
 		addDosageContainer.setOnKeyListener(new OnKeyListener() {
-			
+
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.ACTION_DOWN || keyCode == KeyEvent.ACTION_UP) {
 					return false;
 				}
-				
+
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {
 					hideSoftKeyBoard(v);
-	
+
 					addDosagesController.addDosage();
 					return true;
 				}
@@ -349,15 +350,15 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				addScheduleController.setStartDateClickListener();
 			}
 		});
-		
+
 		View changeEndDate = findViewById(R.id.add_row_medicine_end_date);
 		changeEndDate.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				addScheduleController.setEndDateClickListener();
-				
+
 
 			}
 		});
@@ -373,28 +374,28 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		// TODO: check for incorrect page2 values?
 
-				// Create a row for each dosage
 
-
-				if (missingField.isEmpty()) {
-					// Create a medicine for each dosage (medA, 10mg; medA, 5mg)
-					List<Medicine> medicines = new ArrayList<Medicine>();
-					for (Dosage dosage : addDosagesController.dosages) {
-						String dosageValue = dosage.getDosage();
-						if (dosageValue == null || dosageValue.trim().isEmpty()) {
-							continue;
-						}
-
-						Medicine newMedicine = new Medicine(medicine);
-
-						medicine.setDosage(dosageValue);
-						medicine.setUnit(dosage.getUnit());
-						medicines.add(newMedicine);
-					}
-					new AddRowsTask(medicines).execute();
-				} else {
-					alertMissingField(missingField);
+		if (missingField.isEmpty()) {
+			// Create a medicine for each dosage (medA, 10mg; medA, 5mg)
+			//				List<Medicine> medicines = new ArrayList<Medicine>();
+			List<BigDecimal> dosages = new ArrayList<BigDecimal>();
+			for (Dosage dosage : addDosagesController.dosages) {
+				String dosageValue = dosage.getDosage();
+				if (dosageValue == null || dosageValue.trim().isEmpty()) {
+					continue;
 				}
+				dosages.add(new BigDecimal(dosageValue));
+
+			}
+			Medicine newMedicine = new Medicine(medicine);
+
+			medicine.setDosages(dosages);
+			medicine.setUnit(addDosagesController.getUnit());
+			//				medicines.add(newMedicine);
+			new AddRowsTask(medicine).execute();
+		} else {
+			alertMissingField(missingField);
+		}
 
 	}
 
@@ -431,10 +432,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private List<String> findScheduledTimes() {
 		List<String> schedules = new ArrayList<String>();
 
-		CheckBox cb0800 = (CheckBox) findViewById(R.id.add_row_checkbox_1);
-		CheckBox cb1200 = (CheckBox) findViewById(R.id.add_row_checkbox_2);
-		CheckBox cb2000 = (CheckBox) findViewById(R.id.add_row_checkbox_3);
-		CheckBox cb2400 = (CheckBox) findViewById(R.id.add_row_checkbox_4);
+		CheckBox cb0800 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_1);
+		CheckBox cb1200 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_2);
+		CheckBox cb2000 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_3);
+		CheckBox cb2400 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_4);
 
 		if (cb0800.isChecked()) {
 			schedules.add(cb0800.getText().toString());
@@ -530,14 +531,14 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
-	public class AddRowsTask extends AsyncTask<Void, Void, List<Long>> {
+	public class AddRowsTask extends AsyncTask<Void, Void, Long> {
 
 		private Exception exception;
 		private ProgressDialog progress;
-		private List<Medicine> medicines;
+		private Medicine medicine;
 
-		public AddRowsTask(List<Medicine> medicines) {
-			this.medicines = medicines;
+		public AddRowsTask(Medicine medicine) {
+			this.medicine = medicine;
 		}
 
 		@Override
@@ -548,7 +549,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		}
 
 		@Override
-		protected List<Long> doInBackground(Void... arg0) {
+		protected Long doInBackground(Void... arg0) {
 			try {
 				// TODO
 				// Save as JSON in stead of rows?
@@ -565,17 +566,14 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 					    "description": "immunesupressant"
 					}
 				 */
-				List<Long> ids = new ArrayList<Long>();
-				for (Medicine medicine : medicines) {
-					Medicine createdMedicine = medicinesDatasource.createMedicine(medicine);
-					ids.add(createdMedicine.getId());
-				}
+
+				Medicine createdMedicine = medicinesDatasource.createMedicine(medicine);
 
 				// TODO: Add to Schedule:
 				for (String time : scheduledTimes) {
 
 				}
-				return ids;
+				return createdMedicine.getId();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -585,7 +583,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		}
 
 		@Override
-		protected void onPostExecute(List<Long> param) {
+		protected void onPostExecute(Long id) {
 			if (progress != null) {
 				progress.dismiss();
 			}
@@ -593,26 +591,26 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			if (this.exception != null) {
 				showErrorDialog(exception);
 			} else {
-//				Medicine medicine = medicines.get(0);
-				
-				long[] ids = new long[param.size()];
-				for (int i=0; i<param.size(); i++) {
-					ids[i] = param.get(i);
-				}
-				
+				//				Medicine medicine = medicines.get(0);
+
+				//				long[] ids = new long[param.size()];
+				//				for (int i=0; i<param.size(); i++) {
+				//					ids[i] = param.get(i);
+				//				}
+
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
-				intent.putExtra(ID_FIELD, ids);
-//				intent.putExtra(NAME_FIELD, medicine.getName());
-//				intent.putExtra(TYPE_FIELD, medicine.getType());
-//				intent.putExtra(DESCRIPTION_FIELD, medicine.getDescription());
-//				String[] typ = new String[1];
-//				intent.putExtra(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ))); // FIXME
-//				intent.putExtra(UNIT_FIELD, addDosagesController.getUnit());
+				intent.putExtra(ID_FIELD, id);
+				//				intent.putExtra(NAME_FIELD, medicine.getName());
+				//				intent.putExtra(TYPE_FIELD, medicine.getType());
+				//				intent.putExtra(DESCRIPTION_FIELD, medicine.getDescription());
+				//				String[] typ = new String[1];
+				//				intent.putExtra(DOSAGES_FIELD, Arrays.toString(getDosages().toArray(typ))); // FIXME
+				//				intent.putExtra(UNIT_FIELD, addDosagesController.getUnit());
 
 				finish();
 			}
-			super.onPostExecute(param);
+			super.onPostExecute(id);
 		}
 	}
 
@@ -622,18 +620,34 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		Set<BigDecimal> parts = new TreeSet<BigDecimal>(java.util.Collections.reverseOrder());
 		Map<BigDecimal, Integer> numberOfParts = new LinkedHashMap<BigDecimal, Integer>();
 		for (Dosage dosage : addDosagesController.dosages) {
-			BigDecimal bigDecimal = new BigDecimal(dosage.getDosage());
-			parts.add(bigDecimal);
-			numberOfParts.put(bigDecimal, 0);
+
+			String dosageValue = dosage.getDosage();
+			if (dosageValue == null || dosageValue.isEmpty()) continue;
+
+			parts.add(new BigDecimal(dosageValue));
 		}
-		
-//		Map<BigDecimal, Integer> numberOfParts = new LinkedHashMap<BigDecimal, Integer>();
-		
+
 		calculateNumberOfParts(totalDosage, new LinkedList<BigDecimal>(parts), numberOfParts);
-		
-		// %s x %s%s -> 1 x 10mg
-//		getResources().getString(R.id.medicines_schedule_units_description_template, formatArgs);
-		return null;
+
+		String unit = addDosagesController.getUnit();
+
+		StringBuilder sb = new StringBuilder();
+
+		for (BigDecimal part : numberOfParts.keySet()) {
+			Integer number = numberOfParts.get(part);
+			if (number == 0) continue;
+
+			// %s x %s%s -> 1 x 10mg
+			String row = getResources().getString(R.string.medicines_schedule_units_description_template, number.toString(), part.toString(), unit);
+			if (!parts.contains(part)) {
+				row += "*";
+			}
+			if (sb.length() > 0) {
+				sb.append("\n");
+			}
+			sb.append(row);
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -648,27 +662,30 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	 * @param numberOfParts The resulting map containing how many pills of a certain dosage to take. [(10mg, 2), (5mg, 1), (1mg, 2)]; 
 	 */
 	private void calculateNumberOfParts(BigDecimal totalDosage, List<BigDecimal> parts, Map<BigDecimal, Integer> numberOfParts) {
-		if (parts.isEmpty() || totalDosage.floatValue() <= 0) {
+		if (parts.isEmpty() || totalDosage.signum() <= 0) {
 			return;
 		}
-		
+
 		BigDecimal part = parts.get(0);
 
-		while (totalDosage.subtract(part).floatValue() >= 0) {
-			numberOfParts.put(part, numberOfParts.get(part)+1);
+		while (totalDosage.subtract(part).signum() >= 0) {
+			Integer number = numberOfParts.get(part) == null ? 0 : numberOfParts.get(part);
+			numberOfParts.put(part, number+1);
 			totalDosage = totalDosage.subtract(part);
 		}
-		
+
 		List<BigDecimal> subList = parts.subList(1, parts.size());
+
+		// If 0.3mg is left and the lowest dosage is 0.5, 0.3 will be returned.
 		if (hasNonDividableRest(totalDosage, subList)) {
-			BigDecimal divide = totalDosage.divide(part);
-			numberOfParts.put(divide, 1);
+			BigDecimal formatNumber = totalDosage.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+			numberOfParts.put(formatNumber, 1);
 		}
 		calculateNumberOfParts(totalDosage, subList, numberOfParts);
 	}
-	
-	private static final float ERROR_MARGIN = 0.001f;
+
+
 	private boolean hasNonDividableRest(BigDecimal totalDosage, List<BigDecimal> subList) {
-		return subList.isEmpty() && totalDosage.floatValue() > ERROR_MARGIN;
+		return subList.isEmpty() && totalDosage.signum() == 1;
 	}
 }

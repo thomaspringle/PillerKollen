@@ -19,7 +19,7 @@ public class SchedulesDataSource {
 			SchedulesSQLiteHelper.COLUMN_ID,
 			SchedulesSQLiteHelper.COLUMN_MEDICINE_ID,
 			SchedulesSQLiteHelper.COLUMN_TIME,
-			SchedulesSQLiteHelper.COLUMN_QUANTITY 
+			SchedulesSQLiteHelper.COLUMN_DOSAGE 
 	};
 
 	public SchedulesDataSource(Context context) {
@@ -38,7 +38,7 @@ public class SchedulesDataSource {
 		ContentValues values = new ContentValues();
 		values.put(SchedulesSQLiteHelper.COLUMN_MEDICINE_ID, scheduleId);
 		values.put(SchedulesSQLiteHelper.COLUMN_TIME, time);
-		values.put(SchedulesSQLiteHelper.COLUMN_QUANTITY, quantity);
+		values.put(SchedulesSQLiteHelper.COLUMN_DOSAGE, quantity);
 
 
 		long insertId = database.insert(SchedulesSQLiteHelper.TABLE_SCHEDULES, null, values);
@@ -99,7 +99,7 @@ public class SchedulesDataSource {
 		ContentValues values = new ContentValues();
 	    values.put(SchedulesSQLiteHelper.COLUMN_MEDICINE_ID, schedule.getMedicine_id());
 	    values.put(SchedulesSQLiteHelper.COLUMN_TIME, schedule.getTime());
-	    values.put(SchedulesSQLiteHelper.COLUMN_QUANTITY, schedule.getQuantity());
+	    values.put(SchedulesSQLiteHelper.COLUMN_DOSAGE, schedule.getDosage());
 		
 		String where = SchedulesSQLiteHelper.COLUMN_ID + "=" + schedule.getId();
 		database.update(SchedulesSQLiteHelper.TABLE_SCHEDULES, values, where, null);
@@ -112,10 +112,10 @@ public class SchedulesDataSource {
 
 		long medicineId = cursor.getLong(1);
 		String time = cursor.getString(2);
-		String quantity = cursor.getString(3);
+		String dosage = cursor.getString(3);
 
 
-		Schedule schedule = new Schedule(id, medicineId, time, quantity);
+		Schedule schedule = new Schedule(id, medicineId, time, dosage);
 		return schedule;
 	}
 

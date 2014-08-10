@@ -1,5 +1,6 @@
 package se.tpr.pillerkollen.medicines;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +21,7 @@ public class MedicinesDataSource {
 			MedicinesSQLiteHelper.COLUMN_NAME,
 			MedicinesSQLiteHelper.COLUMN_TYPE,
 			MedicinesSQLiteHelper.COLUMN_DESCRIPTION, 
-			MedicinesSQLiteHelper.COLUMN_DOSAGE,
+			MedicinesSQLiteHelper.COLUMN_DOSAGES,
 			MedicinesSQLiteHelper.COLUMN_UNIT	  
 	};
 
@@ -40,18 +41,18 @@ public class MedicinesDataSource {
 		String name = newMedicine.getName();
 		String type = newMedicine.getType();
 		String description = newMedicine.getDescription();
-		String dosage = newMedicine.getDosage();
+		String dosages = newMedicine.getDosagesString();
 		String unit = newMedicine.getUnit();
 		
-		return createMedicine(name, type, description, dosage, unit);
+		return createMedicine(name, type, description, dosages, unit);
 	}
 	
-	public Medicine createMedicine(String name, String type, String description, String dosage, String unit) {
+	public Medicine createMedicine(String name, String type, String description, String dosages, String unit) {
 		ContentValues values = new ContentValues();
 		values.put(MedicinesSQLiteHelper.COLUMN_NAME, name);
 		values.put(MedicinesSQLiteHelper.COLUMN_TYPE, type);
 		values.put(MedicinesSQLiteHelper.COLUMN_DESCRIPTION, description);
-		values.put(MedicinesSQLiteHelper.COLUMN_DOSAGE, dosage);
+		values.put(MedicinesSQLiteHelper.COLUMN_DOSAGES, dosages);
 		values.put(MedicinesSQLiteHelper.COLUMN_UNIT, unit);
 
 		long insertId = database.insert(MedicinesSQLiteHelper.TABLE_MEDICINES, null, values);
@@ -113,7 +114,7 @@ public class MedicinesDataSource {
 	    values.put(MedicinesSQLiteHelper.COLUMN_NAME, medicine.getName());
 	    values.put(MedicinesSQLiteHelper.COLUMN_TYPE, medicine.getType());
 	    values.put(MedicinesSQLiteHelper.COLUMN_DESCRIPTION, medicine.getDescription());
-	    values.put(MedicinesSQLiteHelper.COLUMN_DOSAGE, medicine.getDosage());
+	    values.put(MedicinesSQLiteHelper.COLUMN_DOSAGES, medicine.getDosagesString());
 	    values.put(MedicinesSQLiteHelper.COLUMN_UNIT, medicine.getUnit());
 		
 		database.update(MedicinesSQLiteHelper.TABLE_MEDICINES, values, MedicinesSQLiteHelper.COLUMN_ID + "=" + medicine.getId(), null);
@@ -127,11 +128,21 @@ public class MedicinesDataSource {
 		String name = cursor.getString(1);
 		String type = cursor.getString(2);
 		String description = cursor.getString(3);
-		String dosage = cursor.getString(4);
+		String dosagesString = cursor.getString(4);
 		String unit = cursor.getString(5);
 
-		Medicine medicine = new Medicine(id, name, type, description, dosage, unit);
+		List<BigDecimal> dosages = asList(dosagesString);
+		Medicine medicine = new Medicine(id, name, type, description, dosages, unit);
 		return medicine;
+	}
+
+	private List<BigDecimal> asList(String dosagesString) {
+		List<BigDecimal> result = new ArrayList<BigDecimal>();
+		String[] dosagesArray = dosagesString.split(Medicine.DOSAGE_SEPARATOR);
+		for (String dosage : dosagesArray) {
+			result.add(new BigDecimal(dosage));
+		}
+		return result;
 	}
 
 	public Medicine updateMedicine(long id, String value, String columnName) {

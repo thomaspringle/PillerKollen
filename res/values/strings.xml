@@ -58,6 +58,7 @@
 	<string name="medicines_schedule_units_description_hint">1 x 10mg \n2 x 5mg</string>
 	<string name="medicines_schedule_units_description_template" formatted="false">%s x %s%s</string>
 	
+	
 	<string name="edit_row">Edit Medicine&#8230;</string>
     <string name="edit_row_save_button">Save</string>
 	<string name="edit_row_cancel_button">Cancel</string>

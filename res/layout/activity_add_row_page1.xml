@@ -125,7 +125,31 @@
                 android:scaleType="fitXY"
                 android:src="@color/pillerkollen_light_green"
                 android:visibility="gone" />
+            <TextView
+                android:id="@+id/add_row_medicine_description"
+                style="@style/AddRowHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/medicines_title_description" />
 
+            <EditText
+                android:id="@+id/add_row_medicine_description_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/medicines_hint_description"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" >
+            </EditText>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@color/pillerkollen_light_green"
+                android:visibility="gone" />
+            
             <TextView
                 android:id="@+id/add_row_medicine_type"
                 style="@style/AddRowHeader"
@@ -206,7 +230,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/image_button_background"
-
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="horizontal"
@@ -288,30 +311,7 @@
                 android:src="@color/pillerkollen_light_green"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/add_row_medicine_description"
-                style="@style/AddRowHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/medicines_title_description" />
 
-            <EditText
-                android:id="@+id/add_row_medicine_description_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/medicines_hint_description"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true" >
-            </EditText>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:contentDescription="@null"
-                android:scaleType="fitXY"
-                android:src="@color/pillerkollen_light_green"
-                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

@@ -5,16 +5,16 @@ public class Schedule {
 	private long id;
 	private long medicine_id;
 	private String time;
-	private String quantity;
+	private String dosage;
 	
 	// private String from
 	// private String until
 	
-	public Schedule(long id, long medicine_id, String time, String quantity) {
+	public Schedule(long id, long medicine_id, String time, String dosage) {
 		this.id = id;
 		this.medicine_id = medicine_id;
 		this.time = time;
-		this.quantity = quantity;
+		this.dosage = dosage;
 	}
 
 	public long getId() {
@@ -41,18 +41,18 @@ public class Schedule {
 		this.time = time;
 	}
 
-	public String getQuantity() {
-		return quantity;
+	public String getDosage() {
+		return dosage;
 	}
 
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
+	public void setDosage(String dosage) {
+		this.dosage = dosage;
 	}
 
 	@Override
 	public String toString() {
 		return "Schedule [id=" + id + ", medicine_id=" + medicine_id
-				+ ", time=" + time + ", quantity=" + quantity + "]";
+				+ ", time=" + time + ", dosage=" + dosage + "]";
 	}
 
 	@Override

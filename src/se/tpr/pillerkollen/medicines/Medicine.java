@@ -1,24 +1,29 @@
 package se.tpr.pillerkollen.medicines;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
 public class Medicine {
 
+	public static final String DOSAGE_SEPARATOR = ";";
 	private long id;
 	private String name;
 	private String type;
 	private String description;
-	private String dosage;
+	private List<BigDecimal> dosages;
 	private String unit;
 	
 	public Medicine() {
 		
 	}
 	
-	public Medicine(long id, String name, String type, String description, String dosage, String unit) {
+	public Medicine(long id, String name, String type, String description, List<BigDecimal> dosages, String unit) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.description = description;
-		this.dosage = dosage;
+		this.dosages = dosages;
 		this.unit = unit;
 	}
 	public Medicine(Medicine medicine) {
@@ -26,7 +31,7 @@ public class Medicine {
 		this.name = medicine.getName();
 		this.type = medicine.getType();
 		this.description = medicine.getDescription();
-		this.dosage = medicine.getDosage();
+		this.dosages = medicine.getDosages();
 		this.unit = medicine.getUnit();
 	}
 
@@ -54,11 +59,11 @@ public class Medicine {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getDosage() {
-		return dosage;
+	public List<BigDecimal> getDosages() {
+		return dosages;
 	}
-	public void setDosage(String dosage) {
-		this.dosage = dosage;
+	public void setDosages(List<BigDecimal> dosages) {
+		this.dosages = dosages;
 	}
 	public String getUnit() {
 		return unit;
@@ -75,5 +80,19 @@ public class Medicine {
 	public boolean hasId(long otherId) {
 		return this.id == otherId;
 	}
-	
+
+	public String getDosagesString() {
+		StringBuilder sb = new StringBuilder();
+		for (BigDecimal dosage : dosages) {
+			if (dosage.compareTo(new BigDecimal(1)) < 1 && dosage.signum() != 0) {
+				BigDecimal formatNumber = dosage.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+				sb.append(formatNumber.toString());
+			} else {
+				sb.append(dosage.toString());	
+			}
+			sb.append(Medicine.DOSAGE_SEPARATOR);
+		}
+		return sb.toString();
+	}
+
 }

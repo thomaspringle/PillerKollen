@@ -12,7 +12,7 @@ public class MedicinesSQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_TYPE = "type";
 	public static final String COLUMN_DESCRIPTION = "description";
-	public static final String COLUMN_DOSAGE = "dosage";
+	public static final String COLUMN_DOSAGES = "dosages";
 	public static final String COLUMN_UNIT = "unit";
 	
 	private static final String DATABASE_NAME = "medicines.db";
@@ -25,7 +25,7 @@ public class MedicinesSQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_NAME + " text not null, "
 			+ COLUMN_TYPE + " text, "
 			+ COLUMN_DESCRIPTION + " text, "
-			+ COLUMN_DOSAGE + " text, "
+			+ COLUMN_DOSAGES + " text, "
 			+ COLUMN_UNIT + " text);";
 
 	public MedicinesSQLiteHelper(Context context) {
