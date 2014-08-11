@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="se.tpr.pillerkollen.ScheduleFragment"
+            android:name="se.tpr.pillerkollen.schedule.ScheduleFragment"
             android:label="@string/title_activity_schedule" >
         </activity>
         <activity

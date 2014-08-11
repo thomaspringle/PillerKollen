@@ -1,6 +1,7 @@
 package se.tpr.pillerkollen;
 
 import se.tpr.pillerkollen.adapter.TabsPagerAdapter;
+import se.tpr.pillerkollen.schedule.ScheduleFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Fragment;
@@ -69,8 +70,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+        
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

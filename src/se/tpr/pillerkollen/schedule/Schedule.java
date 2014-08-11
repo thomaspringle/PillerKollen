@@ -1,16 +1,18 @@
 package se.tpr.pillerkollen.schedule;
 
+import java.math.BigDecimal;
+
 public class Schedule {
 
 	private long id;
 	private long medicine_id;
-	private String time;
-	private String dosage;
+	private int time;
+	private BigDecimal dosage;
 	
 	// private String from
 	// private String until
 	
-	public Schedule(long id, long medicine_id, String time, String dosage) {
+	public Schedule(long id, long medicine_id, int time, BigDecimal dosage) {
 		this.id = id;
 		this.medicine_id = medicine_id;
 		this.time = time;
@@ -33,26 +35,26 @@ public class Schedule {
 		this.medicine_id = medicine_id;
 	}
 
-	public String getTime() {
+	public int getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 
-	public String getDosage() {
+	public BigDecimal getDosage() {
 		return dosage;
 	}
 
-	public void setDosage(String dosage) {
+	public void setDosage(BigDecimal dosage) {
 		this.dosage = dosage;
 	}
 
 	@Override
 	public String toString() {
 		return "Schedule [id=" + id + ", medicine_id=" + medicine_id
-				+ ", time=" + time + ", dosage=" + dosage + "]";
+				+ ", time=" + time + ", dosage=" + dosage.toString() + "]";
 	}
 
 	@Override
@@ -75,6 +77,18 @@ public class Schedule {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public Double getDosageDouble() {
+		
+		return dosage.doubleValue();
+		
+//		if (dosage.compareTo(new BigDecimal(1)) < 1 && dosage.signum() != 0) {
+//			BigDecimal formatNumber = dosage.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+//			return formatNumber.doubleValue();
+//		} else {
+//			return dosage.doubleValue();	
+//		}
 	}
 	
 	

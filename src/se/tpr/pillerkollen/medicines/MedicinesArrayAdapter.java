@@ -101,6 +101,7 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		holder.name.setText(medicine.getName());
 		holder.type.setText(medicine.getType());
 		holder.description.setText(medicine.getDescription());
+		// TODO: disaply dosages better
 		holder.dosage.setText(medicine.getDosagesString());
 		holder.unit.setText(medicine.getUnit());
 
@@ -109,62 +110,4 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 
 
 
-	class EditTextFocusListener implements View.OnFocusChangeListener {
-
-
-		private String originalValue;
-		private long id;
-		private String columnName;
-
-		public EditTextFocusListener(long id, String originalValue, String columnName) {
-			this.id = id;
-			this.originalValue = originalValue;
-			this.columnName = columnName;
-		}
-
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			if (!hasFocus) {
-				try {
-
-					String value = ((EditText)v).getText().toString();
-					/*if (Float.parseFloat(hours) > 24) {
-						hours = "24.0";
-					}*/
-					if (value.equals(originalValue)) {
-						return;
-					}
-
-					// The field might have been automatically cleared if it was '0' when focused
-					/*boolean reportedHoursIsEmpty = "".equals(hours) && "0".equals(reportedHours); 
-					if (reportedHoursIsEmpty) {
-						((EditText)v).setText("0");
-						return;
-					}*/
-
-					/*
-					BigDecimal roundedHours = new BigDecimal(hours).setScale(1, BigDecimal.ROUND_HALF_UP); 
-					context.reportTimeForDay(date, roundedHours, lineId);
-					((EditText)v).setText(roundedHours.toString()); //String.format("%.1f", hours)); */
-					/*Medicine medicine = null;
-					for (Medicine med : medicines) {
-						if (med.hasId(id)) {
-							medicine = med;
-						}
-					}*/
-					medicinesFragment.updateMedicine(id, value, columnName);
-
-				} catch (Exception e) {
-					((EditText)v).setText(originalValue);
-				}
-
-			} /*else {
-				// Clear the '0' so you don't have to erase it manually
-				String hours = ((EditText)v).getText().toString();
-				if ("0".equals(hours)) {
-					((EditText)v).setText("");
-				}
-			}*/
-		}
-	}
 }

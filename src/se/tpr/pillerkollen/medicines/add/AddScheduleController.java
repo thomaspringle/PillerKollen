@@ -1,6 +1,12 @@
 package se.tpr.pillerkollen.medicines.add;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import se.tpr.pillerkollen.R;
+import se.tpr.pillerkollen.schedule.Schedule;
+import se.tpr.pillerkollen.schedule.ScheduleTime;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.text.format.DateUtils;
@@ -261,4 +267,37 @@ public class AddScheduleController {
 		datePickerDialog.show();
 	}
 
+	public List<Schedule> collectSchedules() {
+		List<Schedule> schedules = new ArrayList<Schedule>();
+
+		CheckBox checkbox1 = (CheckBox) context.findViewById(R.id.add_medicine_page2_checkbox_1);
+		CheckBox checkbox2 = (CheckBox) context.findViewById(R.id.add_medicine_page2_checkbox_2);
+		CheckBox checkbox3 = (CheckBox) context.findViewById(R.id.add_medicine_page2_checkbox_3);
+		CheckBox checkbox4 = (CheckBox) context.findViewById(R.id.add_medicine_page2_checkbox_4);
+		
+		EditText dosage1 = (EditText) context.findViewById(R.id.add_row_medicine_quantity1);
+		EditText dosage2 = (EditText) context.findViewById(R.id.add_row_medicine_quantity2);
+		EditText dosage3 = (EditText) context.findViewById(R.id.add_row_medicine_quantity3);
+		EditText dosage4 = (EditText) context.findViewById(R.id.add_row_medicine_quantity4);
+		
+		int morning = ScheduleTime.MORNING.ordinal();
+		int noon = ScheduleTime.NOON.ordinal();
+		int evening = ScheduleTime.EVENING.ordinal();
+		int night = ScheduleTime.NIGHT.ordinal();
+		
+		addSchedule(schedules, checkbox1, dosage1, morning);
+		addSchedule(schedules, checkbox2, dosage2, noon);
+		addSchedule(schedules, checkbox3, dosage3, evening);
+		addSchedule(schedules, checkbox4, dosage4, night);
+		
+		return schedules;
+	}
+
+	private void addSchedule(List<Schedule> schedules, CheckBox checkboxField, EditText dosageField, int time) {
+		String dosage = dosageField.getText().toString();
+		if (checkboxField.isChecked() && dosage!=null && !dosage.isEmpty()) {
+			Schedule schedule = new Schedule(0, 0, time, new BigDecimal(dosage));
+			schedules.add(schedule);
+		}
+	}
 }

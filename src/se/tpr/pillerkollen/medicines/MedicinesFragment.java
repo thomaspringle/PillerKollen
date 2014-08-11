@@ -5,6 +5,7 @@ import java.util.List;
 import se.tpr.pillerkollen.MainActivity;
 import se.tpr.pillerkollen.R;
 import se.tpr.pillerkollen.medicines.add.AddRowActivity;
+import se.tpr.pillerkollen.schedule.ScheduleFragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -137,10 +138,12 @@ public class MedicinesFragment extends ListFragment {
 		datasource.open();
     	if (resultCode == MainActivity.RESULT_OK && requestCode == REQUEST_CODE_ADD_ROW) {
     		updateMedicines();
+    		ScheduleFragment.setDirty();
     	} else if (resultCode == MainActivity.RESULT_CANCELED && requestCode == REQUEST_CODE_ADD_ROW) {
     	
     	} else if (resultCode == MainActivity.RESULT_OK && requestCode == REQUEST_CODE_EDIT_ROW) {
     		updateMedicines();
+    		ScheduleFragment.setDirty();
     	} else if (resultCode == MainActivity.RESULT_CANCELED && requestCode == REQUEST_CODE_EDIT_ROW) {
     		
     	}
@@ -208,11 +211,11 @@ public class MedicinesFragment extends ListFragment {
 		super.onPause();
 	}
 
-	public void updateMedicine(long id, String value, String columnName) {
-
-		datasource.updateMedicine(id, value, columnName);
-		
-	}
+//	public void updateMedicine(long id, String value, String columnName) {
+//
+//		datasource.updateMedicine(id, value, columnName);
+//		
+//	}
 	private void showErrorDialog(Exception exception) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		

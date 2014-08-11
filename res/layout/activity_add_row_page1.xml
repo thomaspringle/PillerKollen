@@ -4,7 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+<!-- 
+TODO: check if this is possible with imagebutton:
+        android:drawableLeft="@drawable/ic_launcher"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+ -->
     <LinearLayout
         android:id="@+id/add_row_button_bar_page1"
         style="?android:attr/buttonBarStyle"

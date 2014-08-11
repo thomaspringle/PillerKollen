@@ -98,5 +98,13 @@
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
     </style>
-
+    
+    <style name="TextAppearance.ScheduleRowHeader">
+		<item name="android:textSize">18sp</item>
+		<item name="android:textColor">#FF333333</item>        
+    </style>
+    <style name="TextAppearance.ScheduleRowText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FF444444</item>
+    </style>
 </resources>

@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import se.tpr.pillerkollen.R;
 import se.tpr.pillerkollen.medicines.Medicine;
 import se.tpr.pillerkollen.medicines.MedicinesDataSource;
+import se.tpr.pillerkollen.schedule.Schedule;
 import se.tpr.pillerkollen.schedule.SchedulesDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,7 +38,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ViewFlipper;
@@ -60,10 +60,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	private static final String TYPE_FIELD = "type_field";
 	private static final String NAME_FIELD = "name_field";
 	private static final String ID_FIELD = "id_field";
-
-
-
-	private List<String> scheduledTimes;
 
 
 	private Spinner freqSpinner;
@@ -212,27 +208,12 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	}
 
 	private void updateSchedulePage() {
-		//		collectValuesFromPage1();
-
 		String unit = addDosagesController.getUnit(); 
 
 		addScheduleController.updateUnit(unit);
 
 		addScheduleController.initScheduleTimesUI();
 
-		//		TextView startDate = (TextView) findViewById(R.id.add_row_medicine_start_date);
-
-		//		if (startDate.getText() == null || startDate.getText().toString().isEmpty()) {
-		//			final String startDateStr = DateUtils.formatDateTime(this, scheduleStartTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-		//			startDate.setText(startDateStr);	
-		//		}
-		//		
-		//		TextView endDate = (TextView) findViewById(R.id.add_row_medicine_end_date);
-		//		
-		//		if (endDate.getText() == null || endDate.getText().toString().isEmpty()) {
-		//			final String endDateStr = DateUtils.formatDateTime(this, scheduleEndTime.toMillis(false), DateUtils.FORMAT_NUMERIC_DATE);
-		//			endDate.setText(endDateStr);	
-		//		}
 	}
 
 
@@ -367,9 +348,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 		Medicine medicine = collectValuesFromPage1();
 
-		List<String> schedules = findScheduledTimes();
-
-		this.scheduledTimes = schedules;
 		String missingField = checkForMissingFieldsPage1(medicine);
 
 		// TODO: check for incorrect page2 values?
@@ -387,12 +365,10 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 				dosages.add(new BigDecimal(dosageValue));
 
 			}
-			Medicine newMedicine = new Medicine(medicine);
 
 			medicine.setDosages(dosages);
 			medicine.setUnit(addDosagesController.getUnit());
-			//				medicines.add(newMedicine);
-			new AddRowsTask(medicine).execute();
+			new AddMedicineAndScheduleTask(medicine).execute();
 		} else {
 			alertMissingField(missingField);
 		}
@@ -429,28 +405,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		}
 		return result;
 	}
-	private List<String> findScheduledTimes() {
-		List<String> schedules = new ArrayList<String>();
 
-		CheckBox cb0800 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_1);
-		CheckBox cb1200 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_2);
-		CheckBox cb2000 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_3);
-		CheckBox cb2400 = (CheckBox) findViewById(R.id.add_medicine_page2_checkbox_4);
-
-		if (cb0800.isChecked()) {
-			schedules.add(cb0800.getText().toString());
-		}
-		if (cb1200.isChecked()) {
-			schedules.add(cb1200.getText().toString());
-		}
-		if (cb2000.isChecked()) {
-			schedules.add(cb2000.getText().toString());
-		}
-		if (cb2400.isChecked()) {
-			schedules.add(cb2400.getText().toString());
-		}
-		return schedules;
-	}
 
 	private String checkForMissingFieldsPage1(Medicine medicine) {
 		String missingField = "";
@@ -504,8 +459,6 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 	@Override
 	public void onResume() {
-		// TODO: All values already added must be saved and re-populated
-		// TODO: Dosages as well.
 		medicinesDatasource.open();	
 		schedulesDatasource.open();
 		super.onResume();
@@ -531,13 +484,13 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
-	public class AddRowsTask extends AsyncTask<Void, Void, Long> {
+	public class AddMedicineAndScheduleTask extends AsyncTask<Void, Void, Long> {
 
 		private Exception exception;
 		private ProgressDialog progress;
 		private Medicine medicine;
 
-		public AddRowsTask(Medicine medicine) {
+		public AddMedicineAndScheduleTask(Medicine medicine) {
 			this.medicine = medicine;
 		}
 
@@ -547,32 +500,35 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			progress.setMessage(getResources().getString(R.string.progress_indicator));
 			progress.show();
 		}
-
+		
+		// TODO
+		// Save as JSON in stead of rows?
+		// Easier to serialize - deserialize
+		/* {
+			    "name": "namnet",
+			    "type": "capsule",
+			    "dosages": [
+			        {
+			            "dosage": "10",
+			            "unit": "mg"
+			        }
+			    ],
+			    "description": "immunesupressant"
+			}
+		 */
+		
 		@Override
 		protected Long doInBackground(Void... arg0) {
 			try {
-				// TODO
-				// Save as JSON in stead of rows?
-				// Easier to serialize - deserialize
-				/* {
-					    "name": "namnet",
-					    "type": "capsule",
-					    "dosages": [
-					        {
-					            "dosage": "10",
-					            "unit": "mg"
-					        }
-					    ],
-					    "description": "immunesupressant"
-					}
-				 */
-
 				Medicine createdMedicine = medicinesDatasource.createMedicine(medicine);
 
-				// TODO: Add to Schedule:
-				for (String time : scheduledTimes) {
+				List<Schedule> schedules = addScheduleController.collectSchedules();
 
+				for (Schedule schedule : schedules) {
+					schedule.setMedicine_id(createdMedicine.getId());
+					schedulesDatasource.createSchedule(schedule);
 				}
+				
 				return createdMedicine.getId();
 
 			} catch (Exception e) {
@@ -627,7 +583,7 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			parts.add(new BigDecimal(dosageValue));
 		}
 
-		calculateNumberOfParts(totalDosage, new LinkedList<BigDecimal>(parts), numberOfParts);
+		DosageHelper.calculateNumberOfParts(totalDosage, new LinkedList<BigDecimal>(parts), numberOfParts);
 
 		String unit = addDosagesController.getUnit();
 
@@ -650,42 +606,5 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 		return sb.toString();
 	}
 
-	/**
-	 * Calculates how to divide the total dosage into the given pills dosages.
-	 * The result is stored in numberOfParts.
-	 * 
-	 * With the parts 10mg, 5mg, 1mg, and the totalDosage of 27mg, 
-	 * the result is to take the pills 2x10mg, 1x5mg, 2x1mg
-	 *  
-	 * @param totalDosage The total dosage of the medicine to take
-	 * @param parts The different dosages the medicine is available in
-	 * @param numberOfParts The resulting map containing how many pills of a certain dosage to take. [(10mg, 2), (5mg, 1), (1mg, 2)]; 
-	 */
-	private void calculateNumberOfParts(BigDecimal totalDosage, List<BigDecimal> parts, Map<BigDecimal, Integer> numberOfParts) {
-		if (parts.isEmpty() || totalDosage.signum() <= 0) {
-			return;
-		}
 
-		BigDecimal part = parts.get(0);
-
-		while (totalDosage.subtract(part).signum() >= 0) {
-			Integer number = numberOfParts.get(part) == null ? 0 : numberOfParts.get(part);
-			numberOfParts.put(part, number+1);
-			totalDosage = totalDosage.subtract(part);
-		}
-
-		List<BigDecimal> subList = parts.subList(1, parts.size());
-
-		// If 0.3mg is left and the lowest dosage is 0.5, 0.3 will be returned.
-		if (hasNonDividableRest(totalDosage, subList)) {
-			BigDecimal formatNumber = totalDosage.setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
-			numberOfParts.put(formatNumber, 1);
-		}
-		calculateNumberOfParts(totalDosage, subList, numberOfParts);
-	}
-
-
-	private boolean hasNonDividableRest(BigDecimal totalDosage, List<BigDecimal> subList) {
-		return subList.isEmpty() && totalDosage.signum() == 1;
-	}
 }

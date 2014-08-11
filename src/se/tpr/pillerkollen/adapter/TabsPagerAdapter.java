@@ -1,7 +1,7 @@
 package se.tpr.pillerkollen.adapter;
-import se.tpr.pillerkollen.ScheduleFragment;
 import se.tpr.pillerkollen.SettingsFragment;
 import se.tpr.pillerkollen.medicines.MedicinesFragment;
+import se.tpr.pillerkollen.schedule.ScheduleFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
