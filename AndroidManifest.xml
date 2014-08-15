@@ -7,6 +7,7 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="se.tpr.pillerkollen.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,26 +24,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="se.tpr.pillerkollen.schedule.ScheduleFragment"
+            android:name=".schedule.ScheduleFragment"
             android:label="@string/title_activity_schedule" >
         </activity>
         <activity
-            android:name="se.tpr.pillerkollen.medicines.MedicinesFragment"
+            android:name=".medicines.MedicinesFragment"
             android:label="@string/title_activity_medicines" >
-        </activity>  
-        <activity
-            android:name="se.tpr.pillerkollen.medicines.add.AddRowActivity"
-            android:label="@string/add_row" 
-            android:theme="@style/HideActionBar"
-            >        
-        </activity>
-		<activity
-            android:name="se.tpr.pillerkollen.medicines.EditRowActivity"
-            android:label="@string/edit_row" >        
         </activity>
         <activity
-            android:name="se.tpr.pillerkollen.SettingsFragment"
+            android:name=".medicines.add.AddRowActivity"
+            android:label="@string/add_row"
+            android:theme="@style/HideActionBar" >
+        </activity>
+        <activity
+            android:name=".medicines.EditRowActivity"
+            android:label="@string/edit_row" >
+        </activity>
+        <activity
+            android:name=".SettingsFragment"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="se.tpr.pillerkollen.alarm.AlarmActivity"
+            android:launchMode="singleInstance"
+            android:label="@string/title_activity_alarm"
+            android:theme="@android:style/Theme.Holo.Dialog"
+            android:excludeFromRecents="true"
+            android:taskAffinity="" >
         </activity>
     </application>
 

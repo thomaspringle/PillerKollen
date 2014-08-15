@@ -126,6 +126,7 @@ public class SchedulesDataSource {
 
 
 	public List<ScheduleViewDto> getAllScheduleViews() {
+		/*
 		List<ScheduleViewDto> result = new ArrayList<ScheduleViewDto>();
 		// WHERE b.property_id=?
 		final String find_all_schedules_for_medicines_query = 
@@ -159,9 +160,55 @@ public class SchedulesDataSource {
 		}
 		// make sure to close the cursor
 		cursor.close();
-		return result;
+		return result; */
+		return getAllScheduleViewsForTime(null);
 	}
 
+	public List<ScheduleViewDto> getAllScheduleViewsForTime(ScheduleTime timeOfDay) {
+		
+		List<ScheduleViewDto> result = new ArrayList<ScheduleViewDto>();
+		// WHERE b.property_id=?
+		String find_all_schedules_for_medicines_query = 
+								String.format(" SELECT sc.%1$s AS sc_id, sc.%2$s AS sc_med_id, sc.%3$s AS sc_time, sc.%4$s AS sc_dosage, " +
+													 " md.%5$s AS md_id, md.%6$s AS md_name, md.%7$s AS md_type, md.%8$s AS md_desc, md.%9$s AS md_dosages, md.%10$s AS md_unit " +
+											  " FROM %11$s AS md INNER JOIN %12$s AS sc ON md.%5$s=sc.%2$s ",
+												SchedulesTableProperties.COLUMN_ID, 		// 1
+												SchedulesTableProperties.COLUMN_MEDICINE_ID,
+												SchedulesTableProperties.COLUMN_TIME,
+												SchedulesTableProperties.COLUMN_DOSAGE, 	// 4
+												
+												MedicinesTableProperties.COLUMN_ID,			// 5
+												MedicinesTableProperties.COLUMN_NAME,
+												MedicinesTableProperties.COLUMN_TYPE, 		// 7
+												MedicinesTableProperties.COLUMN_DESCRIPTION, 
+												MedicinesTableProperties.COLUMN_DOSAGES,
+												MedicinesTableProperties.COLUMN_UNIT,		// 10
+												
+												MedicinesTableProperties.TABLE_MEDICINES,	// 11
+												SchedulesTableProperties.TABLE_SCHEDULES); 	// 12
+
+//		List<String> selectionArguments = new LinkedList<String>(); new String[] {"2"}
+		if (timeOfDay != null) {
+			find_all_schedules_for_medicines_query += String.format(" WHERE sc.%1$s=%2$d ", SchedulesTableProperties.COLUMN_TIME, timeOfDay.ordinal());
+		}
+		
+		find_all_schedules_for_medicines_query += String.format(" ORDER BY md.%1$s ", MedicinesTableProperties.COLUMN_NAME);
+		
+		Log.d(this.getClass().getName(), find_all_schedules_for_medicines_query);
+		
+		Cursor cursor = database.rawQuery(find_all_schedules_for_medicines_query, null);
+		cursor.moveToFirst();
+		
+		while (!cursor.isAfterLast()) {
+			List<ScheduleViewDto> scheduleViews = cursorToScheduleViews(cursor);
+			result.addAll(scheduleViews);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		return result;
+	}
+	
 	private List<ScheduleViewDto> cursorToScheduleViews(Cursor cursor) {
 		List<ScheduleViewDto> result = new ArrayList<ScheduleViewDto>();
 		

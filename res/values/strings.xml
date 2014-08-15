@@ -4,15 +4,14 @@
     <string name="app_name">PillerKollen</string>
     <string name="action_settings">Settings</string>
     <string name="tab_schedule">Schedule</string>
-    
     <string name="error_title">An error has occurred!</string>
-	<string name="cancel_button">Cancel</string>
-	<string name="ok_button">OK</string>
-	<string name="remove_button">Remove</string>
-	
+    <string name="cancel_button">Cancel</string>
+    <string name="ok_button">OK</string>
+    <string name="remove_button">Remove</string>
     <string name="title_activity_schedule">ScheduleActivity</string>
     <string name="title_activity_medicines">MedicinesActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_alarm">Medicine reminder</string>
     <string name="title_medicines">Medicines</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_settings">Settings</string>
@@ -22,10 +21,7 @@
     <string name="medicines_title_dosage">DOSAGE</string>
     <string name="medicines_title_unit">UNIT</string>
     <string name="medicines_title_schedule">SCHEDULE</string>
-    
     <string name="add_row_add_dosage">ADD DOSAGE</string>
-    
-    
     <string name="medicines_hint_name">name</string>
     <string name="medicines_hint_name_value">Tacni</string>
     <string name="medicines_hint_type">type</string>
@@ -35,50 +31,38 @@
     <string name="medicines_hint_unit">unit</string>
     <string name="medicines_hint_unit_value">mg</string>
     <string name="medicines_hint_quantity">quantity</string>
-    
     <string name="medicines_start_date_label">FROM</string>
     <string name="medicines_end_date_label">UNTIL</string>
     <string name="medicines_date_default_value">change date</string>
-    
     <string name="add_row">Add Medicine&#8230;</string>
     <string name="add_row_add_button">ADD</string>
-	<string name="add_row_cancel_button">CANCEL</string>
-	<string name="add_row_next_button">NEXT</string>	
-	<string name="add_row_previous_button">PREVIOUS</string>
-	
-	<string name="add_row_time_1_label">MORNING</string>
-	<string name="add_row_time_2_label">NOON</string>
-	<string name="add_row_time_3_label">EVENING</string>
-	<string name="add_row_time_4_label">NIGHT</string>
-	
-	<string name="add_row_time_1_default_value">08:00</string>
-	<string name="add_row_time_2_default_value">12:00</string>
-	<string name="add_row_time_3_default_value">20:00</string>
-	<string name="add_row_time_4_default_value">24:00</string>
-
-	<string name="medicines_schedule_units_description_hint">1 x 10mg \n2 x 5mg</string>
-	<string name="medicines_schedule_units_description_template" formatted="false">%s x %s%s</string>
-	
-	<string name="medicines_schedule_empty">No medication scheduled.</string>
-	
-	
-	<string name="edit_row">Edit Medicine&#8230;</string>
+    <string name="add_row_cancel_button">CANCEL</string>
+    <string name="add_row_next_button">NEXT</string>
+    <string name="add_row_previous_button">PREVIOUS</string>
+    <string name="add_row_time_1_label">MORNING</string>
+    <string name="add_row_time_2_label">NOON</string>
+    <string name="add_row_time_3_label">EVENING</string>
+    <string name="add_row_time_4_label">NIGHT</string>
+    <string name="add_row_time_1_default_value">08:00</string>
+    <string name="add_row_time_2_default_value">12:00</string>
+    <string name="add_row_time_3_default_value">20:00</string>
+    <string name="add_row_time_4_default_value">24:00</string>
+    <string name="medicines_schedule_units_description_hint">1 x 10mg \n2 x 5mg</string>
+    <string name="medicines_schedule_units_description_template" formatted="false">%s x %s%s</string>
+    <string name="medicines_schedule_empty">No medication scheduled.</string>
+    <string name="edit_row">Edit Medicine&#8230;</string>
     <string name="edit_row_save_button">Save</string>
-	<string name="edit_row_cancel_button">Cancel</string>
-	
-		
-	<string name="add_row_missing_value">Please specify:</string>
-	<string name="add_row_missing_title">Error</string>
-	<string name="progress_indicator">Loading&#8230;</string>
-	
+    <string name="edit_row_cancel_button">Cancel</string>
+    <string name="add_row_missing_value">Please specify:</string>
+    <string name="add_row_missing_title">Error</string>
+    <string name="progress_indicator">Loading&#8230;</string>
     <string name="discard_row_message">Delete the selected row?</string>
-	<string name="discard_row_title">Delete row</string>
-	<string name="discard_row_progress">Deleting row&#8230;</string>
-	
-	
-    <!-- Description of the selected marker for accessibility support [CHAR LIMIT = NONE]-->
+    <string name="discard_row_title">Delete row</string>
+    <string name="discard_row_progress">Deleting row&#8230;</string>
+
+    <!-- Description of the selected marker for accessibility support [CHAR LIMIT = NONE] -->
     <string name="acessibility_recurrence_choose_end_date_description">change end date</string>
-    
+
     <!-- The button label for saving an event -->
     <string name="save_label">Done</string>
     <!-- The button label for discarding changes to an event -->
@@ -90,6 +74,7 @@
 
     <!-- Strings to describe how frequently to repeat an event (e.g. every 5 days) -->
     <plurals name="recurrence_interval_daily">
+
         <!-- Singular form [CHAR LIMIT=30] -->
         <item quantity="one">Every <xliff:g id="count">%d</xliff:g> day</item>
         <!-- Plural form [CHAR LIMIT=30] -->
@@ -97,6 +82,7 @@
     </plurals>
     <!-- Strings to describe how frequently to repeat an event (e.g. every 5 weeks) -->
     <plurals name="recurrence_interval_weekly">
+
         <!-- Singular form [CHAR LIMIT=30] -->
         <item quantity="one">Every <xliff:g id="count">%d</xliff:g> week</item>
         <!-- Plural form [CHAR LIMIT=30] -->
@@ -104,6 +90,7 @@
     </plurals>
     <!-- Strings to describe how frequently to repeat an event (e.g. every 5 months) -->
     <plurals name="recurrence_interval_monthly">
+
         <!-- Singular form [CHAR LIMIT=30] -->
         <item quantity="one">Every <xliff:g id="count">%d</xliff:g> month</item>
         <!-- Plural form [CHAR LIMIT=30] -->
@@ -111,6 +98,7 @@
     </plurals>
     <!-- Strings to describe how frequently to repeat an event (e.g. every 5 years) -->
     <plurals name="recurrence_interval_yearly">
+
         <!-- Singular form [CHAR LIMIT=30] -->
         <item quantity="one">Every <xliff:g id="count">%d</xliff:g> year</item>
         <!-- Plural form [CHAR LIMIT=30] -->
@@ -129,7 +117,7 @@
     <!-- Specifies that a repeating event to repeat for a number of times. A repeating event can repeat forever, repeat in a certain frequency until a certain date, or repeat for a number of times. e.g. repeat 10 times and stop. This string is for the last case [CHAR LIMIT=25] -->
     <string name="recurrence_end_count_label">For a number of events</string>
 
-    <!-- Specifies that a repeating event should repeat for a certain number of iterations. [CHAR LIMIT=20]-->
+    <!-- Specifies that a repeating event should repeat for a certain number of iterations. [CHAR LIMIT=20] -->
     <plurals name="recurrence_end_count">
         <item quantity="one">For <xliff:g id="event_count">%d</xliff:g> event</item>
         <item quantity="other">For <xliff:g id="event_count">%d</xliff:g> events</item>
@@ -137,23 +125,27 @@
 
     <!-- This is the title of the screen for setting user preferences. -->
     <string name="preferences_title">"Settings"</string>
-    <!-- This is the title of a section in the Settings screen for settings
-         related to viewing calendar events -->
+    <!--
+         This is the title of a section in the Settings screen for settings
+         related to viewing calendar events
+    -->
     <string name="preferences_general_title">Calendar view setting</string>
-    <!-- This is the title of a section in the Settings screen for settings
-         related to reminders for calendar events -->
+    <!--
+         This is the title of a section in the Settings screen for settings
+         related to reminders for calendar events
+    -->
     <string name="preferences_reminder_title">Notifications \u0026 reminders</string>
     <!-- Settings check box label to hide events that the user has declined to attend -->
     <string name="preferences_hide_declined_title">Hide declined events</string>
-    <!-- Settings week start label to start week on specific day-->
+    <!-- Settings week start label to start week on specific day -->
     <string name="preferences_week_start_day_title">Week starts on</string>
-    <!-- Title of popup for week start day setting-->
+    <!-- Title of popup for week start day setting -->
     <string name="preferences_week_start_day_dialog">Week starts on</string>
     <!-- DO NOT TRANSLATE -->
     <string name="preferences_week_start_day_default">-1</string>
     <!-- Title of the settings item to clear the recent search history [CHAR LIMIT=40] -->
     <string name="preferences_clear_search_history_title">Clear search history</string>
-    <!-- Summary of the settings item to clear the recent search history [CHAR LIMIT=70]-->
+    <!-- Summary of the settings item to clear the recent search history [CHAR LIMIT=70] -->
     <string name="preferences_clear_search_history_summary">Remove all the searches you\'ve performed</string>
     <!-- Message to show in a toast when the history is cleared [CHAR LIMIT=40] -->
     <string name="search_history_cleared">Search history cleared.</string>
@@ -162,7 +154,7 @@
     <!-- Settings dialog label that specifies when the phone should vibrate -->
     <string name="preferences_alerts_vibrateWhen_title">Vibrate</string>
     <!-- The old value for enabling vibration. used only for migrating -->
-    <string translatable="false" name="prefDefault_alerts_vibrate_true">always</string>
+    <string name="prefDefault_alerts_vibrate_true" translatable="false">always</string>
     <!-- Title of ringtone selector dialog -->
     <string name="preferences_alerts_ringtone_title">Sound</string>
     <!-- Title of check box label to enable or disable pop-up notifications -->
@@ -175,8 +167,10 @@
     <string name="preferences_default_reminder_default">10</string>
     <!-- Settings check box label to keep Calendar in a fixed 'home' time zone [CHAR LIMIT = 18] -->
     <string name="preferences_use_home_tz_title">Use home time zone</string>
-    <!-- Settings description of what setting Calendar to use a fixed 'home' time
-        zone does [CHAR LIMIT = 60]-->
+    <!--
+         Settings description of what setting Calendar to use a fixed 'home' time
+        zone does [CHAR LIMIT = 60]
+    -->
     <string name="preferences_use_home_tz_descrip">Displays calendars and event times in your home time zone when traveling</string>
     <!-- Settings title for selecting a 'home' time zone to display Calendar in [CHAR LIMIT = 18] -->
     <string name="preferences_home_tz_title">Home time zone</string>
@@ -190,8 +184,9 @@
     <string name="preferences_about_title">About</string>
     <!-- Build version of the application -->
     <string name="preferences_build_version">Build version</string>
-       <!-- Title of the quick response item in Settings [CHAR LIMIT=18]-->
+    <!-- Title of the quick response item in Settings [CHAR LIMIT=18] -->
     <string name="quick_response_settings">Quick responses</string>
-    <!-- Summary of the quick response item in Settings [CHAR LIMIT=80]-->
+    <!-- Summary of the quick response item in Settings [CHAR LIMIT=80] -->
     <string name="quick_response_settings_summary">Edit default responses when emailing guests</string>
+
 </resources>

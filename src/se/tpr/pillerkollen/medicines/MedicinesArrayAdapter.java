@@ -33,7 +33,6 @@ public class MedicinesArrayAdapter extends ArrayAdapter<Medicine> implements Vie
 		protected TextView description;
 		protected TextView dosage;
 		protected TextView unit;
-
 	}
 	private void hideSoftKeyBoard() {
 
