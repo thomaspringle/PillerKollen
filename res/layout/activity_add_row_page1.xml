@@ -314,9 +314,37 @@ TODO: check if this is possible with imagebutton:
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
                 android:src="@color/pillerkollen_light_green"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
+            <Button
+                android:id="@+id/select_color1_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color1" />
 
+            <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+	            <se.tpr.pillerkollen.icon.MedicineIconView 
+	                android:layout_width="30dp"
+	                android:layout_height="50dp"
+	                android:layout_marginLeft="10dp"
+	                android:background="#00FFFFFF"
+	                android:rotation="330.0"
+	                android:scaleX="0.8"
+	                android:scaleY="0.8"
+	                />
+	            <se.tpr.pillerkollen.icon.MedicineIconView 
+	                android:layout_width="30dp"
+	                android:layout_height="50dp"
+	                android:background="#00FFFFFF"
+	                android:rotation="330.0"
+	                android:scaleX="0.8"
+	                android:scaleY="0.8"
+	                />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

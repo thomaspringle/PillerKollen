@@ -189,4 +189,6 @@
     <!-- Summary of the quick response item in Settings [CHAR LIMIT=80] -->
     <string name="quick_response_settings_summary">Edit default responses when emailing guests</string>
 
+    <!-- Color picker -->
+    <string name="pref_name">Pick a color</string>
 </resources>

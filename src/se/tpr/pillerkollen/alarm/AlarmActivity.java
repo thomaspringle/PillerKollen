@@ -27,6 +27,9 @@ public class AlarmActivity extends Activity {
 	// Play sound
 	// Vibrate
 	// Create service that schedules events on reboot and / or when a certain time has elapsed
+	// -> http://stackoverflow.com/questions/4459058/alarm-manager-example
+	// Cancel the event
+	
 	private SchedulesDataSource schedulesDatasource;
 	private Activity context;
 	@Override

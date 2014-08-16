@@ -1,7 +1,6 @@
 package se.tpr.pillerkollen.medicines.add;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -22,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,9 +38,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import com.chiralcode.colorpicker.ColorPickerDialog;
+import com.chiralcode.colorpicker.ColorPickerDialog.OnColorSelectedListener;
 
 public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
@@ -216,8 +221,25 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 
 	}
 
+    private void showColorPickerDialogDemo() {
 
+        int initialColor = Color.WHITE;
 
+        ColorPickerDialog colorPickerDialog = new ColorPickerDialog(this, initialColor, new OnColorSelectedListener() {
+
+            @Override
+            public void onColorSelected(int color) {
+                showToast(color);
+            }
+
+        });
+        colorPickerDialog.show();
+
+    }
+    private void showToast(int color) {
+        String rgbString = "R: " + Color.red(color) + " B: " + Color.blue(color) + " G: " + Color.green(color);
+        Toast.makeText(this, rgbString, Toast.LENGTH_SHORT).show();
+    }
 	private void setButtonListenersPage1() {
 		View nextButton = (View) findViewById(R.id.add_row_page1_next_button_container);
 		nextButton.setOnClickListener(new OnClickListener() {
@@ -251,6 +273,15 @@ public class AddRowActivity extends Activity implements OnItemSelectedListener {
 			}
 		});
 
+		Button color1 = (Button)findViewById(R.id.select_color1_button);
+		color1.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				showColorPickerDialogDemo();
+			}
+		});
 
 		View addDosageContainer = (View) findViewById(R.id.add_row_page1_dosages_container);
 		View addDosageImage = (View) findViewById(R.id.add_row_page1_add_dosage_image);
