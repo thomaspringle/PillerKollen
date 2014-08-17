@@ -327,23 +327,49 @@ TODO: check if this is possible with imagebutton:
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
-	            <se.tpr.pillerkollen.icon.MedicineIconView 
-	                android:layout_width="30dp"
-	                android:layout_height="50dp"
+	            <se.tpr.pillerkollen.image.CapsuleImageView 
+	                android:layout_width="24dp"
+	                android:layout_height="40dp"
 	                android:layout_marginLeft="10dp"
 	                android:background="#00FFFFFF"
-	                android:rotation="330.0"
-	                android:scaleX="0.8"
-	                android:scaleY="0.8"
 	                />
-	            <se.tpr.pillerkollen.icon.MedicineIconView 
-	                android:layout_width="30dp"
-	                android:layout_height="50dp"
+	            <se.tpr.pillerkollen.image.CapsuleImageView 
+	                android:layout_width="24dp"
+	                android:layout_height="40dp"
 	                android:background="#00FFFFFF"
-	                android:rotation="330.0"
-	                android:scaleX="0.8"
-	                android:scaleY="0.8"
 	                />
+	            <se.tpr.pillerkollen.image.PillImageView
+	                android:layout_width="24dp"
+	                android:layout_height="24dp"
+	                android:layout_marginLeft="10dp"
+	                android:background="#00FFFFFF"
+	                android:rotation="30.0"
+	                android:layout_gravity="center"
+	                />
+	            <ImageView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:contentDescription="@null"
+	                android:src="@drawable/inhaler_white"
+	                android:layout_gravity="center"
+	                android:visibility="visible" />	            
+	            <ImageView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginLeft="10dp"
+	                android:contentDescription="@null"
+	                android:src="@drawable/inhaler_green"
+	                android:layout_gravity="center"
+	                android:visibility="gone" />
+	            <ImageView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginLeft="10dp"
+	                android:contentDescription="@null"
+	                android:src="@drawable/injection3"
+	                android:layout_gravity="center"
+	                android:visibility="visible" />	            
+	            
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
